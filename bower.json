@@ -1,0 +1,20 @@
+{
+  "name": "VisualTree",
+  "version": "0.0.0",
+  "authors": [
+    "Aleksander Grzybowski <kelog@orange.pl>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.6",
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1"
+  }
+}
