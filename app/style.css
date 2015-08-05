@@ -6,3 +6,7 @@ svg {
     border: 1px solid black;
     margin-top: 10px;
 }
+
+#explanation {
+    font-size: 20pt;
+}

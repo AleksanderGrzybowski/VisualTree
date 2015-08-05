@@ -30,7 +30,9 @@ function AnimatedBTree(initialElements) {
         var idx = 0;
         var timerId = setInterval(function () {
             console.log('AnimatedBTree.animation going through idx=' + idx);
-            that.update(snapshots[idx++]);
+            var snapshot = snapshots[idx++];
+            $('#explanation').text(snapshot.text || '');
+            that.update(snapshot);
 
             if (idx == snapshots.length) {
                 clearInterval(timerId);

@@ -31,7 +31,7 @@ BTreeNode.prototype.add = function (value, snapshots) {
     var root = this.findRoot();
 
     this.isred = true;
-    (snapshots || []).push(_.clone(root, true));
+    appendSnapshot(snapshots, root, 'Visiting node ' + this.value);
     this.isred = false;
 
     if (value < this.value) {
@@ -39,10 +39,11 @@ BTreeNode.prototype.add = function (value, snapshots) {
             this.left = new BTreeNode(value);
             this.left.parent = this;
             this.left.isred = true;
-            (snapshots || []).push(_.clone(root, true));
+            appendSnapshot(snapshots, root, 'Creating new on the left');
             this.left.isred = false;
-            (snapshots || []).push(_.clone(root, true));
+            appendSnapshot(snapshots, root, 'Done');
         } else {
+            appendSnapshot(snapshots, root, 'Going left');
             this.left.add(value, snapshots);
         }
     } else if (value > this.value) {
@@ -50,10 +51,11 @@ BTreeNode.prototype.add = function (value, snapshots) {
             this.right = new BTreeNode(value);
             this.right.parent = this; // TODO refactor to ctor
             this.right.isred = true;
-            (snapshots || []).push(_.clone(root, true));
+            appendSnapshot(snapshots, root, 'Creating new on the right');
             this.right.isred = false;
-            (snapshots || []).push(_.clone(root, true));
+            appendSnapshot(snapshots, root, 'Done');
         } else {
+            appendSnapshot(snapshots, root, 'Going right');
             this.right.add(value, snapshots);
         }
     }
