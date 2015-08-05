@@ -7,7 +7,7 @@ function BTreeNode(value) {
     this.right = null;
     this.parent = null;
     this.value = value;
-    
+
     this.visual = '';
 }
 
@@ -70,7 +70,11 @@ BTreeNode.prototype.inorder = function (snapshots) {
     var root = this.findRoot();
 
     if (this.left != null) {
+        this.visual = 'inorder-immediate';
+        appendSnapshot(snapshots, root, 'Going left');
         this.left.inorder(snapshots);
+        this.visual = '';
+        appendSnapshot(snapshots, root, '');
     }
 
     this.visual = 'current';
@@ -78,7 +82,11 @@ BTreeNode.prototype.inorder = function (snapshots) {
     this.visual = '';
     appendSnapshot(snapshots, root, "Visiting " + this.value);
 
-    if (this.right!= null) {
+    if (this.right != null) {
+        this.visual = 'inorder-immediate';
+        appendSnapshot(snapshots, root, 'Going right');
         this.right.inorder(snapshots);
+        this.visual = '';
+        appendSnapshot(snapshots, root, 'Going right');
     }
 };

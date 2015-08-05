@@ -74,26 +74,47 @@ function AnimatedBTree(initialElements) {
             });
 
         gs.append('circle')
-            .attr('r', 10)
-            .style('fill', 'black')
-            .style('fill', function (d) {
+            .attr('r', 20)
+            .style('fill', 'none')
+            .style('stroke-width', 5)
+            .style('z-index', 3)
+            .style('stroke', function (d) {
                 switch (d.node.visual) {
                     case 'current':
                         return 'red';
                         break;
+                    case 'inorder-immediate':
+                        return 'blue';
                     case '':
-                        return 'green';
+                        return 'black';
                     default:
                         throw new Error('Color not implemented!');
                 }
             });
 
         gs.append('text')
+            .style('font-size', '15pt')
+            .style('text-anchor', 'middle')
+            .style('alignment-baseline', 'middle')
             .text(function (d) {
                 return '' + d.node.value;
             })
-            .attr('x', -10)
-            .attr('y', 30);
+            //.attr('x', -10)
+            //.attr('y', 30);
+
+        function getRealXY(x1, y1, x2, y2, r) {
+            var vecU = [x2-x1, y2-y1];
+            var len = Math.sqrt(vecU[0]*vecU[0] + vecU[1] * vecU[1]);
+            vecU[0] /= len;
+            vecU[1] /= len;
+
+            return {
+                x1: x1 + vecU[0]*r,
+                y1: y1 + vecU[1]*r,
+                x2: x2 - vecU[0]*r,
+                y2: y2 - vecU[1]*r
+            };
+        }
 
         d3.select('svg')
             .selectAll('line')
@@ -101,16 +122,20 @@ function AnimatedBTree(initialElements) {
             .enter()
             .append('line')
             .attr('x1', function (d) {
-                return d.first.x * 720;
+                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).x1;
+                //return d.first.x * 720;
             })
             .attr('x2', function (d) {
-                return d.second.x * 720;
+                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).x2;
+                //return d.second.x * 720;
             })
             .attr('y1', function (d) {
-                return d.first.y * 100;
+                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).y1;
+                //return d.first.y * 100;
             })
             .attr('y2', function (d) {
-                return d.second.y * 100;
+                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).y2;
+                //return d.second.y * 100;
             })
     };
 
