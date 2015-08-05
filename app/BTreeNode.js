@@ -63,8 +63,12 @@ BTreeNode.prototype.add = function (value, snapshots) {
             appendSnapshot(snapshots, root, 'Going right');
             this.right.add(value, snapshots);
         }
+    } else {
+        this.visual = 'current';
+        appendSnapshot(snapshots, root, 'Found duplicate!');
+        this.visual = '';
+        appendSnapshot(snapshots, root, 'Found duplicate!');
     }
-    // TODO info about existing element
 
     return this;
 };
