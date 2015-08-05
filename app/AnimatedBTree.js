@@ -77,10 +77,14 @@ function AnimatedBTree(initialElements) {
             .attr('r', 10)
             .style('fill', 'black')
             .style('fill', function (d) {
-                if (d.node.isred == true) {
-                    return "red";
-                } else {
-                    return "green";
+                switch (d.node.visual) {
+                    case 'current':
+                        return 'red';
+                        break;
+                    case '':
+                        return 'green';
+                    default:
+                        throw new Error('Color not implemented!');
                 }
             });
 
