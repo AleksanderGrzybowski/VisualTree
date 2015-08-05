@@ -1,6 +1,6 @@
 // here be globals
 var APP = {
-    animatedBTree: new AnimatedBTree([100, 150, 80, 90, 180, 70])
+    animatedBTree: new AnimatedBTree([10, 15, 8, 9, 18, 7, 5, 6, 4, 13, 14, 19, 20])
 };
 
 function appendSnapshot(snapshots, root, text) {
