@@ -10,6 +10,8 @@ function AnimatedBTree(initialElements) {
         this.bTree.add(initialElements[i]);
     }
 
+    //////////////////////   ALGORITHMS    //////////////////////
+
     /**
      * @param {number} what
      */
@@ -28,6 +30,8 @@ function AnimatedBTree(initialElements) {
         this.runAnimation(snapshots)
     };
 
+    //////////////////////   INTERNALS    //////////////////////
+
     /**
      * @param {BTreeNode[]} snapshots
      */
@@ -44,7 +48,6 @@ function AnimatedBTree(initialElements) {
             if (idx == snapshots.length) {
                 clearInterval(timerId);
             }
-
         }, CONFIG.delay);
     };
 
@@ -65,7 +68,10 @@ function AnimatedBTree(initialElements) {
             .selectAll('circle')
             .data(nodes);
 
-
+        /**
+         * @param {Object} d
+         * @returns {{x1: number, y1: number, x2: number, y2: number}}
+         */
         var linesHelper = function (d) {
             var $svg = $('svg');
             return getPointsTouchingCircles(
@@ -77,6 +83,10 @@ function AnimatedBTree(initialElements) {
             );
         };
 
+        /*
+         * Those functions are used to scale stuff returned by toNodesArray
+         * to positions on the screen.
+         */
         var xModelToViewMapper = function (x, $svg) {
             return x * $svg.width();
         };
@@ -118,7 +128,6 @@ function AnimatedBTree(initialElements) {
             .text(function (d) {
                 return '' + d.node.value;
             });
-
 
 
         d3.select('svg')

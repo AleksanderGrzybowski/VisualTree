@@ -40,10 +40,12 @@ BTreeNode.prototype.add = function (value, snapshots) {
         if (this.left == null) {
             this.left = new BTreeNode(value);
             this.left.parent = this;
+
             this.left.visual = 'current';
             appendSnapshot(snapshots, root, 'Creating new on the left');
             this.left.visual = '';
             appendSnapshot(snapshots, root, 'Done');
+
         } else {
             appendSnapshot(snapshots, root, 'Going left');
             this.left.add(value, snapshots);
@@ -52,6 +54,7 @@ BTreeNode.prototype.add = function (value, snapshots) {
         if (this.right == null) {
             this.right = new BTreeNode(value);
             this.right.parent = this; // TODO refactor to ctor
+
             this.right.visual = 'current';
             appendSnapshot(snapshots, root, 'Creating new on the right');
             this.right.visual = '';
@@ -61,7 +64,7 @@ BTreeNode.prototype.add = function (value, snapshots) {
             this.right.add(value, snapshots);
         }
     }
-    // else: duplicate, do nothing
+    // TODO info about existing element
 
     return this;
 };
@@ -72,7 +75,9 @@ BTreeNode.prototype.inorder = function (snapshots) {
     if (this.left != null) {
         this.visual = 'inorder-immediate';
         appendSnapshot(snapshots, root, 'Going left');
+
         this.left.inorder(snapshots);
+
         this.visual = '';
         appendSnapshot(snapshots, root, '');
     }
@@ -85,7 +90,9 @@ BTreeNode.prototype.inorder = function (snapshots) {
     if (this.right != null) {
         this.visual = 'inorder-immediate';
         appendSnapshot(snapshots, root, 'Going right');
+
         this.right.inorder(snapshots);
+
         this.visual = '';
         appendSnapshot(snapshots, root, 'Going right');
     }
