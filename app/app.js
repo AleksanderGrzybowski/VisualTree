@@ -21,4 +21,8 @@ $(function () {
         var t = +($('#toadd').val());
         APP.animatedBTree.add(t);
     });
+
+    $('#inorder').click(function () {
+        APP.animatedBTree.inorder();
+    });
 });

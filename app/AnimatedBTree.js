@@ -21,6 +21,13 @@ function AnimatedBTree(initialElements) {
         this.runAnimation(snapshots)
     };
 
+    this.inorder = function () {
+        var snapshots = [];
+
+        this.bTree.inorder(snapshots);
+        this.runAnimation(snapshots)
+    };
+
     /**
      * @param {BTreeNode[]} snapshots
      */

@@ -63,3 +63,20 @@ BTreeNode.prototype.add = function (value, snapshots) {
 
     return this;
 };
+
+BTreeNode.prototype.inorder = function (snapshots) {
+    var root = this.findRoot();
+
+    if (this.left != null) {
+        this.left.inorder(snapshots);
+    }
+
+    this.isred = true;
+    appendSnapshot(snapshots, root, "Visiting " + this.value);
+    this.isred = false;
+    appendSnapshot(snapshots, root, "Visiting " + this.value);
+
+    if (this.right!= null) {
+        this.right.inorder(snapshots);
+    }
+};
