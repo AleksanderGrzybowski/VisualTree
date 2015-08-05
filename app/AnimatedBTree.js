@@ -49,15 +49,14 @@ function AnimatedBTree(initialElements) {
     };
 
     /**
-     *
      * @param {BTreeNode} [snapshot=that.bTree]
      */
     this.update = function (snapshot) {
-        $('svg').empty();
-
         if (snapshot === undefined) {
             snapshot = that.bTree;
         }
+
+        $('svg').empty();
 
         var nodes = toNodesArray(snapshot);
         var links = toLinksArray(snapshot, nodes);
@@ -67,14 +66,34 @@ function AnimatedBTree(initialElements) {
             .data(nodes);
 
 
+        var linesHelper = function (d) {
+            var $svg = $('svg');
+            return getPointsTouchingCircles(
+                xModelToViewMapper(d.first.x, $svg),
+                yModelToViewMapper(d.first.y, $svg),
+                xModelToViewMapper(d.second.x, $svg),
+                yModelToViewMapper(d.second.y, $svg),
+                CONFIG.circleRadius
+            );
+        };
+
+        var xModelToViewMapper = function (x, $svg) {
+            return x * $svg.width();
+        };
+        var yModelToViewMapper = function (y, $svg) {
+            return ((2 * y + 1) * $svg.width()) / CONFIG.levelsScalingFactor;
+        };
+
+
         var gs = data.enter()
             .append('g')
             .attr('transform', function (d) {
-                return 'translate(' + (d.x * 720) + ',' + (d.y * 100) + ')'
+                var $svg = $('svg');
+                return 'translate(' + xModelToViewMapper(d.x, $svg) + ',' + yModelToViewMapper(d.y, $svg) + ')';
             });
 
         gs.append('circle')
-            .attr('r', 20)
+            .attr('r', CONFIG.circleRadius)
             .style('fill', 'none')
             .style('stroke-width', 5)
             .style('z-index', 3)
@@ -98,23 +117,9 @@ function AnimatedBTree(initialElements) {
             .style('alignment-baseline', 'middle')
             .text(function (d) {
                 return '' + d.node.value;
-            })
-            //.attr('x', -10)
-            //.attr('y', 30);
+            });
 
-        function getRealXY(x1, y1, x2, y2, r) {
-            var vecU = [x2-x1, y2-y1];
-            var len = Math.sqrt(vecU[0]*vecU[0] + vecU[1] * vecU[1]);
-            vecU[0] /= len;
-            vecU[1] /= len;
 
-            return {
-                x1: x1 + vecU[0]*r,
-                y1: y1 + vecU[1]*r,
-                x2: x2 - vecU[0]*r,
-                y2: y2 - vecU[1]*r
-            };
-        }
 
         d3.select('svg')
             .selectAll('line')
@@ -122,22 +127,40 @@ function AnimatedBTree(initialElements) {
             .enter()
             .append('line')
             .attr('x1', function (d) {
-                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).x1;
-                //return d.first.x * 720;
+                return linesHelper(d).x1;
             })
             .attr('x2', function (d) {
-                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).x2;
-                //return d.second.x * 720;
+                return linesHelper(d).x2;
             })
             .attr('y1', function (d) {
-                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).y1;
-                //return d.first.y * 100;
+                return linesHelper(d).y1;
             })
             .attr('y2', function (d) {
-                return getRealXY(d.first.x * 720, d.first.y * 100, d.second.x * 720, d.second.y * 100, 20).y2;
-                //return d.second.y * 100;
-            })
+                return linesHelper(d).y2;
+            });
     };
+
+    /**
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @param {number} r
+     * @returns {{x1: number, y1: number, x2: number, y2: number}}
+     */
+    function getPointsTouchingCircles(x1, y1, x2, y2, r) {
+        var vecU = [x2 - x1, y2 - y1];
+        var len = Math.sqrt(vecU[0] * vecU[0] + vecU[1] * vecU[1]);
+        vecU[0] /= len;
+        vecU[1] /= len;
+
+        return {
+            x1: x1 + vecU[0] * r,
+            y1: y1 + vecU[1] * r,
+            x2: x2 - vecU[0] * r,
+            y2: y2 - vecU[1] * r
+        };
+    }
 
     /**
      * @param {BTreeNode} node
@@ -147,7 +170,7 @@ function AnimatedBTree(initialElements) {
      */
     function toNodesArray(node, pos, depth) {
         if (arguments.length == 1) {
-            return toNodesArray(node, 0.5, 2)
+            return toNodesArray(node, 0.5, 0)
         }
 
         var arr = [];
@@ -159,10 +182,10 @@ function AnimatedBTree(initialElements) {
         });
 
         if (node.left !== null) {
-            arr = arr.concat(toNodesArray(node.left, pos - Math.pow(0.5, depth), depth + 1))
+            arr = arr.concat(toNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
         }
         if (node.right !== null) {
-            arr = arr.concat(toNodesArray(node.right, pos + Math.pow(0.5, depth), depth + 1))
+            arr = arr.concat(toNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
         }
 
         return arr;
