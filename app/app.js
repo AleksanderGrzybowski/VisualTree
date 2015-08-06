@@ -1,6 +1,6 @@
 // here be globals
 var APP = {
-    animatedBTree: new AnimatedBTree([10, 15, 8, 9, 18, 7, 5, 6, 4, 13, 14, 19, 20])
+    animatedBTree: new AnimatedBTree([8,4,12,2,6,10,14,1,3,5,7,9,11,13,15, 0, 16])
 };
 
 /**
