@@ -11,6 +11,10 @@ function BTreeNode(value) {
     this.visual = '';
 }
 
+BTreeNode.prototype.isLeaf = function () {
+    return this.left === null && this.right === null;
+};
+
 /**
  * @returns {BTreeNode}
  */
