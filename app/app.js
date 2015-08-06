@@ -28,6 +28,11 @@ $(function () {
         APP.animatedBTree.add(t);
     });
 
+
+    $('#delete').click(function () {
+        var t = +($('#todel').val());
+        APP.animatedBTree.delete(t);
+    });
     $('#inorder').click(function () {
         APP.animatedBTree.inorder();
     });

@@ -103,7 +103,7 @@ BTreeNode.prototype.inorder = function (snapshots) {
 };
 
 
-BTreeNode.prototype.minValue = function () {
+BTreeNode.prototype.minValue = function () { // TODO animation of that
     if (this.left == null) {
         return this.value;
     } else {
@@ -111,22 +111,35 @@ BTreeNode.prototype.minValue = function () {
     }
 };
 
-BTreeNode.prototype.delete = function (value) {
+BTreeNode.prototype.delete = function (value, snapshots) {
+    var root = this.findRoot();
 
     if (this.value != value) {
-        // search for it!
+        this.visual = 'inorder-immediate';
+        appendSnapshot(snapshots, root, "This is not the one to delete: " + this.value + " searching");
+
         if (this.left != null && value < this.value) {
-            this.left.delete(value);
+            appendSnapshot(snapshots, root, "Going left");
+            this.left.delete(value, snapshots);
+            this.visual = '';
+            appendSnapshot(snapshots, root, "Going back");
         } else if (this.right != null && value > this.value) {
-            this.right.delete(value);
+            appendSnapshot(snapshots, root, "Going right");
+            this.right.delete(value, snapshots);
+            this.visual = '';
+            appendSnapshot(snapshots, root, "Going back");
         }
         // TODO check if didn't found
     } else {
         // remove this
         // TODO which equals?
         // remember where ref and where val
+        this.visual = 'current';
+        appendSnapshot(snapshots, root, "This is the one to remove");
+
 
         if (this.left == null && this.right == null) {
+            appendSnapshot(snapshots, root, "No children - removing!");
             // remove itself using parent link, but
             // must know if is is left or right
             // every time
@@ -137,7 +150,10 @@ BTreeNode.prototype.delete = function (value) {
             } else {
                 throw new Error();
             }
+            appendSnapshot(snapshots, root, "Done");
+
         } else if (this.left == null && this.right != null) {
+            appendSnapshot(snapshots, root, "Only child on the right - removing!");
             if (this === this.parent.left) {
                 this.right.parent = this.parent;
                 this.parent.left = this.right;
@@ -147,7 +163,12 @@ BTreeNode.prototype.delete = function (value) {
             } else {
                 throw new Error();
             }
+
+            appendSnapshot(snapshots, root, "Done");
+
         } else if (this.left != null && this.right == null) {
+            appendSnapshot(snapshots, root, "Only child on the left - removing!");
+
             if (this === this.parent.left) {
                 this.left.parent = this.parent;
                 this.parent.left = this.left;
@@ -157,15 +178,25 @@ BTreeNode.prototype.delete = function (value) {
             } else {
                 throw new Error();
             }
+
+            appendSnapshot(snapshots, root, "Done");
         } else {
             //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
 
+            appendSnapshot(snapshots, root, "Searching for minimum value");
             // find a minimum value in the right subtree
             var min = this.right.minValue();
+
+            appendSnapshot(snapshots, root, "We have " + min);
             // replace value of the node to be removed with found min
             this.value = min;
+            appendSnapshot(snapshots, root, "Replaced");
             // apply remove to the right subtree to remove a duplicate
-            this.right.delete(min);
+            this.visual = 'inorder-immediate';
+            appendSnapshot(snapshots, root, "Running remove() on the right subtree");
+            this.right.delete(min, snapshots);
+            this.visual = '';
+            appendSnapshot(snapshots, root, "Going back");
         }
     }
 

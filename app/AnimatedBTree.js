@@ -23,6 +23,17 @@ function AnimatedBTree(initialElements) {
         this.runAnimation(snapshots)
     };
 
+    /**
+     * @param {number} what
+     */
+    this.delete = function (what) {
+        console.log('AnimatedBTree.add deleting ' + what);
+        var snapshots = [];
+
+        this.bTree.delete(what, snapshots);
+        this.runAnimation(snapshots)
+    };
+
     this.inorder = function () {
         var snapshots = [];
 
