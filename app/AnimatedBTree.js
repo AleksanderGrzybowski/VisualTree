@@ -207,7 +207,7 @@ function AnimatedBTree(initialElements) {
      */
     function getPosOfNode(node, nodesArray) {
         for (var i = 0; i < nodesArray.length; ++i) {
-            if (node.value === nodesArray[i].node.value) { // TODO compare by ref
+            if (node === nodesArray[i].node) {
                 return {x: nodesArray[i].x, y: nodesArray[i].y};
             }
         }
