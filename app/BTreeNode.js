@@ -101,3 +101,72 @@ BTreeNode.prototype.inorder = function (snapshots) {
         appendSnapshot(snapshots, root, 'Going right');
     }
 };
+
+
+BTreeNode.prototype.minValue = function () {
+    if (this.left == null) {
+        return this.value;
+    } else {
+        return this.left.minValue();
+    }
+};
+
+BTreeNode.prototype.delete = function (value) {
+
+    if (this.value != value) {
+        // search for it!
+        if (this.left != null && value < this.value) {
+            this.left.delete(value);
+        } else if (this.right != null && value > this.value) {
+            this.right.delete(value);
+        }
+        // TODO check if didn't found
+    } else {
+        // remove this
+        // TODO which equals?
+        // remember where ref and where val
+
+        if (this.left == null && this.right == null) {
+            // remove itself using parent link, but
+            // must know if is is left or right
+            // every time
+            if (this === this.parent.left) {
+                this.parent.left = null;
+            } else if (this === this.parent.right) {
+                this.parent.right = null;
+            } else {
+                throw new Error();
+            }
+        } else if (this.left == null && this.right != null) {
+            if (this === this.parent.left) {
+                this.right.parent = this.parent;
+                this.parent.left = this.right;
+            } else if (this === this.parent.right) {
+                this.right.parent = this.parent;
+                this.parent.right = this.right;
+            } else {
+                throw new Error();
+            }
+        } else if (this.left != null && this.right == null) {
+            if (this === this.parent.left) {
+                this.left.parent = this.parent;
+                this.parent.left = this.left;
+            } else if (this === this.parent.right) {
+                this.left.parent = this.parent;
+                this.parent.right = this.left;
+            } else {
+                throw new Error();
+            }
+        } else {
+            //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
+
+            // find a minimum value in the right subtree
+            var min = this.right.minValue();
+            // replace value of the node to be removed with found min
+            this.value = min;
+            // apply remove to the right subtree to remove a duplicate
+            this.right.delete(min);
+        }
+    }
+
+}
