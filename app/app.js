@@ -24,13 +24,13 @@ $(function () {
     APP.animatedBTree.update();
 
     $('#add').click(function () {
-        var t = +($('#toadd').val());
+        var t = +($('#number').val());
         APP.animatedBTree.add(t);
     });
 
 
     $('#delete').click(function () {
-        var t = +($('#todel').val());
+        var t = +($('#number').val());
         APP.animatedBTree.delete(t);
     });
     $('#inorder').click(function () {

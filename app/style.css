@@ -9,4 +9,13 @@ svg {
 
 #explanation {
     font-size: 20pt;
+    font-family: monospace;
+}
+
+html, body {
+    height: 100%; /* this is needed for gradient to extend to the bottom */
+}
+
+body {
+    background: linear-gradient(rgb(234,234,234), rgb(252,252,252), rgb(252,252,252));
 }

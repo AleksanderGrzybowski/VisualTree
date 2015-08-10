@@ -7,6 +7,7 @@
     <script src="../bower_components/d3/d3.js"></script>
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/lodash/lodash.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
 
     <script src="config.js"></script>
     <script src="BTreeNode.js"></script>
@@ -14,32 +15,43 @@
     <script src="app.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
 </head>
 <body>
 
-<div>
-    <label for="toadd">Number:</label>
-    <input id="toadd" type="text" value="91"/>
+<div class="container">
 
-    <button id="add">Add</button>
+    <div class="row">
+        <h1 class="text-center">Binary tree demo</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="number">Number:</label>
+                    <input type="text" class="form-control" id="number">
+                </div>
+                <button type="button" id="add" class="btn btn-success">Add</button>
+                <button type="button" id="delete" class="btn btn-warning">Delete</button>
+                <button type="button" id="inorder" class="btn btn-default">Inorder</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="svg-container">
+            <svg width="720" height="720">
+            </svg>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="explanation">
+        </div>
+    </div>
 
 </div>
-<div>
-    <button id="inorder">Inorder</button>
-</div>
-<div>
-    <label for="todel">Number:</label>
-    <input id="todel" type="text" value="7"/>
-
-    <button id="delete">Delete</button>
-</div>
-
-<div>
-    <svg width="720" height="720">
-    </svg>
-</div>
-
-<div id="explanation"></div>
-
 </body>
 </html>
