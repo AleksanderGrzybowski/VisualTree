@@ -20,7 +20,12 @@ function appendSnapshot(snapshots, root, text) {
 
 
 $(function () {
-    $('svg').empty();
+    var $svg = $('svg');
+    var $body = $('body');
+
+    $svg.height($body.height() * 0.7);
+    $svg.width($body.width() * 0.8);
+
     APP.animatedBTree.update();
 
     $('#add').click(function () {

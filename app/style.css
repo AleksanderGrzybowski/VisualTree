@@ -4,7 +4,8 @@ line {
 }
 svg {
     border: 1px solid black;
-    margin-top: 10px;
+    margin: 10px auto;
+    display: block;
 }
 
 #explanation {
