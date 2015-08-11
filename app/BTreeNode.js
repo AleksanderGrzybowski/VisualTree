@@ -41,7 +41,7 @@ BTreeNode.prototype.add = function (value, snc) {
     snc.add('Visiting node ' + this.value);
 
     if (value < this.value) {
-        if (this.left == null) {
+        if (this.left === null) {
             this.left = new BTreeNode(value);
             this.left.parent = this;
 
@@ -56,7 +56,7 @@ BTreeNode.prototype.add = function (value, snc) {
             this.left.add(value, snc);
         }
     } else if (value > this.value) {
-        if (this.right == null) {
+        if (this.right === null) {
             this.right = new BTreeNode(value);
             this.right.parent = this;
 
@@ -84,7 +84,7 @@ BTreeNode.prototype.add = function (value, snc) {
  * @param {SnapshotCollector} snc
  */
 BTreeNode.prototype.inorder = function (snc) {
-    if (this.left != null) {
+    if (this.left !== null) {
         this.visual = 'inorder-immediate';
         snc.add('Going left');
 
@@ -94,7 +94,7 @@ BTreeNode.prototype.inorder = function (snc) {
     this.visual = 'current';
     snc.add("Visiting " + this.value);
 
-    if (this.right != null) {
+    if (this.right !== null) {
         this.visual = 'inorder-immediate';
         snc.add('Going right');
 
@@ -109,7 +109,7 @@ BTreeNode.prototype.inorder = function (snc) {
  * @returns {number}
  */
 BTreeNode.prototype.minValue = function () {
-    if (this.left == null) {
+    if (this.left === null) {
         return this.value;
     } else {
         return this.left.minValue();
@@ -124,13 +124,13 @@ BTreeNode.prototype.delete = function (value, snc) {
     this.visual = 'inorder-immediate';
     snc.add("Is this the one to delete? " + this.value);
 
-    if (this.value != value) {
+    if (this.value !== value) {
         snc.add("This is not the one to delete, going left or right?");
 
         if (value < this.value) {
             snc.add("Going left");
 
-            if (this.left != null) {
+            if (this.left !== null) {
                 this.left.delete(value, snc);
                 this.visual = '';
                 snc.add("Going back");
@@ -142,7 +142,7 @@ BTreeNode.prototype.delete = function (value, snc) {
         } else if (value > this.value) {
             snc.add("Going right");
 
-            if (this.right != null) {
+            if (this.right !== null) {
                 this.right.delete(value, snc);
                 this.visual = '';
                 snc.add("Going back");
@@ -159,7 +159,7 @@ BTreeNode.prototype.delete = function (value, snc) {
         this.visual = 'current';
         snc.add("This is the one to delete");
 
-        if (this.left == null && this.right == null) {
+        if (this.left === null && this.right === null) {
             snc.add("No children - removing!");
 
             // remove itself using parent link, but
@@ -175,7 +175,7 @@ BTreeNode.prototype.delete = function (value, snc) {
             }
 
             snc.add("Done");
-        } else if (this.left == null && this.right != null) {
+        } else if (this.left === null && this.right !== null) {
             snc.add("Child on the right - removing!");
 
             if (this === this.parent.left) {
@@ -189,7 +189,7 @@ BTreeNode.prototype.delete = function (value, snc) {
             }
 
             snc.add("Done");
-        } else if (this.left != null && this.right == null) {
+        } else if (this.left !== null && this.right === null) {
             snc.add("Child on the left - removing!");
 
             if (this === this.parent.left) {

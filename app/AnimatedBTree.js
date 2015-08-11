@@ -57,7 +57,7 @@ function AnimatedBTree(initialElements) {
             $('#explanation').text(snapshot.text || '');
             that.update(snapshot);
 
-            if (idx == snapshots.length) {
+            if (idx === snapshots.length) {
                 clearInterval(timerId);
             }
         }, CONFIG.delay);
@@ -191,7 +191,7 @@ function AnimatedBTree(initialElements) {
      * @returns {Object[]}
      */
     function toNodesArray(node, pos, depth) {
-        if (arguments.length == 1) {
+        if (arguments.length === 1) {
             return toNodesArray(node, 0.5, 0)
         }
 
@@ -235,7 +235,7 @@ function AnimatedBTree(initialElements) {
     function toLinksArray(node, nodesArray) {
         var arr = [];
 
-        if (node.left != null) {
+        if (node.left !== null) {
             arr.push({
                 first: {
                     node: node,
@@ -250,7 +250,7 @@ function AnimatedBTree(initialElements) {
             });
         }
 
-        if (node.right != null) {
+        if (node.right !== null) {
             arr.push({
                 first: {
                     node: node,
