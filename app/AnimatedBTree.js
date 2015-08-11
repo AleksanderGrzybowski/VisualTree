@@ -224,7 +224,7 @@ function AnimatedBTree(initialElements) {
                 return {x: nodesArray[i].x, y: nodesArray[i].y};
             }
         }
-        throw new Error("impossible");
+        throw new Error('impossible');
     }
 
     /**
