@@ -119,27 +119,31 @@ BTreeNode.prototype.delete = function (value, snapshots) {
     appendSnapshot(snapshots, root, "Is this the one to delete? " + this.value);
 
     if (this.value != value) {
-        appendSnapshot(snapshots, root, "This is not the one to delete, searching");
+        appendSnapshot(snapshots, root, "This is not the one to delete, going left or right?");
 
         if (value < this.value) {
+            appendSnapshot(snapshots, root, "Going left");
+
             if (this.left != null) {
-                appendSnapshot(snapshots, root, "Going left");
                 this.left.delete(value, snapshots);
                 this.visual = '';
                 appendSnapshot(snapshots, root, "Going back");
             } else {
-                appendSnapshot(snapshots, root, "Node not found");
+                appendSnapshot(snapshots, root, "Node not found on the left");
                 this.visual = '';
+                appendSnapshot(snapshots, root, "Going back");
             }
         } else if (value > this.value) {
+            appendSnapshot(snapshots, root, "Going right");
+
             if (this.right != null) {
-                appendSnapshot(snapshots, root, "Going right");
                 this.right.delete(value, snapshots);
                 this.visual = '';
                 appendSnapshot(snapshots, root, "Going back");
             } else {
-                appendSnapshot(snapshots, root, "Node not found");
+                appendSnapshot(snapshots, root, "Node not found on the right");
                 this.visual = '';
+                appendSnapshot(snapshots, root, "Going back");
             }
         }
     } else {
@@ -197,16 +201,17 @@ BTreeNode.prototype.delete = function (value, snapshots) {
             //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
 
             appendSnapshot(snapshots, root, "Searching for minimum value in the right subtree...");
-            // find a minimum value in the right subtree
             var min = this.right.minValue();
 
             appendSnapshot(snapshots, root, "We have minimum " + min);
+
             // replace value of the node to be removed with found min
             this.value = min;
-            appendSnapshot(snapshots, root, "Replaced");
+            appendSnapshot(snapshots, root, "Replace current node value with found minimum");
             // apply remove to the right subtree to remove a duplicate
+
             this.visual = 'inorder-immediate';
-            appendSnapshot(snapshots, root, "Running remove() on the right subtree");
+            appendSnapshot(snapshots, root, "Running remove recursively on the right subtree");
             this.right.delete(min, snapshots);
             this.visual = '';
             appendSnapshot(snapshots, root, "Going back");
