@@ -38,7 +38,6 @@ BTreeNode.prototype.add = function (value, snapshots) {
 
     this.visual = 'current';
     appendSnapshot(snapshots, root, 'Visiting node ' + this.value);
-    this.visual = '';
 
     if (value < this.value) {
         if (this.left == null) {
@@ -46,12 +45,13 @@ BTreeNode.prototype.add = function (value, snapshots) {
             this.left.parent = this;
 
             this.left.visual = 'current';
+            this.visual = '';
             appendSnapshot(snapshots, root, 'Creating new on the left');
             this.left.visual = '';
             appendSnapshot(snapshots, root, 'Done');
-
         } else {
-            appendSnapshot(snapshots, root, 'Going left');
+            appendSnapshot(snapshots, root, 'Item to add is smaller than current, going left');
+            this.visual = '';
             this.left.add(value, snapshots);
         }
     } else if (value > this.value) {
@@ -60,18 +60,20 @@ BTreeNode.prototype.add = function (value, snapshots) {
             this.right.parent = this; // TODO refactor to ctor
 
             this.right.visual = 'current';
+            this.visual = '';
             appendSnapshot(snapshots, root, 'Creating new on the right');
             this.right.visual = '';
             appendSnapshot(snapshots, root, 'Done');
         } else {
-            appendSnapshot(snapshots, root, 'Going right');
+            appendSnapshot(snapshots, root, 'Item to add is larger than current, going right');
+            this.visual = '';
             this.right.add(value, snapshots);
         }
     } else {
         this.visual = 'current';
-        appendSnapshot(snapshots, root, 'Found duplicate!');
+        appendSnapshot(snapshots, root, 'Found duplicate, nothing to do.');
         this.visual = '';
-        appendSnapshot(snapshots, root, 'Found duplicate!');
+        appendSnapshot(snapshots, root, 'Found duplicate, nothing to do.');
     }
 
     return this;
