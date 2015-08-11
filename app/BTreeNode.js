@@ -87,14 +87,9 @@ BTreeNode.prototype.inorder = function (snapshots) {
         appendSnapshot(snapshots, root, 'Going left');
 
         this.left.inorder(snapshots);
-
-        this.visual = '';
-        appendSnapshot(snapshots, root, '');
     }
 
     this.visual = 'current';
-    appendSnapshot(snapshots, root, "Visiting " + this.value);
-    this.visual = '';
     appendSnapshot(snapshots, root, "Visiting " + this.value);
 
     if (this.right != null) {
@@ -102,10 +97,10 @@ BTreeNode.prototype.inorder = function (snapshots) {
         appendSnapshot(snapshots, root, 'Going right');
 
         this.right.inorder(snapshots);
-
-        this.visual = '';
-        appendSnapshot(snapshots, root, 'Going right');
     }
+
+    this.visual = '';
+    appendSnapshot(snapshots, root, "Going back");
 };
 
 
