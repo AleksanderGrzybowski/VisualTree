@@ -102,7 +102,7 @@ function AnimatedBTree(initialElements) {
             return x * $svg.width();
         };
         var yModelToViewMapper = function (y, $svg) {
-            return ((2 * y + 1) * $svg.width()) / CONFIG.levelsScalingFactor;
+            return ((2 * y + 1) * $svg.height()) / CONFIG.levelsScalingFactor;
         };
 
 
