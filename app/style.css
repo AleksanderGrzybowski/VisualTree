@@ -13,7 +13,7 @@ svg {
 }
 
 html, body {
-    height: 100%; /* this is needed for gradient to extend to the bottom */
+    min-height: 100%; /* this is needed for gradient to extend to the bottom */
 }
 
 body {
