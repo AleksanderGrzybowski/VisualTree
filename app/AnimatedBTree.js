@@ -44,7 +44,7 @@ function AnimatedBTree(initialElements) {
     //////////////////////   INTERNALS    //////////////////////
 
     /**
-     * @param {BTreeNode[]} snapshots
+     * @param {SnapshotCollector} snc
      */
     this.runAnimation = function (snc) {
         var snapshots = snc.snapshots;

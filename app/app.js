@@ -1,4 +1,3 @@
-// here be globals
 var APP = {
     animatedBTree: new AnimatedBTree([80, 40, 120, 20, 60, 100, 140, 10, 30, 50, 70, 90, 110, 130, 150, 0, 160])
 };
@@ -12,11 +11,16 @@ $(function () {
 
     APP.animatedBTree.update();
 
+    setupEventHandlers();
+});
+
+/////////////////////////////////////////////
+
+function setupEventHandlers() {
     $('#add').click(function () {
         var t = +($('#number').val());
         APP.animatedBTree.add(t);
     });
-
 
     $('#delete').click(function () {
         var t = +($('#number').val());
@@ -25,4 +29,4 @@ $(function () {
     $('#inorder').click(function () {
         APP.animatedBTree.inorder();
     });
-});
+}

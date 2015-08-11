@@ -11,6 +11,9 @@ function BTreeNode(value) {
     this.visual = '';
 }
 
+/**
+ * @returns {boolean}
+ */
 BTreeNode.prototype.isLeaf = function () {
     return this.left === null && this.right === null;
 };
@@ -30,12 +33,10 @@ BTreeNode.prototype.findRoot = function () {
 
 /**
  * @param {number} value
- * @param {BTreeNode[]} [snapshots=[]]
+ * @param {SnapshotCollector} snc
  * @returns {BTreeNode}
  */
 BTreeNode.prototype.add = function (value, snc) {
-    var root = this.findRoot();
-
     this.visual = 'current';
     snc.add('Visiting node ' + this.value);
 
@@ -57,7 +58,7 @@ BTreeNode.prototype.add = function (value, snc) {
     } else if (value > this.value) {
         if (this.right == null) {
             this.right = new BTreeNode(value);
-            this.right.parent = this; // TODO refactor to ctor
+            this.right.parent = this;
 
             this.right.visual = 'current';
             this.visual = '';
@@ -79,9 +80,10 @@ BTreeNode.prototype.add = function (value, snc) {
     return this;
 };
 
+/**
+ * @param {SnapshotCollector} snc
+ */
 BTreeNode.prototype.inorder = function (snc) {
-    var root = this.findRoot();
-
     if (this.left != null) {
         this.visual = 'inorder-immediate';
         snc.add('Going left');
@@ -103,8 +105,10 @@ BTreeNode.prototype.inorder = function (snc) {
     snc.add("Going back");
 };
 
-
-BTreeNode.prototype.minValue = function () { // TODO animation of that
+/**
+ * @returns {number}
+ */
+BTreeNode.prototype.minValue = function () {
     if (this.left == null) {
         return this.value;
     } else {
@@ -112,9 +116,11 @@ BTreeNode.prototype.minValue = function () { // TODO animation of that
     }
 };
 
+/**
+ * @param {number} value
+ * @param {SnapshotCollector} snc
+ */
 BTreeNode.prototype.delete = function (value, snc) {
-    var root = this.findRoot();
-
     this.visual = 'inorder-immediate';
     snc.add("Is this the one to delete? " + this.value);
 
