@@ -7,7 +7,7 @@ function AnimatedBTree(initialElements) {
 
     this.bTree = new BTreeNode(initialElements[0]);
     for (var i = 1; i < initialElements.length; ++i) {
-        this.bTree.add(initialElements[i]);
+        this.bTree.add(initialElements[i], new FakeSnapshotCollector());
     }
 
     //////////////////////   ALGORITHMS    //////////////////////

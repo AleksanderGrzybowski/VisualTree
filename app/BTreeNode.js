@@ -33,7 +33,7 @@ BTreeNode.prototype.findRoot = function () {
 
 /**
  * @param {number} value
- * @param {SnapshotCollector} snc
+ * @param {Object} snc
  * @returns {BTreeNode}
  */
 BTreeNode.prototype.add = function (value, snc) {
@@ -81,7 +81,7 @@ BTreeNode.prototype.add = function (value, snc) {
 };
 
 /**
- * @param {SnapshotCollector} snc
+ * @param {Object} snc
  */
 BTreeNode.prototype.inorder = function (snc) {
     if (this.left !== null) {
@@ -118,7 +118,7 @@ BTreeNode.prototype.minValue = function () {
 
 /**
  * @param {number} value
- * @param {SnapshotCollector} snc
+ * @param {Object} snc
  */
 BTreeNode.prototype.delete = function (value, snc) {
     this.visual = 'inorder-immediate';

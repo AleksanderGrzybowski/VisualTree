@@ -1,3 +1,5 @@
+var snc = new FakeSnapshotCollector();
+
 describe('Binary tree creation', function () {
 
     it('should create root-like tree if called as constructor', function () {
@@ -9,8 +11,8 @@ describe('Binary tree creation', function () {
 
     it('should create valid three-element balanced tree', function () {
         var root = new BTreeNode(2);
-        root.add(1);
-        root.add(3);
+        root.add(1, snc);
+        root.add(3, snc);
 
         expect(root.left.value).toBe(1);
         expect(root.right.value).toBe(3);
@@ -24,8 +26,8 @@ describe('Binary tree creation', function () {
 
     it('should create valid only-left tree', function () {
         var root = new BTreeNode(4);
-        root.add(3);
-        root.add(2);
+        root.add(3, snc);
+        root.add(2, snc);
 
         expect(root.value).toBe(4);
         expect(root.left.value).toBe(3);
@@ -46,8 +48,8 @@ describe('BTreeNode.findRoot', function () {
 
     it('should find root for 3-element tree', function () {
         var root = new BTreeNode(1);
-        root.add(0);
-        root.add(2);
+        root.add(0, snc);
+        root.add(2, snc);
 
         expect(root.findRoot()).toBe(root);
         expect(root.left.findRoot()).toBe(root);
@@ -60,10 +62,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a left leaf', function () {
         var root = new BTreeNode(1);
-        root.add(0);
-        root.add(2);
+        root.add(0, snc);
+        root.add(2, snc);
 
-        root.delete(0);
+        root.delete(0, snc);
 
         expect(root.value).toBe(1);
         expect(root.left).toBeNull();
@@ -74,10 +76,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a right leaf', function () {
         var root = new BTreeNode(1);
-        root.add(0);
-        root.add(2);
+        root.add(0, snc);
+        root.add(2, snc);
 
-        root.delete(2);
+        root.delete(2, snc);
 
         expect(root.value).toBe(1);
         expect(root.left.value).toBe(0);
@@ -88,10 +90,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a left leaf with left child', function () {
         var root = new BTreeNode(2);
-        root.add(1);
-        root.add(0);
+        root.add(1, snc);
+        root.add(0, snc);
 
-        root.delete(1);
+        root.delete(1, snc);
 
         expect(root.value).toBe(2);
         expect(root.left.value).toBe(0);
@@ -101,10 +103,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a left leaf with right child', function () {
         var root = new BTreeNode(3);
-        root.add(1);
-        root.add(2);
+        root.add(1, snc);
+        root.add(2, snc);
 
-        root.delete(1);
+        root.delete(1, snc);
 
         expect(root.value).toBe(3);
         expect(root.left.value).toBe(2);
@@ -114,10 +116,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a right leaf with left child', function () {
         var root = new BTreeNode(1);
-        root.add(3);
-        root.add(2);
+        root.add(3, snc);
+        root.add(2, snc);
 
-        root.delete(3);
+        root.delete(3, snc);
 
         expect(root.value).toBe(1);
         expect(root.right.value).toBe(2);
@@ -127,10 +129,10 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a right leaf with right child', function () {
         var root = new BTreeNode(1);
-        root.add(2);
-        root.add(3);
+        root.add(2, snc);
+        root.add(3, snc);
 
-        root.delete(2);
+        root.delete(2, snc);
 
         expect(root.value).toBe(1);
         expect(root.right.value).toBe(3);
@@ -140,11 +142,11 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a parent with two childs only', function () {
         var root = new BTreeNode(4);
-        root.add(2);
-        root.add(1);
-        root.add(3);
+        root.add(2, snc);
+        root.add(1, snc);
+        root.add(3, snc);
 
-        root.delete(2);
+        root.delete(2, snc);
 
         expect(root.value).toBe(4);
         expect(root.left.value).toBe(3);
@@ -156,13 +158,13 @@ describe('BTreeNode.delete', function () {
 
     it('should delete a parent with more than 2 childs', function () {
         var root = new BTreeNode(9);
-        root.add(5);
-        root.add(4);
-        root.add(7);
-        root.add(6);
-        root.add(8);
+        root.add(5, snc);
+        root.add(4, snc);
+        root.add(7, snc);
+        root.add(6, snc);
+        root.add(8, snc);
 
-        root.delete(5);
+        root.delete(5, snc);
 
         expect(root.value).toBe(9);
         expect(root.left.value).toBe(6);

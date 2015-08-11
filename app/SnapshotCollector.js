@@ -15,3 +15,10 @@ SnapshotCollector.prototype.add = function (text) {
     cloned.text = text;
     this.snapshots.push(cloned);
 };
+
+/**
+ * @constructor
+ */
+function FakeSnapshotCollector() {
+    this.add = function() {};
+}
