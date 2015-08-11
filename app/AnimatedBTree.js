@@ -136,6 +136,7 @@ function AnimatedBTree(initialElements) {
             .style('font-size', '15pt')
             .style('text-anchor', 'middle')
             .style('alignment-baseline', 'middle')
+            .style('dominant-baseline', 'middle')
             .text(function (d) {
                 return '' + d.node.value;
             });
