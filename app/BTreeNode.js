@@ -33,11 +33,11 @@ BTreeNode.prototype.findRoot = function () {
  * @param {BTreeNode[]} [snapshots=[]]
  * @returns {BTreeNode}
  */
-BTreeNode.prototype.add = function (value, snapshots) {
+BTreeNode.prototype.add = function (value, snc) {
     var root = this.findRoot();
 
     this.visual = 'current';
-    appendSnapshot(snapshots, root, 'Visiting node ' + this.value);
+    snc.add('Visiting node ' + this.value);
 
     if (value < this.value) {
         if (this.left == null) {
@@ -46,13 +46,13 @@ BTreeNode.prototype.add = function (value, snapshots) {
 
             this.left.visual = 'current';
             this.visual = '';
-            appendSnapshot(snapshots, root, 'Creating new on the left');
+            snc.add('Creating new on the left');
             this.left.visual = '';
-            appendSnapshot(snapshots, root, 'Done');
+            snc.add('Done');
         } else {
-            appendSnapshot(snapshots, root, 'Item to add is smaller than current, going left');
+            snc.add('Item to add is smaller than current, going left');
             this.visual = '';
-            this.left.add(value, snapshots);
+            this.left.add(value, snc);
         }
     } else if (value > this.value) {
         if (this.right == null) {
@@ -61,46 +61,46 @@ BTreeNode.prototype.add = function (value, snapshots) {
 
             this.right.visual = 'current';
             this.visual = '';
-            appendSnapshot(snapshots, root, 'Creating new on the right');
+            snc.add('Creating new on the right');
             this.right.visual = '';
-            appendSnapshot(snapshots, root, 'Done');
+            snc.add('Done');
         } else {
-            appendSnapshot(snapshots, root, 'Item to add is larger than current, going right');
+            snc.add('Item to add is larger than current, going right');
             this.visual = '';
-            this.right.add(value, snapshots);
+            this.right.add(value, snc);
         }
     } else {
         this.visual = 'current';
-        appendSnapshot(snapshots, root, 'Found duplicate, nothing to do.');
+        snc.add('Found duplicate, nothing to do.');
         this.visual = '';
-        appendSnapshot(snapshots, root, 'Found duplicate, nothing to do.');
+        snc.add('Found duplicate, nothing to do.');
     }
 
     return this;
 };
 
-BTreeNode.prototype.inorder = function (snapshots) {
+BTreeNode.prototype.inorder = function (snc) {
     var root = this.findRoot();
 
     if (this.left != null) {
         this.visual = 'inorder-immediate';
-        appendSnapshot(snapshots, root, 'Going left');
+        snc.add('Going left');
 
-        this.left.inorder(snapshots);
+        this.left.inorder(snc);
     }
 
     this.visual = 'current';
-    appendSnapshot(snapshots, root, "Visiting " + this.value);
+    snc.add("Visiting " + this.value);
 
     if (this.right != null) {
         this.visual = 'inorder-immediate';
-        appendSnapshot(snapshots, root, 'Going right');
+        snc.add('Going right');
 
-        this.right.inorder(snapshots);
+        this.right.inorder(snc);
     }
 
     this.visual = '';
-    appendSnapshot(snapshots, root, "Going back");
+    snc.add("Going back");
 };
 
 
@@ -112,38 +112,38 @@ BTreeNode.prototype.minValue = function () { // TODO animation of that
     }
 };
 
-BTreeNode.prototype.delete = function (value, snapshots) {
+BTreeNode.prototype.delete = function (value, snc) {
     var root = this.findRoot();
 
     this.visual = 'inorder-immediate';
-    appendSnapshot(snapshots, root, "Is this the one to delete? " + this.value);
+    snc.add("Is this the one to delete? " + this.value);
 
     if (this.value != value) {
-        appendSnapshot(snapshots, root, "This is not the one to delete, going left or right?");
+        snc.add("This is not the one to delete, going left or right?");
 
         if (value < this.value) {
-            appendSnapshot(snapshots, root, "Going left");
+            snc.add("Going left");
 
             if (this.left != null) {
-                this.left.delete(value, snapshots);
+                this.left.delete(value, snc);
                 this.visual = '';
-                appendSnapshot(snapshots, root, "Going back");
+                snc.add("Going back");
             } else {
-                appendSnapshot(snapshots, root, "Node not found on the left");
+                snc.add("Node not found on the left");
                 this.visual = '';
-                appendSnapshot(snapshots, root, "Going back");
+                snc.add("Going back");
             }
         } else if (value > this.value) {
-            appendSnapshot(snapshots, root, "Going right");
+            snc.add("Going right");
 
             if (this.right != null) {
-                this.right.delete(value, snapshots);
+                this.right.delete(value, snc);
                 this.visual = '';
-                appendSnapshot(snapshots, root, "Going back");
+                snc.add("Going back");
             } else {
-                appendSnapshot(snapshots, root, "Node not found on the right");
+                snc.add("Node not found on the right");
                 this.visual = '';
-                appendSnapshot(snapshots, root, "Going back");
+                snc.add("Going back");
             }
         }
     } else {
@@ -151,10 +151,10 @@ BTreeNode.prototype.delete = function (value, snapshots) {
         // remember where ref and where val
 
         this.visual = 'current';
-        appendSnapshot(snapshots, root, "This is the one to delete");
+        snc.add("This is the one to delete");
 
         if (this.left == null && this.right == null) {
-            appendSnapshot(snapshots, root, "No children - removing!");
+            snc.add("No children - removing!");
 
             // remove itself using parent link, but
             // must know if is is left or right
@@ -168,9 +168,9 @@ BTreeNode.prototype.delete = function (value, snapshots) {
                 throw new Error();
             }
 
-            appendSnapshot(snapshots, root, "Done");
+            snc.add("Done");
         } else if (this.left == null && this.right != null) {
-            appendSnapshot(snapshots, root, "Child on the right - removing!");
+            snc.add("Child on the right - removing!");
 
             if (this === this.parent.left) {
                 this.right.parent = this.parent;
@@ -182,9 +182,9 @@ BTreeNode.prototype.delete = function (value, snapshots) {
                 throw new Error();
             }
 
-            appendSnapshot(snapshots, root, "Done");
+            snc.add("Done");
         } else if (this.left != null && this.right == null) {
-            appendSnapshot(snapshots, root, "Child on the left - removing!");
+            snc.add("Child on the left - removing!");
 
             if (this === this.parent.left) {
                 this.left.parent = this.parent;
@@ -196,25 +196,25 @@ BTreeNode.prototype.delete = function (value, snapshots) {
                 throw new Error();
             }
 
-            appendSnapshot(snapshots, root, "Done");
+            snc.add("Done");
         } else {
             //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
 
-            appendSnapshot(snapshots, root, "Searching for minimum value in the right subtree...");
+            snc.add("Searching for minimum value in the right subtree...");
             var min = this.right.minValue();
 
-            appendSnapshot(snapshots, root, "We have minimum " + min);
+            snc.add("We have minimum " + min);
 
             // replace value of the node to be removed with found min
             this.value = min;
-            appendSnapshot(snapshots, root, "Replace current node value with found minimum");
+            snc.add("Replace current node value with found minimum");
             // apply remove to the right subtree to remove a duplicate
 
             this.visual = 'inorder-immediate';
-            appendSnapshot(snapshots, root, "Running remove recursively on the right subtree");
-            this.right.delete(min, snapshots);
+            snc.add("Running remove recursively on the right subtree");
+            this.right.delete(min, snc);
             this.visual = '';
-            appendSnapshot(snapshots, root, "Going back");
+            snc.add("Going back");
         }
     }
 };

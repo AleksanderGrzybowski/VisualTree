@@ -17,10 +17,10 @@ function AnimatedBTree(initialElements) {
      */
     this.add = function (what) {
         console.log('AnimatedBTree.add adding ' + what);
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.bTree);
 
-        this.bTree.add(what, snapshots);
-        this.runAnimation(snapshots)
+        this.bTree.add(what, snc);
+        this.runAnimation(snc)
     };
 
     /**
@@ -28,17 +28,17 @@ function AnimatedBTree(initialElements) {
      */
     this.delete = function (what) {
         console.log('AnimatedBTree.add deleting ' + what);
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.bTree);
 
-        this.bTree.delete(what, snapshots);
-        this.runAnimation(snapshots)
+        this.bTree.delete(what, snc);
+        this.runAnimation(snc)
     };
 
     this.inorder = function () {
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.bTree);
 
-        this.bTree.inorder(snapshots);
-        this.runAnimation(snapshots)
+        this.bTree.inorder(snc);
+        this.runAnimation(snc)
     };
 
     //////////////////////   INTERNALS    //////////////////////
@@ -46,7 +46,8 @@ function AnimatedBTree(initialElements) {
     /**
      * @param {BTreeNode[]} snapshots
      */
-    this.runAnimation = function (snapshots) {
+    this.runAnimation = function (snc) {
+        var snapshots = snc.snapshots;
         console.log('AnimatedBTree.animation snapshots.length=' + snapshots.length);
 
         var idx = 0;
