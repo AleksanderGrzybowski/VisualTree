@@ -127,7 +127,7 @@ function AnimatedBTree(initialElements) {
                 switch (d.node.visual) {
                     case 'current':
                         return 'red';
-                    case 'inorder-immediate':
+                    case 'intermediate':
                         return 'blue';
                     case '':
                         return 'black';

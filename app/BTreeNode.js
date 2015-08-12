@@ -85,7 +85,7 @@ BTreeNode.prototype.add = function (value, snc) {
  */
 BTreeNode.prototype.inorder = function (snc) {
     if (this.left !== null) {
-        this.visual = 'inorder-immediate';
+        this.visual = 'intermediate';
         snc.add('Going left');
 
         this.left.inorder(snc);
@@ -95,7 +95,7 @@ BTreeNode.prototype.inorder = function (snc) {
     snc.add('Visiting ' + this.value);
 
     if (this.right !== null) {
-        this.visual = 'inorder-immediate';
+        this.visual = 'intermediate';
         snc.add('Going right');
 
         this.right.inorder(snc);
@@ -121,7 +121,7 @@ BTreeNode.prototype.minValue = function () {
  * @param {Object} snc
  */
 BTreeNode.prototype.delete = function (value, snc) {
-    this.visual = 'inorder-immediate';
+    this.visual = 'intermediate';
     snc.add('Is this the one to delete? ' + this.value);
 
     if (this.value !== value) {
@@ -216,7 +216,7 @@ BTreeNode.prototype.delete = function (value, snc) {
             snc.add('Replace current node value with found minimum');
             // apply remove to the right subtree to remove a duplicate
 
-            this.visual = 'inorder-immediate';
+            this.visual = 'intermediate';
             snc.add('Running remove recursively on the right subtree');
             this.right.delete(min, snc);
             this.visual = '';
