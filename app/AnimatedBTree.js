@@ -5,9 +5,9 @@
 function AnimatedBTree(initialElements) {
     var that = this;
 
-    this.bTree = new BTreeNode(initialElements[0]);
+    this.tree = new BTreeNode(initialElements[0]);
     for (var i = 1; i < initialElements.length; ++i) {
-        this.bTree.add(initialElements[i], new FakeSnapshotCollector());
+        this.tree.add(initialElements[i], new FakeSnapshotCollector());
     }
 
     //////////////////////   ALGORITHMS    //////////////////////
@@ -17,9 +17,9 @@ function AnimatedBTree(initialElements) {
      */
     this.add = function (what) {
         console.log('AnimatedBTree.add adding ' + what);
-        var snc = new SnapshotCollector(this.bTree);
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.add(what, snc);
+        this.tree.add(what, snc);
         this.runAnimation(snc)
     };
 
@@ -28,16 +28,16 @@ function AnimatedBTree(initialElements) {
      */
     this.delete = function (what) {
         console.log('AnimatedBTree.add deleting ' + what);
-        var snc = new SnapshotCollector(this.bTree);
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.delete(what, snc);
+        this.tree.delete(what, snc);
         this.runAnimation(snc)
     };
 
     this.inorder = function () {
-        var snc = new SnapshotCollector(this.bTree);
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.inorder(snc);
+        this.tree.inorder(snc);
         this.runAnimation(snc)
     };
 
@@ -64,11 +64,11 @@ function AnimatedBTree(initialElements) {
     };
 
     /**
-     * @param {BTreeNode} [snapshot=that.bTree]
+     * @param {BTreeNode} [snapshot=that.tree]
      */
     this.update = function (snapshot) {
         if (snapshot === undefined) {
-            snapshot = that.bTree;
+            snapshot = that.tree;
         }
 
         $('svg').empty();
