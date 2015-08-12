@@ -73,7 +73,7 @@ function AnimatedBTree(initialElements) {
 
         $('svg').empty();
 
-        var nodes = toNodesArray(snapshot);
+        var nodes = toPositionalNodesArray(snapshot);
         var links = toLinksArray(snapshot, nodes);
 
         var data = d3.select('svg')
@@ -96,7 +96,7 @@ function AnimatedBTree(initialElements) {
         };
 
         /*
-         * Those functions are used to scale stuff returned by toNodesArray
+         * Those functions are used to scale stuff returned by toPositionalNodesArray
          * to positions on the screen.
          */
         var xModelToViewMapper = function (x, $svg) {
@@ -190,9 +190,9 @@ function AnimatedBTree(initialElements) {
      * @param {number} [depth=2]
      * @returns {Object[]}
      */
-    function toNodesArray(node, pos, depth) {
+    function toPositionalNodesArray(node, pos, depth) {
         if (arguments.length === 1) {
-            return toNodesArray(node, 0.5, 0)
+            return toPositionalNodesArray(node, 0.5, 0)
         }
 
         var arr = [];
@@ -204,27 +204,13 @@ function AnimatedBTree(initialElements) {
         });
 
         if (node.left !== null) {
-            arr = arr.concat(toNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
         }
         if (node.right !== null) {
-            arr = arr.concat(toNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
         }
 
         return arr;
-    }
-
-    /**
-     * @param {BTreeNode} node
-     * @param {Object[]} nodesArray
-     * @returns {{x: number, y: number}}
-     */
-    function getPosOfNode(node, nodesArray) {
-        for (var i = 0; i < nodesArray.length; ++i) {
-            if (node === nodesArray[i].node) {
-                return {x: nodesArray[i].x, y: nodesArray[i].y};
-            }
-        }
-        throw new Error('impossible');
     }
 
     /**
@@ -235,17 +221,26 @@ function AnimatedBTree(initialElements) {
     function toLinksArray(node, nodesArray) {
         var arr = [];
 
+        var getPositionalNode = function (node, nodesArray) {
+            return _.find(nodesArray, {node: node});
+        };
+
+        // here we duplicate some data,
+        // maybe it should be like first>positionalNode>(x,y)
+        // this would couple functions to-links and to-nodes
+        // but maybe could be shorter...
+
         if (node.left !== null) {
             arr.push({
                 first: {
                     node: node,
-                    x: getPosOfNode(node, nodesArray).x,
-                    y: getPosOfNode(node, nodesArray).y
+                    x: getPositionalNode(node, nodesArray).x,
+                    y: getPositionalNode(node, nodesArray).y
                 },
                 second: {
                     node: node.left,
-                    x: getPosOfNode(node.left, nodesArray).x,
-                    y: getPosOfNode(node.left, nodesArray).y
+                    x: getPositionalNode(node.left, nodesArray).x,
+                    y: getPositionalNode(node.left, nodesArray).y
                 }
             });
         }
@@ -254,13 +249,13 @@ function AnimatedBTree(initialElements) {
             arr.push({
                 first: {
                     node: node,
-                    x: getPosOfNode(node, nodesArray).x,
-                    y: getPosOfNode(node, nodesArray).y
+                    x: getPositionalNode(node, nodesArray).x,
+                    y: getPositionalNode(node, nodesArray).y
                 },
                 second: {
                     node: node.right,
-                    x: getPosOfNode(node.right, nodesArray).x,
-                    y: getPosOfNode(node.right, nodesArray).y
+                    x: getPositionalNode(node.right, nodesArray).x,
+                    y: getPositionalNode(node.right, nodesArray).y
                 }
             });
         }
