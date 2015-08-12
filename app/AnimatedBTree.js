@@ -73,12 +73,12 @@ function AnimatedBTree(initialElements) {
 
         $('svg').empty();
 
-        var nodes = toPositionalNodesArray(snapshot);
-        var links = toLinksArray(snapshot, nodes);
+        var positionalNodes = toPositionalNodesArray(snapshot);
+        var links = toLinksArray(snapshot, positionalNodes);
 
         var data = d3.select('svg')
             .selectAll('circle')
-            .data(nodes);
+            .data(positionalNodes);
 
         /**
          * @param {Object} d
@@ -86,11 +86,14 @@ function AnimatedBTree(initialElements) {
          */
         var linesHelper = function (d) {
             var $svg = $('svg');
+            var width = $svg.width();
+            var height = $svg.height();
+
             return getPointsTouchingCircles(
-                xModelToViewMapper(d.first.x, $svg),
-                yModelToViewMapper(d.first.y, $svg),
-                xModelToViewMapper(d.second.x, $svg),
-                yModelToViewMapper(d.second.y, $svg),
+                xModelToViewMapper(d.first.x, width),
+                yModelToViewMapper(d.first.y, height),
+                xModelToViewMapper(d.second.x, width),
+                yModelToViewMapper(d.second.y, height),
                 CONFIG.circleRadius
             );
         };
@@ -99,11 +102,12 @@ function AnimatedBTree(initialElements) {
          * Those functions are used to scale stuff returned by toPositionalNodesArray
          * to positions on the screen.
          */
-        var xModelToViewMapper = function (x, $svg) {
-            return x * $svg.width();
+        var xModelToViewMapper = function (x, width) {
+            // x in <0,1>
+            return x * width;
         };
-        var yModelToViewMapper = function (y, $svg) {
-            return ((2 * y + 1) * $svg.height()) / CONFIG.levelsScalingFactor;
+        var yModelToViewMapper = function (y, height) {
+            return ((2 * y + 1) * height) / CONFIG.levelsScalingFactor;
         };
 
 
@@ -111,7 +115,7 @@ function AnimatedBTree(initialElements) {
             .append('g')
             .attr('transform', function (d) {
                 var $svg = $('svg');
-                return 'translate(' + xModelToViewMapper(d.x, $svg) + ',' + yModelToViewMapper(d.y, $svg) + ')';
+                return 'translate(' + xModelToViewMapper(d.x, $svg.width()) + ',' + yModelToViewMapper(d.y, $svg.height()) + ')';
             });
 
         gs.append('circle')
@@ -123,7 +127,6 @@ function AnimatedBTree(initialElements) {
                 switch (d.node.visual) {
                     case 'current':
                         return 'red';
-                        break;
                     case 'inorder-immediate':
                         return 'blue';
                     case '':
@@ -243,6 +246,8 @@ function AnimatedBTree(initialElements) {
                     y: getPositionalNode(node.left, nodesArray).y
                 }
             });
+
+            arr = arr.concat(toLinksArray(node.left, nodesArray));
         }
 
         if (node.right !== null) {
@@ -258,12 +263,7 @@ function AnimatedBTree(initialElements) {
                     y: getPositionalNode(node.right, nodesArray).y
                 }
             });
-        }
 
-        if (node.left !== null) {
-            arr = arr.concat(toLinksArray(node.left, nodesArray));
-        }
-        if (node.right !== null) {
             arr = arr.concat(toLinksArray(node.right, nodesArray));
         }
 
