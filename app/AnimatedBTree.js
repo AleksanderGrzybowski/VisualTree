@@ -5,9 +5,9 @@
 function AnimatedBTree(initialElements) {
     var that = this;
 
-    this.bTree = new BTreeNode(initialElements[0]);
+    this.tree = new BTreeNode(initialElements[0]);
     for (var i = 1; i < initialElements.length; ++i) {
-        this.bTree.add(initialElements[i]);
+        this.tree.add(initialElements[i], new FakeSnapshotCollector());
     }
 
     //////////////////////   ALGORITHMS    //////////////////////
@@ -17,10 +17,10 @@ function AnimatedBTree(initialElements) {
      */
     this.add = function (what) {
         console.log('AnimatedBTree.add adding ' + what);
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.add(what, snapshots);
-        this.runAnimation(snapshots)
+        this.tree.add(what, snc);
+        this.runAnimation(snc)
     };
 
     /**
@@ -28,25 +28,26 @@ function AnimatedBTree(initialElements) {
      */
     this.delete = function (what) {
         console.log('AnimatedBTree.add deleting ' + what);
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.delete(what, snapshots);
-        this.runAnimation(snapshots)
+        this.tree.delete(what, snc);
+        this.runAnimation(snc)
     };
 
     this.inorder = function () {
-        var snapshots = [];
+        var snc = new SnapshotCollector(this.tree);
 
-        this.bTree.inorder(snapshots);
-        this.runAnimation(snapshots)
+        this.tree.inorder(snc);
+        this.runAnimation(snc)
     };
 
     //////////////////////   INTERNALS    //////////////////////
 
     /**
-     * @param {BTreeNode[]} snapshots
+     * @param {SnapshotCollector} snc
      */
-    this.runAnimation = function (snapshots) {
+    this.runAnimation = function (snc) {
+        var snapshots = snc.snapshots;
         console.log('AnimatedBTree.animation snapshots.length=' + snapshots.length);
 
         var idx = 0;
@@ -56,28 +57,28 @@ function AnimatedBTree(initialElements) {
             $('#explanation').text(snapshot.text || '');
             that.update(snapshot);
 
-            if (idx == snapshots.length) {
+            if (idx === snapshots.length) {
                 clearInterval(timerId);
             }
         }, CONFIG.delay);
     };
 
     /**
-     * @param {BTreeNode} [snapshot=that.bTree]
+     * @param {BTreeNode} [snapshot=that.tree]
      */
     this.update = function (snapshot) {
         if (snapshot === undefined) {
-            snapshot = that.bTree;
+            snapshot = that.tree;
         }
 
         $('svg').empty();
 
-        var nodes = toNodesArray(snapshot);
-        var links = toLinksArray(snapshot, nodes);
+        var positionalNodes = toPositionalNodesArray(snapshot);
+        var links = toLinksArray(snapshot, positionalNodes);
 
         var data = d3.select('svg')
             .selectAll('circle')
-            .data(nodes);
+            .data(positionalNodes);
 
         /**
          * @param {Object} d
@@ -85,24 +86,28 @@ function AnimatedBTree(initialElements) {
          */
         var linesHelper = function (d) {
             var $svg = $('svg');
+            var width = $svg.width();
+            var height = $svg.height();
+
             return getPointsTouchingCircles(
-                xModelToViewMapper(d.first.x, $svg),
-                yModelToViewMapper(d.first.y, $svg),
-                xModelToViewMapper(d.second.x, $svg),
-                yModelToViewMapper(d.second.y, $svg),
+                xModelToViewMapper(d.first.x, width),
+                yModelToViewMapper(d.first.y, height),
+                xModelToViewMapper(d.second.x, width),
+                yModelToViewMapper(d.second.y, height),
                 CONFIG.circleRadius
             );
         };
 
         /*
-         * Those functions are used to scale stuff returned by toNodesArray
+         * Those functions are used to scale stuff returned by toPositionalNodesArray
          * to positions on the screen.
          */
-        var xModelToViewMapper = function (x, $svg) {
-            return x * $svg.width();
+        var xModelToViewMapper = function (x, width) {
+            // x in <0,1>
+            return x * width;
         };
-        var yModelToViewMapper = function (y, $svg) {
-            return ((2 * y + 1) * $svg.height()) / CONFIG.levelsScalingFactor;
+        var yModelToViewMapper = function (y, height) {
+            return ((2 * y + 1) * height) / CONFIG.levelsScalingFactor;
         };
 
 
@@ -110,7 +115,7 @@ function AnimatedBTree(initialElements) {
             .append('g')
             .attr('transform', function (d) {
                 var $svg = $('svg');
-                return 'translate(' + xModelToViewMapper(d.x, $svg) + ',' + yModelToViewMapper(d.y, $svg) + ')';
+                return 'translate(' + xModelToViewMapper(d.x, $svg.width()) + ',' + yModelToViewMapper(d.y, $svg.height()) + ')';
             });
 
         gs.append('circle')
@@ -122,8 +127,7 @@ function AnimatedBTree(initialElements) {
                 switch (d.node.visual) {
                     case 'current':
                         return 'red';
-                        break;
-                    case 'inorder-immediate':
+                    case 'intermediate':
                         return 'blue';
                     case '':
                         return 'black';
@@ -189,9 +193,9 @@ function AnimatedBTree(initialElements) {
      * @param {number} [depth=2]
      * @returns {Object[]}
      */
-    function toNodesArray(node, pos, depth) {
-        if (arguments.length == 1) {
-            return toNodesArray(node, 0.5, 0)
+    function toPositionalNodesArray(node, pos, depth) {
+        if (arguments.length === 1) {
+            return toPositionalNodesArray(node, 0.5, 0)
         }
 
         var arr = [];
@@ -203,27 +207,13 @@ function AnimatedBTree(initialElements) {
         });
 
         if (node.left !== null) {
-            arr = arr.concat(toNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
         }
         if (node.right !== null) {
-            arr = arr.concat(toNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
         }
 
         return arr;
-    }
-
-    /**
-     * @param {BTreeNode} node
-     * @param {Object[]} nodesArray
-     * @returns {{x: number, y: number}}
-     */
-    function getPosOfNode(node, nodesArray) {
-        for (var i = 0; i < nodesArray.length; ++i) {
-            if (node === nodesArray[i].node) {
-                return {x: nodesArray[i].x, y: nodesArray[i].y};
-            }
-        }
-        throw new Error("impossible");
     }
 
     /**
@@ -234,40 +224,46 @@ function AnimatedBTree(initialElements) {
     function toLinksArray(node, nodesArray) {
         var arr = [];
 
-        if (node.left != null) {
+        var getPositionalNode = function (node, nodesArray) {
+            return _.find(nodesArray, {node: node});
+        };
+
+        // here we duplicate some data,
+        // maybe it should be like first>positionalNode>(x,y)
+        // this would couple functions to-links and to-nodes
+        // but maybe could be shorter...
+
+        if (node.left !== null) {
             arr.push({
                 first: {
                     node: node,
-                    x: getPosOfNode(node, nodesArray).x,
-                    y: getPosOfNode(node, nodesArray).y
+                    x: getPositionalNode(node, nodesArray).x,
+                    y: getPositionalNode(node, nodesArray).y
                 },
                 second: {
                     node: node.left,
-                    x: getPosOfNode(node.left, nodesArray).x,
-                    y: getPosOfNode(node.left, nodesArray).y
+                    x: getPositionalNode(node.left, nodesArray).x,
+                    y: getPositionalNode(node.left, nodesArray).y
                 }
             });
+
+            arr = arr.concat(toLinksArray(node.left, nodesArray));
         }
 
-        if (node.right != null) {
+        if (node.right !== null) {
             arr.push({
                 first: {
                     node: node,
-                    x: getPosOfNode(node, nodesArray).x,
-                    y: getPosOfNode(node, nodesArray).y
+                    x: getPositionalNode(node, nodesArray).x,
+                    y: getPositionalNode(node, nodesArray).y
                 },
                 second: {
                     node: node.right,
-                    x: getPosOfNode(node.right, nodesArray).x,
-                    y: getPosOfNode(node.right, nodesArray).y
+                    x: getPositionalNode(node.right, nodesArray).x,
+                    y: getPositionalNode(node.right, nodesArray).y
                 }
             });
-        }
 
-        if (node.left !== null) {
-            arr = arr.concat(toLinksArray(node.left, nodesArray));
-        }
-        if (node.right !== null) {
             arr = arr.concat(toLinksArray(node.right, nodesArray));
         }
 
