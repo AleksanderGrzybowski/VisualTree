@@ -2,15 +2,15 @@
  * @param {Array} initialElements
  * @constructor
  */
-function AnimatedBTree(initialElements) {
+function AnimatedBST(initialElements) {
 
-    this.tree = new BTreeNode(initialElements[0]);
+    this.tree = new BSTNode(initialElements[0]);
     for (var i = 1; i < initialElements.length; ++i) {
         this.tree.add(initialElements[i], new FakeSnapshotCollector());
     }
 
     this.update = function () {
-        var snc = new SnapshotCollector(this.tree);
+        var snc = new BSTSnapshotCollector(this.tree);
         snc.add('');
 
         BTreePresenter.runAnimation(snc);
@@ -20,7 +20,7 @@ function AnimatedBTree(initialElements) {
      * @param {number} what
      */
     this.add = function (what) {
-        var snc = new SnapshotCollector(this.tree);
+        var snc = new BSTSnapshotCollector(this.tree);
 
         this.tree.add(what, snc);
         BTreePresenter.runAnimation(snc)
@@ -30,14 +30,14 @@ function AnimatedBTree(initialElements) {
      * @param {number} what
      */
     this.delete = function (what) {
-        var snc = new SnapshotCollector(this.tree);
+        var snc = new BSTSnapshotCollector(this.tree);
 
         this.tree.delete(what, snc);
         BTreePresenter.runAnimation(snc)
     };
 
     this.inorder = function () {
-        var snc = new SnapshotCollector(this.tree);
+        var snc = new BSTSnapshotCollector(this.tree);
 
         this.tree.inorder(snc);
         BTreePresenter.runAnimation(snc)

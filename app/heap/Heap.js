@@ -56,16 +56,20 @@ Heap.prototype.toTree = function (that, k) {
 
 /**
  * @param {number} what
+ * @param {Object} snc
  */
-Heap.prototype.add = function (what) {
+Heap.prototype.add = function (what, snc) {
+    snc.add('Added element');
     this.data.push(what);
     var pos = this.data.length - 1;
 
     for (; pos > 1 && what < this.data[Math.floor(pos / 2)]; pos = Math.floor(pos / 2)) {
+        snc.add('Shifting');
         this.data[pos] = this.data[Math.floor(pos / 2)]
     }
 
     this.data[pos] = what;
+    snc.add("Finished");
 };
 
 /**
@@ -73,6 +77,6 @@ Heap.prototype.add = function (what) {
  */
 Heap.prototype.addAll = function (elements) {
     for (var i = 0; i < elements.length; ++i) {
-        this.add(elements[i]);
+        this.add(elements[i], new FakeSnapshotCollector());
     }
 };

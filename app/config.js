@@ -1,5 +1,5 @@
 var CONFIG = {
-    delay: 2000,
+    delay: 500,
     circleRadius: 20,
     levelsScalingFactor: 10
 };

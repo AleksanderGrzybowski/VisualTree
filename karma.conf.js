@@ -15,8 +15,12 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'bower_components/jquery/dist/jquery.js',
-            'app/*.js',
+            //'bower_components/jquery/dist/jquery.js',
+            //'app/*.js',
+
+            'app/bst/*BST*.js',
+            'app/heap/*Heap*.js',
+            'app/FakeSnapshotCollector.js',
             'tests/*.js',
             'bower_components/d3/d3.js',
             'bower_components/lodash/lodash.js'

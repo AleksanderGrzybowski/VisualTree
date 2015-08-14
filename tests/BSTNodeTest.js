@@ -3,14 +3,14 @@ var snc = new FakeSnapshotCollector();
 describe('Binary tree creation', function () {
 
     it('should create root-like tree if called as constructor', function () {
-        var root = new BTreeNode(7);
+        var root = new BSTNode(7);
 
         expect(root.value).toBe(7);
         expect(root.isLeaf()).toBe(true);
     });
 
     it('should create valid three-element balanced tree', function () {
-        var root = new BTreeNode(2);
+        var root = new BSTNode(2);
         root.add(1, snc);
         root.add(3, snc);
 
@@ -25,7 +25,7 @@ describe('Binary tree creation', function () {
     });
 
     it('should create valid only-left tree', function () {
-        var root = new BTreeNode(4);
+        var root = new BSTNode(4);
         root.add(3, snc);
         root.add(2, snc);
 
@@ -38,16 +38,16 @@ describe('Binary tree creation', function () {
     })
 });
 
-describe('BTreeNode.findRoot', function () {
+describe('BSTNode.findRoot', function () {
 
     it('should find root for 1-element tree', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
 
         expect(root.findRoot()).toBe(root);
     });
 
     it('should find root for 3-element tree', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
         root.add(0, snc);
         root.add(2, snc);
 
@@ -58,10 +58,10 @@ describe('BTreeNode.findRoot', function () {
 });
 
 
-describe('BTreeNode.delete', function () {
+describe('BSTNode.delete', function () {
 
     it('should delete a left leaf', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
         root.add(0, snc);
         root.add(2, snc);
 
@@ -75,7 +75,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a right leaf', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
         root.add(0, snc);
         root.add(2, snc);
 
@@ -89,7 +89,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a left leaf with left child', function () {
-        var root = new BTreeNode(2);
+        var root = new BSTNode(2);
         root.add(1, snc);
         root.add(0, snc);
 
@@ -102,7 +102,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a left leaf with right child', function () {
-        var root = new BTreeNode(3);
+        var root = new BSTNode(3);
         root.add(1, snc);
         root.add(2, snc);
 
@@ -115,7 +115,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a right leaf with left child', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
         root.add(3, snc);
         root.add(2, snc);
 
@@ -128,7 +128,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a right leaf with right child', function () {
-        var root = new BTreeNode(1);
+        var root = new BSTNode(1);
         root.add(2, snc);
         root.add(3, snc);
 
@@ -141,7 +141,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a parent with two childs only', function () {
-        var root = new BTreeNode(4);
+        var root = new BSTNode(4);
         root.add(2, snc);
         root.add(1, snc);
         root.add(3, snc);
@@ -157,7 +157,7 @@ describe('BTreeNode.delete', function () {
     });
 
     it('should delete a parent with more than 2 childs', function () {
-        var root = new BTreeNode(9);
+        var root = new BSTNode(9);
         root.add(5, snc);
         root.add(4, snc);
         root.add(7, snc);

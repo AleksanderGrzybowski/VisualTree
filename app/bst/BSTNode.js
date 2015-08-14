@@ -2,7 +2,7 @@
  * @param {number} value
  * @constructor
  */
-function BTreeNode(value) {
+function BSTNode(value) {
     this.left = null;
     this.right = null;
     this.parent = null;
@@ -14,14 +14,14 @@ function BTreeNode(value) {
 /**
  * @returns {boolean}
  */
-BTreeNode.prototype.isLeaf = function () {
+BSTNode.prototype.isLeaf = function () {
     return this.left === null && this.right === null;
 };
 
 /**
- * @returns {BTreeNode}
+ * @returns {BSTNode}
  */
-BTreeNode.prototype.findRoot = function () {
+BSTNode.prototype.findRoot = function () {
     var node = this;
 
     while (node.parent !== null) {
@@ -34,15 +34,15 @@ BTreeNode.prototype.findRoot = function () {
 /**
  * @param {number} value
  * @param {Object} snc
- * @returns {BTreeNode}
+ * @returns {BSTNode}
  */
-BTreeNode.prototype.add = function (value, snc) {
+BSTNode.prototype.add = function (value, snc) {
     this.visual = 'current';
     snc.add('Visiting node ' + this.value);
 
     if (value < this.value) {
         if (this.left === null) {
-            this.left = new BTreeNode(value);
+            this.left = new BSTNode(value);
             this.left.parent = this;
 
             this.left.visual = 'current';
@@ -57,7 +57,7 @@ BTreeNode.prototype.add = function (value, snc) {
         }
     } else if (value > this.value) {
         if (this.right === null) {
-            this.right = new BTreeNode(value);
+            this.right = new BSTNode(value);
             this.right.parent = this;
 
             this.right.visual = 'current';
@@ -83,7 +83,7 @@ BTreeNode.prototype.add = function (value, snc) {
 /**
  * @param {Object} snc
  */
-BTreeNode.prototype.inorder = function (snc) {
+BSTNode.prototype.inorder = function (snc) {
     if (this.left !== null) {
         this.visual = 'intermediate';
         snc.add('Going left');
@@ -108,7 +108,7 @@ BTreeNode.prototype.inorder = function (snc) {
 /**
  * @returns {number}
  */
-BTreeNode.prototype.minValue = function () {
+BSTNode.prototype.minValue = function () {
     if (this.left === null) {
         return this.value;
     } else {
@@ -120,7 +120,7 @@ BTreeNode.prototype.minValue = function () {
  * @param {number} value
  * @param {Object} snc
  */
-BTreeNode.prototype.delete = function (value, snc) {
+BSTNode.prototype.delete = function (value, snc) {
     this.visual = 'intermediate';
     snc.add('Is this the one to delete? ' + this.value);
 

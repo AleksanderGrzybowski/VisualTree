@@ -23,7 +23,7 @@ var BTreePresenter = (function () {
     }
 
     /**
-     * @param {BTreeNode} node
+     * @param {BSTNode|HeapNode} node
      * @param {number} [pos=0.5]
      * @param {number} [depth=2]
      * @returns {Object[]}
@@ -52,7 +52,7 @@ var BTreePresenter = (function () {
     }
 
     /**
-     * @param {BTreeNode} node
+     * @param {BSTNode|HeapNode} node
      * @param {Object[]} nodesArray
      * @returns {Array}
      */
@@ -107,7 +107,7 @@ var BTreePresenter = (function () {
 
     return {
         /**
-         * @param {SnapshotCollector} snc
+         * @param {BSTSnapshotCollector|HeapSnapshotCollector} snc
          */
         runAnimation: function (snc) {
             var snapshots = snc.snapshots;
@@ -127,7 +127,7 @@ var BTreePresenter = (function () {
         },
 
         /**
-         * @param {BTreeNode} [snapshot=that.tree]
+         * @param {BSTNode|HeapNode} [snapshot=that.tree]
          */
         update: function (snapshot) {
             if (snapshot === undefined) {
