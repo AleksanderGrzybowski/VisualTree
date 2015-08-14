@@ -131,6 +131,9 @@ function AnimatedBTree(initialElements) {
                         return 'blue';
                     case '':
                         return 'black';
+                    case undefined:
+                        console.warn('Color not defined, defaulting to black');
+                        return 'black';
                     default:
                         throw new Error('Color not implemented!');
                 }
