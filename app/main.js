@@ -22,12 +22,12 @@ visualTree.controller('MainCtrl', function () {
 
     vm.add = function () {
         if (!isNaN(vm.number)) { // stupid trick but hey JS
-            vm.animatedTree.add(vm.number);
+            vm.animatedTree.add(+vm.number);
         }
     };
     vm.delete = function () {
         if (!isNaN(vm.number)) {
-            vm.animatedTree.delete(vm.number);
+            vm.animatedTree.delete(+vm.number);
         }
     };
     vm.inorder = function () {
