@@ -1,3 +1,7 @@
+Array.prototype.removeAt = function (index) {
+    this.splice(index, 1);
+};
+
 /**
  * @param {number} value
  * @constructor
@@ -11,8 +15,6 @@ function HeapNode(value) {
  * @constructor
  */
 function Heap() {
-    // TODO be careful when deleting from JS array
-
     // Dummy element to simplify algs
     // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
     this.data = [-1];
@@ -78,5 +80,52 @@ Heap.prototype.add = function (what, snc) {
 Heap.prototype.addAll = function (elements) {
     for (var i = 0; i < elements.length; ++i) {
         this.add(elements[i], new FakeSnapshotCollector());
+    }
+};
+
+// http://www.algolist.net/Data_structures/Binary_heap/Remove_minimum
+Heap.prototype.deleteMin = function (snc) {
+    this.data[1] = this.data[this.data.length - 1];
+    this.data.removeAt(this.data.length - 1);
+
+    var k = 1, tmp; // root
+
+    while (true) {
+        if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
+            break;
+        } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
+            if (this.data[2 * k] < this.data[k]) {
+                tmp = this.data[2 * k];
+                this.data[2 * k] = this.data[k];
+                this.data[k] = tmp;
+                k = 2 * k;
+            } else {
+                break;
+            }
+        } else if (this.data[2 * k] === undefined && this.data[2 * k + 1] !== undefined) { // right child
+            if (this.data[2 * k + 1] < this.data[k]) {
+                tmp = this.data[2 * k + 1];
+                this.data[2 * k + 1] = this.data[k];
+                this.data[k] = tmp;
+                k = 2 * k + 1;
+            } else {
+                break;
+            }
+        } else { // two children
+            var smallestIndex;
+            if (this.data[2 * k] < this.data[2 * k + 1]) {
+                smallestIndex = 2 * k;
+            } else {
+                smallestIndex = 2 * k + 1;
+            }
+            if (this.data[smallestIndex] < this.data[k]) {
+                tmp = this.data[smallestIndex];
+                this.data[smallestIndex] = this.data[k];
+                this.data[k] = tmp;
+                k = smallestIndex;
+            } else {
+                break;
+            }
+        }
     }
 };
