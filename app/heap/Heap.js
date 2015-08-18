@@ -1,15 +1,19 @@
+/*
+ * @param {number} index
+ */
 Array.prototype.removeAt = function (index) {
     this.splice(index, 1);
 };
 
 /**
  * @param {number} value
+ * @param {string} [visual='']
  * @constructor
  */
-function HeapNode(value) {
+function HeapNode(value, visual) {
     this.value = value;
     this.left = this.right = this.parent = null;
-    this.visual = '';
+    this.visual = (visual === undefined) ? '' : visual;
 }
 
 /**
@@ -25,12 +29,9 @@ function Heap() {
  * @returns {number[]}
  */
 Heap.prototype.toArray = function () {
-    var orig = this.data.slice(1);
-    var res = [];
-    for(var i = 0; i < orig.length; ++i) { // TODO replace with .map
-        res.push(orig[i].value);
-    }
-    return res;
+    return this.data.slice(1).map(function (e) {
+        return e.value;
+    });
 };
 
 /**
@@ -40,15 +41,13 @@ Heap.prototype.toArray = function () {
  */
 Heap.prototype.toTree = function (that, k) {
     if (arguments.length == 0) {
-        var root = new HeapNode(this.data[1].value);
-        root.visual = this.data[1].visual;
+        var root = new HeapNode(this.data[1].value, this.data[1].visual);
         this.toTree(root, 1);
         return root;
     }
 
-    if (this.data[2 * k] !== undefined) { // TODO is this 'undefined' right choice? Maybe fill with nulls
-        that.left = new HeapNode(this.data[2 * k].value);
-        that.left.visual = this.data[2 * k].visual;
+    if (this.data[2 * k] !== undefined) {
+        that.left = new HeapNode(this.data[2 * k].value, this.data[2 * k].visual);
         that.left.parent = that;
         this.toTree(that.left, 2 * k);
     } else {
@@ -56,8 +55,7 @@ Heap.prototype.toTree = function (that, k) {
     }
 
     if (this.data[2 * k + 1] !== undefined) {
-        that.right = new HeapNode(this.data[2 * k + 1].value);
-        that.right.visual = this.data[2 * k + 1].visual;
+        that.right = new HeapNode(this.data[2 * k + 1].value, this.data[2 * k + 1].visual);
         that.right.parent = that;
         this.toTree(that.right, 2 * k + 1);
     } else {
@@ -72,8 +70,8 @@ Heap.prototype.toTree = function (that, k) {
 Heap.prototype.add = function (what, snc) {
     this.data.push({value: what, visual: 'current'});
     snc.add('Added element (' + what + ') at the end');
-    var pos = this.data.length - 1;
 
+    var pos = this.data.length - 1;
     while (true) {
         if (pos <= 1) {
             snc.add('Reached root, finished');
@@ -82,12 +80,14 @@ Heap.prototype.add = function (what, snc) {
 
         this.data[pos].visual = 'intermediate';
         this.data[Math.floor(pos / 2)].visual = 'intermediate';
-        snc.add('Comparing these two elements');
+        snc.add('Should we swap those? (' + this.data[pos].value +
+            ') ? (' + this.data[Math.floor(pos / 2)].value + ')');
 
         if (what < this.data[Math.floor(pos / 2)].value) {
             this.data[pos].visual = 'current';
             this.data[Math.floor(pos / 2)].visual = 'current';
-            snc.add('We need to swap them');
+            snc.add('We need to swap them: (' + this.data[pos].value + ') < (' +
+                this.data[Math.floor(pos / 2)].value + ')');
 
             var tmp = this.data[pos];
             this.data[pos] = this.data[Math.floor(pos / 2)];
@@ -99,7 +99,8 @@ Heap.prototype.add = function (what, snc) {
         } else {
             this.data[pos].visual = '';
             this.data[Math.floor(pos / 2)].visual = '';
-            snc.add('No need to swap them, finished');
+            snc.add('No need to swap them: (' + this.data[pos].value + ') > (' +
+                this.data[Math.floor(pos / 2)].value + ')');
             break;
         }
 
@@ -120,7 +121,8 @@ Heap.prototype.addAll = function (elements) {
 Heap.prototype.deleteMin = function (snc) {
     this.data[1].visual = 'current';
     this.data[this.data.length - 1].visual = 'current';
-    snc.add('Removing root, replacing it with the last element');
+    snc.add('Removing root (' + this.data[1].value + '), replacing it with the last element ('
+        + this.data[this.data.length - 1].value + ')');
 
     this.data[1] = this.data[this.data.length - 1];
     this.data.removeAt(this.data.length - 1);
@@ -137,12 +139,14 @@ Heap.prototype.deleteMin = function (snc) {
         } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
             this.data[k].visual = 'intermediate';
             this.data[2 * k].visual = 'intermediate';
-            snc.add('Left child is present, should we swap?');
+            snc.add('Left child is present, should we swap? (' + this.data[k].value + ') ? (' +
+                this.data[2 * k].value + ')');
 
             if (this.data[2 * k].value < this.data[k].value) {
                 this.data[k].visual = 'current';
                 this.data[2 * k].visual = 'current';
-                snc.add('Swapping');
+                snc.add('Swapping, (' + this.data[k].value + ') > (' +
+                    this.data[2 * k].value + ')');
 
                 tmp = this.data[2 * k];
                 this.data[2 * k] = this.data[k];
@@ -164,13 +168,14 @@ Heap.prototype.deleteMin = function (snc) {
         } else if (this.data[2 * k] === undefined && this.data[2 * k + 1] !== undefined) { // right child
             this.data[k].visual = 'intermediate';
             this.data[2 * k + 1].visual = 'intermediate';
-            snc.add('Right child is present, should we swap?');
+            snc.add('Right child is present, should we swap? (' + this.data[k].value + ') ? (' +
+                this.data[2 * k].value + ')');
 
             if (this.data[2 * k + 1].value < this.data[k].value) {
                 this.data[k].visual = 'current';
                 this.data[2 * k + 1].visual = 'current';
-                snc.add('Swapping');
-
+                snc.add('Swapping, (' + this.data[k].value + ') > (' +
+                    this.data[2 * k + 1].value + ')');
 
                 tmp = this.data[2 * k + 1];
                 this.data[2 * k + 1] = this.data[k];
@@ -208,12 +213,15 @@ Heap.prototype.deleteMin = function (snc) {
                 this.data[2 * k + 1].visual = 'current';
             }
 
-            snc.add('Picked smaller, should we swap?');
+            snc.add('Picked smaller, should we swap? (' + this.data[smallestIndex].value + ') ? (' +
+                this.data[k].value + ')');
 
             if (this.data[smallestIndex].value < this.data[k].value) {
                 this.data[k].visual = 'current';
                 this.data[smallestIndex].visual = 'current';
-                snc.add('Swapping');
+
+                snc.add('Swapping, (' + this.data[smallestIndex].value + ') < (' +
+                    this.data[k].value + ')');
 
                 tmp = this.data[smallestIndex];
                 this.data[smallestIndex] = this.data[k];
