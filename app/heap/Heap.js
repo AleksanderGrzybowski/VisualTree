@@ -191,22 +191,22 @@ Heap.prototype.deleteMin = function (snc) {
             this.data[k].visual = 'current';
             this.data[2 * k].visual = 'intermediate';
             this.data[2 * k + 1].visual = 'intermediate';
-            snc.add('Two children, which one to choose?');
+            snc.add('Two children, which one is smaller?');
 
             var smallestIndex;
             if (this.data[2 * k].value < this.data[2 * k + 1].value) {
                 smallestIndex = 2 * k;
                 this.data[k].visual = 'current';
-                this.data[2 * k].visual = 'intermediate';
+                this.data[2 * k].visual = 'current';
                 this.data[2 * k + 1].visual = '';
             } else {
                 smallestIndex = 2 * k + 1;
                 this.data[k].visual = 'current';
                 this.data[2 * k].visual = '';
-                this.data[2 * k + 1].visual = 'intermediate';
+                this.data[2 * k + 1].visual = 'current';
             }
 
-            snc.add('Picked smaller');
+            snc.add('Picked smaller, should we swap?');
 
             if (this.data[smallestIndex].value < this.data[k].value) {
                 this.data[k].visual = 'current';
