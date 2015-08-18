@@ -129,7 +129,9 @@ Heap.prototype.deleteMin = function (snc) {
 
     while (true) {
         if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
-            this.data[k].visual = '';
+            if (this.data[k] !== undefined) { // if there was 1 element before
+                this.data[k].visual = '';
+            }
             snc.add('Finished percolating down');
             break;
         } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
