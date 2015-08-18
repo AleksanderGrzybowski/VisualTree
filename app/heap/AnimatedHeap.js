@@ -25,4 +25,11 @@ function AnimatedHeap(initialElements) {
         this.heap.add(what, snc);
         BTreePresenter.runAnimation(snc)
     };
+
+    this.deleteMin = function () {
+        var snc = new HeapSnapshotCollector(this.heap);
+
+        this.heap.deleteMin(snc);
+        BTreePresenter.runAnimation(snc)
+    };
 }

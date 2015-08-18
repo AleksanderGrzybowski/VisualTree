@@ -34,6 +34,10 @@ visualTree.controller('MainCtrl', function () {
         vm.animatedTree.inorder();
     };
 
+    vm.deleteMin = function () {
+        vm.animatedTree.deleteMin();
+    };
+
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;

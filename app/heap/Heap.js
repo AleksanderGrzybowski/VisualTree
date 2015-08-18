@@ -118,6 +118,10 @@ Heap.prototype.addAll = function (elements) {
 
 // http://www.algolist.net/Data_structures/Binary_heap/Remove_minimum
 Heap.prototype.deleteMin = function (snc) {
+    this.data[1].visual = 'current';
+    this.data[this.data.length - 1].visual = 'current';
+    snc.add('Removing root, replacing it with the last element');
+
     this.data[1] = this.data[this.data.length - 1];
     this.data.removeAt(this.data.length - 1);
 
@@ -125,38 +129,105 @@ Heap.prototype.deleteMin = function (snc) {
 
     while (true) {
         if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
+            this.data[k].visual = '';
+            snc.add('Finished percolating down');
             break;
         } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
+            this.data[k].visual = 'intermediate';
+            this.data[2 * k].visual = 'intermediate';
+            snc.add('Left child is present, should we swap?');
+
             if (this.data[2 * k].value < this.data[k].value) {
+                this.data[k].visual = 'current';
+                this.data[2 * k].visual = 'current';
+                snc.add('Swapping');
+
                 tmp = this.data[2 * k];
                 this.data[2 * k] = this.data[k];
                 this.data[k] = tmp;
+
+                snc.add('Swapped');
+
+                this.data[k].visual = '';
+                this.data[2 * k].visual = '';
+
                 k = 2 * k;
             } else {
+                this.data[k].visual = '';
+                this.data[2 * k].visual = '';
+                snc.add('Finished percolating down');
+
                 break;
             }
         } else if (this.data[2 * k] === undefined && this.data[2 * k + 1] !== undefined) { // right child
+            this.data[k].visual = 'intermediate';
+            this.data[2 * k + 1].visual = 'intermediate';
+            snc.add('Right child is present, should we swap?');
+
             if (this.data[2 * k + 1].value < this.data[k].value) {
+                this.data[k].visual = 'current';
+                this.data[2 * k + 1].visual = 'current';
+                snc.add('Swapping');
+
+
                 tmp = this.data[2 * k + 1];
                 this.data[2 * k + 1] = this.data[k];
                 this.data[k] = tmp;
+
+                snc.add('Swapped');
+
+                this.data[k].visual = '';
+                this.data[2 * k + 1].visual = '';
+
                 k = 2 * k + 1;
             } else {
+                this.data[k].visual = '';
+                this.data[2 * k].visual = '';
+                snc.add('Finished percolating down');
+
                 break;
             }
         } else { // two children
+            this.data[k].visual = 'current';
+            this.data[2 * k].visual = 'intermediate';
+            this.data[2 * k + 1].visual = 'intermediate';
+            snc.add('Two children, which one to choose?');
+
             var smallestIndex;
             if (this.data[2 * k].value < this.data[2 * k + 1].value) {
                 smallestIndex = 2 * k;
+                this.data[k].visual = 'current';
+                this.data[2 * k].visual = 'intermediate';
+                this.data[2 * k + 1].visual = '';
             } else {
                 smallestIndex = 2 * k + 1;
+                this.data[k].visual = 'current';
+                this.data[2 * k].visual = '';
+                this.data[2 * k + 1].visual = 'intermediate';
             }
+
+            snc.add('Picked smaller');
+
             if (this.data[smallestIndex].value < this.data[k].value) {
+                this.data[k].visual = 'current';
+                this.data[smallestIndex].visual = 'current';
+                snc.add('Swapping');
+
                 tmp = this.data[smallestIndex];
                 this.data[smallestIndex] = this.data[k];
                 this.data[k] = tmp;
+
+                snc.add('Swapped');
+
+                this.data[k].visual = '';
+                this.data[smallestIndex].visual = '';
+
                 k = smallestIndex;
             } else {
+                this.data[k].visual = '';
+                this.data[2 * k].visual = '';
+                this.data[2 * k + 1].visual = '';
+                snc.add('Finished percolating down');
                 break;
             }
         }
