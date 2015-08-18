@@ -70,17 +70,41 @@ Heap.prototype.toTree = function (that, k) {
  * @param {Object} snc
  */
 Heap.prototype.add = function (what, snc) {
-    snc.add('Added element');
     this.data.push({value: what, visual: 'current'});
+    snc.add('Added element (' + what + ') at the end');
     var pos = this.data.length - 1;
 
-    for (; pos > 1 && what < this.data[Math.floor(pos / 2)].value; pos = Math.floor(pos / 2)) {
-        snc.add('Shifting');
-        this.data[pos] = this.data[Math.floor(pos / 2)]
-    }
+    while (true) {
+        if (pos <= 1) {
+            snc.add('Reached root, finished');
+            break;
+        }
 
-    this.data[pos] = {value: what}; // ??
-    snc.add("Finished");
+        this.data[pos].visual = 'intermediate';
+        this.data[Math.floor(pos / 2)].visual = 'intermediate';
+        snc.add('Comparing these two elements');
+
+        if (what < this.data[Math.floor(pos / 2)].value) {
+            this.data[pos].visual = 'current';
+            this.data[Math.floor(pos / 2)].visual = 'current';
+            snc.add('We need to swap them');
+
+            var tmp = this.data[pos];
+            this.data[pos] = this.data[Math.floor(pos / 2)];
+            this.data[Math.floor(pos / 2)] = tmp;
+
+            snc.add('Swapped');
+            this.data[pos].visual = '';
+            this.data[Math.floor(pos / 2)].visual = '';
+        } else {
+            this.data[pos].visual = '';
+            this.data[Math.floor(pos / 2)].visual = '';
+            snc.add('No need to swap them, finished');
+            break;
+        }
+
+        pos = Math.floor(pos / 2);
+    }
 };
 
 /**
