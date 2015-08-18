@@ -9,6 +9,7 @@ Array.prototype.removeAt = function (index) {
 function HeapNode(value) {
     this.value = value;
     this.left = this.right = this.parent = null;
+    this.visual = '';
 }
 
 /**
@@ -17,14 +18,19 @@ function HeapNode(value) {
 function Heap() {
     // Dummy element to simplify algs
     // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
-    this.data = [-1];
+    this.data = [{value: -1}];
 }
 
 /**
  * @returns {number[]}
  */
 Heap.prototype.toArray = function () {
-    return this.data.slice(1);
+    var orig = this.data.slice(1);
+    var res = [];
+    for(var i = 0; i < orig.length; ++i) { // TODO replace with .map
+        res.push(orig[i].value);
+    }
+    return res;
 };
 
 /**
@@ -34,13 +40,15 @@ Heap.prototype.toArray = function () {
  */
 Heap.prototype.toTree = function (that, k) {
     if (arguments.length == 0) {
-        var root = new HeapNode(this.data[1]);
+        var root = new HeapNode(this.data[1].value);
+        root.visual = this.data[1].visual;
         this.toTree(root, 1);
         return root;
     }
 
     if (this.data[2 * k] !== undefined) { // TODO is this 'undefined' right choice? Maybe fill with nulls
-        that.left = new HeapNode(this.data[2 * k]);
+        that.left = new HeapNode(this.data[2 * k].value);
+        that.left.visual = this.data[2 * k].visual;
         that.left.parent = that;
         this.toTree(that.left, 2 * k);
     } else {
@@ -48,7 +56,8 @@ Heap.prototype.toTree = function (that, k) {
     }
 
     if (this.data[2 * k + 1] !== undefined) {
-        that.right = new HeapNode(this.data[2 * k + 1]);
+        that.right = new HeapNode(this.data[2 * k + 1].value);
+        that.right.visual = this.data[2 * k + 1].visual;
         that.right.parent = that;
         this.toTree(that.right, 2 * k + 1);
     } else {
@@ -62,15 +71,15 @@ Heap.prototype.toTree = function (that, k) {
  */
 Heap.prototype.add = function (what, snc) {
     snc.add('Added element');
-    this.data.push(what);
+    this.data.push({value: what, visual: 'current'});
     var pos = this.data.length - 1;
 
-    for (; pos > 1 && what < this.data[Math.floor(pos / 2)]; pos = Math.floor(pos / 2)) {
+    for (; pos > 1 && what < this.data[Math.floor(pos / 2)].value; pos = Math.floor(pos / 2)) {
         snc.add('Shifting');
         this.data[pos] = this.data[Math.floor(pos / 2)]
     }
 
-    this.data[pos] = what;
+    this.data[pos] = {value: what}; // ??
     snc.add("Finished");
 };
 
@@ -94,7 +103,7 @@ Heap.prototype.deleteMin = function (snc) {
         if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
             break;
         } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
-            if (this.data[2 * k] < this.data[k]) {
+            if (this.data[2 * k].value < this.data[k].value) {
                 tmp = this.data[2 * k];
                 this.data[2 * k] = this.data[k];
                 this.data[k] = tmp;
@@ -103,7 +112,7 @@ Heap.prototype.deleteMin = function (snc) {
                 break;
             }
         } else if (this.data[2 * k] === undefined && this.data[2 * k + 1] !== undefined) { // right child
-            if (this.data[2 * k + 1] < this.data[k]) {
+            if (this.data[2 * k + 1].value < this.data[k].value) {
                 tmp = this.data[2 * k + 1];
                 this.data[2 * k + 1] = this.data[k];
                 this.data[k] = tmp;
@@ -113,12 +122,12 @@ Heap.prototype.deleteMin = function (snc) {
             }
         } else { // two children
             var smallestIndex;
-            if (this.data[2 * k] < this.data[2 * k + 1]) {
+            if (this.data[2 * k].value < this.data[2 * k + 1].value) {
                 smallestIndex = 2 * k;
             } else {
                 smallestIndex = 2 * k + 1;
             }
-            if (this.data[smallestIndex] < this.data[k]) {
+            if (this.data[smallestIndex].value < this.data[k].value) {
                 tmp = this.data[smallestIndex];
                 this.data[smallestIndex] = this.data[k];
                 this.data[k] = tmp;
