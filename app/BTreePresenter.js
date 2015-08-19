@@ -111,7 +111,7 @@ var BTreePresenter = (function () {
          */
         runAnimation: function (snc) {
             var snapshots = snc.snapshots;
-            console.log('AnimatedBTree.animation snapshots.length=' + snapshots.length);
+            log.info('Animation starts len = ' + snapshots.length);
 
             BTreePresenter.update(snapshots[0]);
             $('#explanation').text(snapshots[0].text || '');
@@ -123,7 +123,7 @@ var BTreePresenter = (function () {
                     return;
                 }
 
-                console.log('AnimatedBTree.animation going through idx=' + idx);
+                log.info('Animation idx = ' + idx);
                 var snapshot = snapshots[idx++];
                 $('#explanation').text(snapshot.text || '');
                 BTreePresenter.update(snapshot);
@@ -142,6 +142,13 @@ var BTreePresenter = (function () {
 
             var positionalNodes = toPositionalNodesArray(snapshot);
             var links = toLinksArray(snapshot, positionalNodes);
+
+            log.trace('Snapshot');
+            log.trace(snapshot);
+            log.trace('Positional nodes');
+            log.trace(positionalNodes);
+            log.trace('Links');
+            log.trace(links);
 
             var data = d3.select('svg')
                 .selectAll('circle')

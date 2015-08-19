@@ -1,6 +1,7 @@
 var visualTree = angular.module('visualTree', []);
 
 visualTree.controller('MainCtrl', function () {
+    log.info('Angular controller initializes');
     var vm = this;
 
     vm.treeType = 'bst';
@@ -8,12 +9,16 @@ visualTree.controller('MainCtrl', function () {
     vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
 
     // !!
-    (function() {
+    (function () {
         var $svg = $('svg');
         var $body = $('body');
 
-        $svg.height($body.height() * 0.7);
-        $svg.width($body.width() * 0.8);
+        var newHeight = $body.height() * 0.7;
+        var newWidth = $body.width() * 0.8;
+        log.info('Setting svg size to ' + newHeight + 'x' + newWidth);
+
+        $svg.height(newHeight);
+        $svg.width(newWidth);
     })();
     vm.animatedTree.update();
     // !!
