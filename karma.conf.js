@@ -20,6 +20,7 @@ module.exports = function (config) {
 
             'app/bst/*BST*.js',
             'app/heap/*Heap*.js',
+            'app/rb/*RB*.js',
             'app/FakeSnapshotCollector.js',
             'tests/*.js',
             'bower_components/d3/d3.js',
