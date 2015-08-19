@@ -33,26 +33,33 @@
 
 <div class="container">
 
-    <div class="row">
-        <button class="btn btn-block btn-info btn-sm" ng-class="{active: vm.treeType === 'bst'}"
-                ng-click="vm.setTreeType('bst')">
-            BST
-        </button>
-        <button class="btn btn-block btn-info btn-sm" ng-class="{active: vm.treeType === 'heap'}"
-                ng-click="vm.setTreeType('heap')">
-            Heap
-        </button>
-    </div>
+    <!-- from bootstrap docs -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                </button>
+                <a class="navbar-brand" href="#">VisualTree</a>
+            </div>
 
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{active: vm.treeType === 'bst'}">
+                        <a href ng-click="vm.setTreeType('bst')">BST</a>
+                    </li>
 
-    <div class="row" ng-show="vm.treeType === 'bst'">
-        <h1 class="text-center">Binary tree demo</h1>
-    </div>
+                    <li ng-class="{active: vm.treeType === 'heap'}">
+                        <a href ng-click="vm.setTreeType('heap')">Heap</a>
+                    </li>
+                </ul>
 
-    <div class="row" ng-show="vm.treeType === 'heap'">
-        <h1 class="text-center">Heap demo</h1>
-    </div>
-
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li><a href="#">Example link</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="row" ng-show="vm.treeType === 'bst'">
         <div class="col-md-6 col-md-offset-3">
