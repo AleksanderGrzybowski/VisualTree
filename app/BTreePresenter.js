@@ -113,16 +113,20 @@ var BTreePresenter = (function () {
             var snapshots = snc.snapshots;
             console.log('AnimatedBTree.animation snapshots.length=' + snapshots.length);
 
-            var idx = 0;
+            BTreePresenter.update(snapshots[0]);
+            $('#explanation').text(snapshots[0].text || '');
+
+            var idx = 1;
             var timerId = setInterval(function () {
+                if (idx >= snapshots.length) {
+                    clearInterval(timerId);
+                    return;
+                }
+
                 console.log('AnimatedBTree.animation going through idx=' + idx);
                 var snapshot = snapshots[idx++];
                 $('#explanation').text(snapshot.text || '');
                 BTreePresenter.update(snapshot);
-
-                if (idx === snapshots.length) {
-                    clearInterval(timerId);
-                }
             }, CONFIG.delay);
         },
 

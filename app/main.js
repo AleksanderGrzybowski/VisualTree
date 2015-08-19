@@ -1,11 +1,3 @@
-$(function () {
-    var $svg = $('svg');
-    var $body = $('body');
-
-    $svg.height($body.height() * 0.7);
-    $svg.width($body.width() * 0.8);
-});
-
 var visualTree = angular.module('visualTree', []);
 
 visualTree.controller('MainCtrl', function () {
@@ -16,6 +8,13 @@ visualTree.controller('MainCtrl', function () {
     vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
 
     // !!
+    (function() {
+        var $svg = $('svg');
+        var $body = $('body');
+
+        $svg.height($body.height() * 0.7);
+        $svg.width($body.width() * 0.8);
+    })();
     vm.animatedTree.update();
     // !!
 
