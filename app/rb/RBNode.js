@@ -93,3 +93,17 @@ RBNode.prototype.insertCase3 = function () {
         throw new Error("this.insertCase4() TODO");
     }
 };
+
+RBNode.prototype.rotateLeft = function () {
+    var g = this.parent;
+    var p = this;
+    var n = this.right;
+    var savedLeftN = n.left;
+
+    g.left = n;
+    n.parent = g;
+    n.left = p;
+    p.parent = n;
+    p.right = savedLeftN;
+    savedLeftN.parent = p;
+};
