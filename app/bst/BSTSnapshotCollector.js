@@ -1,9 +1,9 @@
 /**
- * @param {BSTNode} root
+ * @param {BSTree} tree
  * @constructor
  */
-function BSTSnapshotCollector(root) {
-    this.root = root;
+function BSTSnapshotCollector(tree) {
+    this.tree = tree;
     this.snapshots = [];
 }
 
@@ -11,7 +11,7 @@ function BSTSnapshotCollector(root) {
  * @param {string} text
  */
 BSTSnapshotCollector.prototype.add = function (text) {
-    var cloned = _.clone(this.root, true);
+    var cloned = _.clone(this.tree.root, true);
     cloned.text = text;
     this.snapshots.push(cloned);
 };
