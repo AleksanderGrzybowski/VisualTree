@@ -138,7 +138,13 @@ var BTreePresenter = (function () {
 
                 log.info('Animation idx = ' + idx);
                 var snapshot = snapshots[idx++];
-                $('#explanation').text(snapshot.text || '');
+
+                var text = '';
+                if (snapshot !== null && snapshot.text) {
+                    text = snapshot.text;
+                }
+                $('#explanation').text(text);
+
                 BTreePresenter.update(snapshot);
             }, CONFIG.delay);
         },

@@ -12,6 +12,8 @@ function BSTSnapshotCollector(tree) {
  */
 BSTSnapshotCollector.prototype.add = function (text) {
     var cloned = _.clone(this.tree.root, true);
-    cloned.text = text;
+    if (cloned != null) {
+        cloned.text = text;
+    }
     this.snapshots.push(cloned);
 };
