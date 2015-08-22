@@ -126,7 +126,10 @@ Heap.prototype.deleteMin = function (snc) {
     if (this.data.length === 1) { // TODO refactor this in 2 places
         return;
     } else if (this.data.length == 2) { // delete root
+        this.data[1].visual = 'current';
+        snc.add('Removing root');
         this.data.removeAt(1);
+        snc.add('Removed');
         return;
     }
     this.data[1].visual = 'current';
