@@ -95,6 +95,11 @@ RBNode.prototype.insertCase3 = function () {
 };
 
 RBNode.prototype.rotateLeft = function () {
+    if (this.parent === null) { // rotating root
+        this.tree.rotateLeftRoot();
+        return;
+    }
+
     var g = this.parent;
     var p = this;
     var n = this.right;
