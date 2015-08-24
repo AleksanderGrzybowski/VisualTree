@@ -239,6 +239,41 @@ describe('RBTree.rotateRight', function () {
     });
 
     it('should work while performed on root', function () {
-        // TODO
+        var tree = new RBTree();
+
+        // accessing 'private'
+        tree.add(4); // this will add tree wrapper
+
+        var root = tree.root;
+
+        root.left = new RBNode(2);
+        root.left.parent = root.left;
+
+        root.left.left = new RBNode(1);
+        root.left.left.parent = root.left;
+
+        root.left.right = new RBNode(3);
+        root.left.right.parent = root.left;
+
+        root.right = new RBNode(5);
+        root.right.parent = root;
+
+        root.rotateRight();
+        root = tree.root;
+
+        expect(root.value).toBe(2);
+        expect(root.parent).toBe(null);
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.parent).toBe(root);
+
+        expect(root.right.value).toBe(4);
+        expect(root.right.parent).toBe(root);
+
+        expect(root.right.left.value).toBe(3);
+        expect(root.right.left.parent).toBe(root.right);
+
+        expect(root.right.right.value).toBe(5);
+        expect(root.right.right.parent).toBe(root.right);
     })
 });

@@ -23,3 +23,14 @@ RBTree.prototype.rotateLeftRoot = function () {
     this.root.left.right = b;
     this.root.left.right.parent = this.root.left;
 };
+
+RBTree.prototype.rotateRightRoot = function () {
+    var b = this.root.left.right;
+    this.root.left.right = this.root;
+    this.root.left.right.parent = this.root.left;
+
+    this.root = this.root.left;
+    this.root.parent = null;
+    this.root.right.left = b;
+    this.root.right.left.parent = this.root.right;
+};

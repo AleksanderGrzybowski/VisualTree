@@ -114,6 +114,11 @@ RBNode.prototype.rotateLeft = function () {
 };
 
 RBNode.prototype.rotateRight = function () {
+    if (this.parent === null) { // rotating root
+        this.tree.rotateRightRoot();
+        return;
+    }
+
     var g = this.parent;
     var n = this;
     var p = this.left;
