@@ -1,7 +1,16 @@
-describe('RBNode creation', function () {
-    it('should create tree with 1 element', function () {
-        var root = new RBNode(5);
+describe('RBTree creation', function () {
+    it('should create empty tree', function () {
+        var tree = new RBTree();
 
+        expect(tree.root).toBe(null);
+    });
+
+    it('should create tree with 1 element', function () {
+        var tree = new RBTree();
+        tree.add(5);
+        var root = tree.root;
+
+        expect(root).not.toBeNull();
         expect(root.value).toBe(5);
         expect(root.color).toBe('black');
         expect(root.isNil).toBe(false);
@@ -17,10 +26,12 @@ describe('RBNode creation', function () {
     });
 });
 
-describe('RBNode.add', function () {
+describe('RBTree.add', function () {
     it('should add 1 element on the left, simplest case', function () {
-        var root = new RBNode(2);
-        root.add(1);
+        var tree = new RBTree();
+        tree.add(2);
+        tree.add(1);
+        var root = tree.root;
 
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
@@ -39,9 +50,11 @@ describe('RBNode.add', function () {
     });
 
     it('should add 2 elements on both sides, simplest case', function () {
-        var root = new RBNode(2);
-        root.add(1);
-        root.add(3);
+        var tree = new RBTree();
+        tree.add(2);
+        tree.add(1);
+        tree.add(3);
+        var root = tree.root;
 
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
@@ -68,11 +81,12 @@ describe('RBNode.add', function () {
     });
 
     it('should add element on the left left, case 3, double recoloring', function () {
-        var root = new RBNode(3);
-        root.add(2);
-        root.add(4);
-
-        root.add(1);
+        var tree = new RBTree();
+        tree.add(3);
+        tree.add(2);
+        tree.add(4);
+        tree.add(1);
+        var root = tree.root;
 
         expect(root.color).toBe('black');
         expect(root.left.color).toBe('black');
