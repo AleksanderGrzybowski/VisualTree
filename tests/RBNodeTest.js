@@ -92,6 +92,37 @@ describe('RBTree.add', function () {
         expect(root.left.color).toBe('black');
         expect(root.right.color).toBe('black');
         expect(root.left.left.color).toBe('red');
+    });
+
+    it('should work for example wikipedia:RBT:case4 and case5', function () {
+        var tree = new RBTree();
+        tree.add(3);
+        tree.add(1);
+        tree.add(4);
+        tree.root.left.color = 'red'; // modify to match
+        tree.root.right.color = 'black';
+
+
+        tree.add(2);
+        var root = tree.root;
+
+        expect(root.value).toBe(2);
+        expect(root.color).toBe('black');
+        expect(root.parent).toBe(null);
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.color).toBe('red');
+        expect(root.left.parent).toBe(root);
+
+        expect(root.right.value).toBe(3);
+        expect(root.right.color).toBe('red');
+        expect(root.right.parent).toBe(root);
+
+        expect(root.right.right.value).toBe(4);
+        expect(root.right.right.color).toBe('black');
+        expect(root.right.right.parent).toBe(root.right);
+
+
     })
 });
 

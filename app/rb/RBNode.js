@@ -90,7 +90,32 @@ RBNode.prototype.insertCase3 = function () {
         gnp.color = 'red';
         gnp.insertCase1();
     } else {
-        throw new Error("this.insertCase4() TODO");
+        this.insertCase4();
+    }
+};
+
+RBNode.prototype.insertCase4 = function () {
+    var g = this.grandparent();
+    var n = this;
+    if (n === n.parent.right && n.parent === g.left) {
+        n.parent.rotateLeft();
+        n = n.left;
+    } else if (n === n.parent.left && n.parent === g.right) {
+        n.parent.rotateRight();
+        n = n.right;
+    }
+    n.insertCase5();
+};
+
+RBNode.prototype.insertCase5 = function () {
+    var g = this.grandparent();
+    var n = this;
+    n.parent.color = 'black';
+    g.color = 'red';
+    if (n === n.parent.left) {
+        g.rotateRight();
+    } else {
+        g.rotateLeft();
     }
 };
 
