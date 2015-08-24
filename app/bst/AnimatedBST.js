@@ -4,8 +4,8 @@
  */
 function AnimatedBST(initialElements) {
 
-    this.tree = new BSTNode(initialElements[0]);
-    for (var i = 1; i < initialElements.length; ++i) {
+    this.tree = new BSTree();
+    for (var i = 0; i < initialElements.length; ++i) {
         this.tree.add(initialElements[i], new FakeSnapshotCollector());
     }
 

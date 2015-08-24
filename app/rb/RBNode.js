@@ -95,6 +95,11 @@ RBNode.prototype.insertCase3 = function () {
 };
 
 RBNode.prototype.rotateLeft = function () {
+    if (this.parent === null) { // rotating root
+        this.tree.rotateLeftRoot();
+        return;
+    }
+
     var g = this.parent;
     var p = this;
     var n = this.right;
@@ -106,4 +111,23 @@ RBNode.prototype.rotateLeft = function () {
     p.parent = n;
     p.right = savedLeftN;
     savedLeftN.parent = p;
+};
+
+RBNode.prototype.rotateRight = function () {
+    if (this.parent === null) { // rotating root
+        this.tree.rotateRightRoot();
+        return;
+    }
+
+    var g = this.parent;
+    var n = this;
+    var p = this.left;
+    var savedRightP = p.right;
+
+    g.left = p;
+    p.parent = g;
+    p.right = n;
+    n.parent = p;
+    n.left = savedRightP;
+    savedRightP.parent = n;
 };

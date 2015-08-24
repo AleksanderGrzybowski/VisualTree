@@ -40,6 +40,10 @@ Heap.prototype.toArray = function () {
  * @returns {HeapNode}
  */
 Heap.prototype.toTree = function (that, k) {
+    if (this.data.length === 1) { // empty
+        return null;
+    }
+
     if (arguments.length == 0) {
         var root = new HeapNode(this.data[1].value, this.data[1].visual);
         this.toTree(root, 1);
@@ -119,6 +123,15 @@ Heap.prototype.addAll = function (elements) {
 
 // http://www.algolist.net/Data_structures/Binary_heap/Remove_minimum
 Heap.prototype.deleteMin = function (snc) {
+    if (this.data.length === 1) { // TODO refactor this in 2 places
+        return;
+    } else if (this.data.length == 2) { // delete root
+        this.data[1].visual = 'current';
+        snc.add('Removing root');
+        this.data.removeAt(1);
+        snc.add('Removed');
+        return;
+    }
     this.data[1].visual = 'current';
     this.data[this.data.length - 1].visual = 'current';
     snc.add('Removing root (' + this.data[1].value + '), replacing it with the last element ('

@@ -13,6 +13,9 @@ function HeapSnapshotCollector(heap) {
 HeapSnapshotCollector.prototype.add = function (text) {
     //noinspection JSCheckFunctionSignatures
     var cloned = _.clone(this.heap.toTree(), true);
-    cloned.text = text;
+    if (cloned !== null) {
+        cloned.text = text;
+    }
+
     this.snapshots.push(cloned);
 };

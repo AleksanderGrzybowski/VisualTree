@@ -33,6 +33,10 @@ var BTreePresenter = (function () {
             return toPositionalNodesArray(node, 0.5, 0)
         }
 
+        if (node === null) {
+            return [];
+        }
+
         var arr = [];
 
         arr.push({
@@ -67,6 +71,10 @@ var BTreePresenter = (function () {
         // maybe it should be like first>positionalNode>(x,y)
         // this would couple functions to-links and to-nodes
         // but maybe could be shorter...
+
+        if (node === null) {
+            return [];
+        }
 
         if (node.left !== null) {
             arr.push({
@@ -113,6 +121,11 @@ var BTreePresenter = (function () {
             var snapshots = snc.snapshots;
             log.info('Animation starts len = ' + snapshots.length);
 
+            if (snapshots.length === 0) {
+                BTreePresenter.update(null); // TODO sth better?
+                return;
+            }
+
             BTreePresenter.update(snapshots[0]);
             $('#explanation').text(snapshots[0].text || '');
 
@@ -125,7 +138,13 @@ var BTreePresenter = (function () {
 
                 log.info('Animation idx = ' + idx);
                 var snapshot = snapshots[idx++];
-                $('#explanation').text(snapshot.text || '');
+
+                var text = '';
+                if (snapshot !== null && snapshot.text) {
+                    text = snapshot.text;
+                }
+                $('#explanation').text(text);
+
                 BTreePresenter.update(snapshot);
             }, CONFIG.delay);
         },
