@@ -29,8 +29,7 @@ describe('RBTree creation', function () {
 describe('RBTree.add', function () {
     it('should add 1 element on the left, simplest case', function () {
         var tree = new RBTree();
-        tree.add(2);
-        tree.add(1);
+        tree.addAll([2, 1]);
         var root = tree.root;
 
         expect(root.value).toBe(2);
@@ -51,9 +50,7 @@ describe('RBTree.add', function () {
 
     it('should add 2 elements on both sides, simplest case', function () {
         var tree = new RBTree();
-        tree.add(2);
-        tree.add(1);
-        tree.add(3);
+        tree.addAll([2, 1, 3]);
         var root = tree.root;
 
         expect(root.value).toBe(2);
@@ -82,10 +79,7 @@ describe('RBTree.add', function () {
 
     it('should add element on the left left, case 3, double recoloring', function () {
         var tree = new RBTree();
-        tree.add(3);
-        tree.add(2);
-        tree.add(4);
-        tree.add(1);
+        tree.addAll([3, 2, 4, 1]);
         var root = tree.root;
 
         expect(root.color).toBe('black');
@@ -96,16 +90,15 @@ describe('RBTree.add', function () {
 
     it('should work for example wikipedia:RBT:case4 and case5', function () {
         var tree = new RBTree();
-        tree.add(3);
-        tree.add(1);
-        tree.add(4);
+        tree.addAll([3, 1, 4]);
         tree.root.left.color = 'red'; // modify to match
         tree.root.right.color = 'black';
-
-
+        
+        
         tree.add(2);
         var root = tree.root;
 
+        
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
         expect(root.parent).toBe(null);

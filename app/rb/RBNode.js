@@ -1,18 +1,34 @@
+/**
+ * @param {RBNode} parent
+ * @constructor
+ */
 function RBNil(parent) {
     this.value = 666;
     this.color = 'black';
 
     this.parent = parent;
+
     // no left nor right - will throw error if misused
 }
 
 RBNil.prototype.isNil = true;
 
+//------------------------------------------------------------
 
-
+/**
+ * @param {number} value
+ * @constructor
+ */
 function RBNode(value) {
     this.value = value;
-    this.color = 'black'; // root is black, first new call
+
+    // this will be set on creation
+    this.color = undefined;
+
+    // the root node will be given this property
+    // when tree is constructed
+    // also shuts up Intellij about missing method (?)
+    this.tree = undefined;
 
     this.left = new RBNil(this);
     this.right = new RBNil(this);
@@ -21,6 +37,9 @@ function RBNode(value) {
 
 RBNode.prototype.isNil = false;
 
+/**
+ * @param {number} value
+ */
 RBNode.prototype.add = function (value) {
     if (value < this.value) { // on the left
         if (this.left.isNil) {
@@ -41,32 +60,37 @@ RBNode.prototype.add = function (value) {
             this.right.add(value);
         }
     }
-    // already here - do nothing
+    // duplicates not allowed
 };
 
+/**
+ * @returns {RBNode}
+ */
 RBNode.prototype.grandparent = function () {
-    if (this.parent != null) {
+    if (this.parent !== null) {
         return this.parent.parent; // asssumes root.parent == null
     } else {
         return null;
     }
 };
 
+/**
+ * @returns {RBNode}
+ */
 RBNode.prototype.uncle = function () {
-    var gnp = this.grandparent();
+    var g = this.grandparent();
 
-    if (gnp == null) {
+    if (g === null) {
         return null;
-    }
-    if (this.parent == gnp.left) {
-        return gnp.right;
+    } else if (this.parent === g.left) {
+        return g.right;
     } else {
-        return gnp.left;
+        return g.left;
     }
 };
 
 RBNode.prototype.insertCase1 = function () {
-    if (this.parent == null) {
+    if (this.parent === null) {
         this.color = 'black';
     } else {
         this.insertCase2();
@@ -74,21 +98,20 @@ RBNode.prototype.insertCase1 = function () {
 };
 
 RBNode.prototype.insertCase2 = function () {
-    if (this.parent.color != 'black') {
+    if (this.parent.color !== 'black') {
         this.insertCase3();
     }
 };
 
 RBNode.prototype.insertCase3 = function () {
-    var uncle = this.uncle();
-    var gnp;
+    var u = this.uncle();
 
-    if ((uncle != null) && uncle.color == 'red') {
+    if (u !== null && u.color === 'red') {
         this.parent.color = 'black';
-        uncle.color = 'black';
-        gnp = this.grandparent();
-        gnp.color = 'red';
-        gnp.insertCase1();
+        u.color = 'black';
+        var g = this.grandparent();
+        g.color = 'red';
+        g.insertCase1();
     } else {
         this.insertCase4();
     }
@@ -97,6 +120,7 @@ RBNode.prototype.insertCase3 = function () {
 RBNode.prototype.insertCase4 = function () {
     var g = this.grandparent();
     var n = this;
+
     if (n === n.parent.right && n.parent === g.left) {
         n.parent.rotateLeft();
         n = n.left;
@@ -110,8 +134,10 @@ RBNode.prototype.insertCase4 = function () {
 RBNode.prototype.insertCase5 = function () {
     var g = this.grandparent();
     var n = this;
+
     n.parent.color = 'black';
     g.color = 'red';
+
     if (n === n.parent.left) {
         g.rotateRight();
     } else {

@@ -5,9 +5,16 @@ function RBTree() {
 RBTree.prototype.add = function (value) {
     if (this.root === null) {
         this.root = new RBNode(value);
+        this.root.color = 'black';
         this.root.tree = this; // !!!
     } else {
        this.root.add(value);
+    }
+};
+
+RBTree.prototype.addAll = function (arr) {
+    for (var i = 0; i < arr.length; ++i) {
+        this.add(arr[i]);
     }
 };
 
