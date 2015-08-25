@@ -64,7 +64,10 @@ var BTreePresenter = (function () {
         var arr = [];
 
         var getPositionalNode = function (node, nodesArray) {
-            return _.find(nodesArray, {node: node});
+            for (var i = 0; i < nodesArray.length; ++i) {
+                if (nodesArray[i].node === node) return nodesArray[i];
+            }
+            throw new Error();
         };
 
         // here we duplicate some data,
