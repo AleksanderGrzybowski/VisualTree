@@ -8,7 +8,8 @@ function RBNil(parent) {
 
     this.parent = parent;
 
-    // no left nor right - will throw error if misused
+    // this is needed by visualization functions
+    this.left = this.right = null;
 }
 
 RBNil.prototype.isNil = true;
