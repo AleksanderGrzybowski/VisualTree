@@ -6,30 +6,27 @@ function AnimatedHeap(initialElements) {
 
     this.heap = new Heap();
     for (var i = 0; i < initialElements.length; ++i) {
-        this.heap.add(initialElements[i], new FakeSnapshotCollector()); //TODO typing fix
+        this.heap.add(initialElements[i]); //TODO typing fix
     }
 
     this.update = function () {
-        var snc = new HeapSnapshotCollector(this.heap);
-        snc.add('');
-
-        BTreePresenter.runAnimation(snc);
+        SNC.init(this.heap, 'heap');
+        SNC.add('');
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 
     /**
      * @param {number} what
      */
     this.add = function (what) {
-        var snc = new HeapSnapshotCollector(this.heap);
-
-        this.heap.add(what, snc);
-        BTreePresenter.runAnimation(snc)
+        SNC.init(this.heap, 'heap');
+        this.heap.add(what);
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 
     this.deleteMin = function () {
-        var snc = new HeapSnapshotCollector(this.heap);
-
-        this.heap.deleteMin(snc);
-        BTreePresenter.runAnimation(snc)
+        SNC.init(this.heap, 'heap');
+        this.heap.deleteMin();
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 }

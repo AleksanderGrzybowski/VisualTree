@@ -114,11 +114,7 @@ var BTreePresenter = (function () {
     }
 
     return {
-        /**
-         * @param {BSTSnapshotCollector|HeapSnapshotCollector} snc
-         */
-        runAnimation: function (snc) {
-            var snapshots = snc.snapshots;
+        runAnimation: function (snapshots) {
             log.info('Animation starts len = ' + snapshots.length);
 
             if (snapshots.length === 0) {

@@ -6,40 +6,36 @@ function AnimatedBST(initialElements) {
 
     this.tree = new BSTree();
     for (var i = 0; i < initialElements.length; ++i) {
-        this.tree.add(initialElements[i], new FakeSnapshotCollector());
+        this.tree.add(initialElements[i]);
     }
 
     this.update = function () {
-        var snc = new BSTSnapshotCollector(this.tree);
-        snc.add('');
-
-        BTreePresenter.runAnimation(snc);
+        SNC.init(this.tree, 'bst');
+        SNC.add('');
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 
     /**
      * @param {number} what
      */
     this.add = function (what) {
-        var snc = new BSTSnapshotCollector(this.tree);
-
-        this.tree.add(what, snc);
-        BTreePresenter.runAnimation(snc)
+        SNC.init(this.tree, 'bst');
+        this.tree.add(what);
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 
     /**
      * @param {number} what
      */
     this.delete = function (what) {
-        var snc = new BSTSnapshotCollector(this.tree);
-
-        this.tree.delete(what, snc);
-        BTreePresenter.runAnimation(snc)
+        SNC.init(this.tree, 'bst');
+        this.tree.delete(what);
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable());
     };
 
     this.inorder = function () {
-        var snc = new BSTSnapshotCollector(this.tree);
-
-        this.tree.inorder(snc);
-        BTreePresenter.runAnimation(snc)
+        SNC.init(this.tree, 'bst');
+        this.tree.inorder();
+        BTreePresenter.runAnimation(SNC.getSnapshotsAndDisable())
     };
 }

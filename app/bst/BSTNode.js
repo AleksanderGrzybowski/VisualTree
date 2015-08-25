@@ -33,12 +33,11 @@ BSTNode.prototype.findRoot = function () {
 
 /**
  * @param {number} value
- * @param {Object} snc
  * @returns {BSTNode}
  */
-BSTNode.prototype.add = function (value, snc) {
+BSTNode.prototype.add = function (value) {
     this.visual = 'current';
-    snc.add('Visiting node ' + this.value);
+    SNC.add('Visiting node ' + this.value);
 
     if (value < this.value) {
         if (this.left === null) {
@@ -47,13 +46,13 @@ BSTNode.prototype.add = function (value, snc) {
 
             this.left.visual = 'current';
             this.visual = '';
-            snc.add('Creating new on the left');
+            SNC.add('Creating new on the left');
             this.left.visual = '';
-            snc.add('Done');
+            SNC.add('Done');
         } else {
-            snc.add('Item to add is smaller than current, going left');
+            SNC.add('Item to add is smaller than current, going left');
             this.visual = '';
-            this.left.add(value, snc);
+            this.left.add(value);
         }
     } else if (value > this.value) {
         if (this.right === null) {
@@ -62,47 +61,44 @@ BSTNode.prototype.add = function (value, snc) {
 
             this.right.visual = 'current';
             this.visual = '';
-            snc.add('Creating new on the right');
+            SNC.add('Creating new on the right');
             this.right.visual = '';
-            snc.add('Done');
+            SNC.add('Done');
         } else {
-            snc.add('Item to add is larger than current, going right');
+            SNC.add('Item to add is larger than current, going right');
             this.visual = '';
-            this.right.add(value, snc);
+            this.right.add(value);
         }
     } else {
         this.visual = 'current';
-        snc.add('Found duplicate, nothing to do.');
+        SNC.add('Found duplicate, nothing to do.');
         this.visual = '';
-        snc.add('Found duplicate, nothing to do.');
+        SNC.add('Found duplicate, nothing to do.');
     }
 
     return this;
 };
 
-/**
- * @param {Object} snc
- */
-BSTNode.prototype.inorder = function (snc) {
+BSTNode.prototype.inorder = function () {
     if (this.left !== null) {
         this.visual = 'intermediate';
-        snc.add('Going left');
+        SNC.add('Going left');
 
-        this.left.inorder(snc);
+        this.left.inorder();
     }
 
     this.visual = 'current';
-    snc.add('Visiting ' + this.value);
+    SNC.add('Visiting ' + this.value);
 
     if (this.right !== null) {
         this.visual = 'intermediate';
-        snc.add('Going right');
+        SNC.add('Going right');
 
-        this.right.inorder(snc);
+        this.right.inorder();
     }
 
     this.visual = '';
-    snc.add('Going back');
+    SNC.add('Going back');
 };
 
 /**
@@ -118,38 +114,37 @@ BSTNode.prototype.minValue = function () {
 
 /**
  * @param {number} value
- * @param {Object} snc
  */
-BSTNode.prototype.delete = function (value, snc) {
+BSTNode.prototype.delete = function (value) {
     this.visual = 'intermediate';
-    snc.add('Is this the one to delete? ' + this.value);
+    SNC.add('Is this the one to delete? ' + this.value);
 
     if (this.value !== value) {
-        snc.add('This is not the one to delete, going left or right?');
+        SNC.add('This is not the one to delete, going left or right?');
 
         if (value < this.value) {
-            snc.add('Going left');
+            SNC.add('Going left');
 
             if (this.left !== null) {
-                this.left.delete(value, snc);
+                this.left.delete(value);
                 this.visual = '';
-                snc.add('Going back');
+                SNC.add('Going back');
             } else {
-                snc.add('Node not found on the left');
+                SNC.add('Node not found on the left');
                 this.visual = '';
-                snc.add('Going back');
+                SNC.add('Going back');
             }
         } else if (value > this.value) {
-            snc.add('Going right');
+            SNC.add('Going right');
 
             if (this.right !== null) {
-                this.right.delete(value, snc);
+                this.right.delete(value);
                 this.visual = '';
-                snc.add('Going back');
+                SNC.add('Going back');
             } else {
-                snc.add('Node not found on the right');
+                SNC.add('Node not found on the right');
                 this.visual = '';
-                snc.add('Going back');
+                SNC.add('Going back');
             }
         }
     } else {
@@ -157,10 +152,10 @@ BSTNode.prototype.delete = function (value, snc) {
         // remember where ref and where val
 
         this.visual = 'current';
-        snc.add('This is the one to delete');
+        SNC.add('This is the one to delete');
 
         if (this.left === null && this.right === null) {
-            snc.add('No children - removing!');
+            SNC.add('No children - removing!');
 
             // remove itself using parent link, but
             // must know if is is left or right
@@ -174,9 +169,9 @@ BSTNode.prototype.delete = function (value, snc) {
                 throw new Error();
             }
 
-            snc.add('Done');
+            SNC.add('Done');
         } else if (this.left === null && this.right !== null) {
-            snc.add('Child on the right - removing!');
+            SNC.add('Child on the right - removing!');
 
             if (this === this.parent.left) {
                 this.right.parent = this.parent;
@@ -188,9 +183,9 @@ BSTNode.prototype.delete = function (value, snc) {
                 throw new Error();
             }
 
-            snc.add('Done');
+            SNC.add('Done');
         } else if (this.left !== null && this.right === null) {
-            snc.add('Child on the left - removing!');
+            SNC.add('Child on the left - removing!');
 
             if (this === this.parent.left) {
                 this.left.parent = this.parent;
@@ -202,25 +197,25 @@ BSTNode.prototype.delete = function (value, snc) {
                 throw new Error();
             }
 
-            snc.add('Done');
+            SNC.add('Done');
         } else {
             //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
 
-            snc.add('Searching for minimum value in the right subtree...');
+            SNC.add('Searching for minimum value in the right subtree...');
             var min = this.right.minValue();
 
-            snc.add('We have minimum ' + min);
+            SNC.add('We have minimum ' + min);
 
             // replace value of the node to be removed with found min
             this.value = min;
-            snc.add('Replace current node value with found minimum');
+            SNC.add('Replace current node value with found minimum');
             // apply remove to the right subtree to remove a duplicate
 
             this.visual = 'intermediate';
-            snc.add('Running remove recursively on the right subtree');
-            this.right.delete(min, snc);
+            SNC.add('Running remove recursively on the right subtree');
+            this.right.delete(min);
             this.visual = '';
-            snc.add('Going back');
+            SNC.add('Going back');
         }
     }
 };
