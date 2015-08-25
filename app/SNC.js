@@ -21,7 +21,7 @@ var SNC = (function () {
 
             var cloned;
 
-            if (type === 'bst') {
+            if (type === 'bst' || type === 'rbt') {
                 cloned = _.clone(structure.root, true);
             } else if (type === 'heap') {
                 cloned = _.clone(structure.toTree(), true);

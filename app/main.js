@@ -50,6 +50,8 @@ visualTree.controller('MainCtrl', function () {
             vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
         } else if (vm.treeType === 'heap') {
             vm.animatedTree = new AnimatedHeap(CONFIG.defaultHeapElements);
+        } else if (vm.treeType === 'rbt') {
+            vm.animatedTree = new AnimatedRBT(CONFIG.defaultRBTElements);
         } else {
             throw new Error('Not yet implemented')
         }

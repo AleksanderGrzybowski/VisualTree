@@ -22,6 +22,10 @@
     <script src="heap/Heap.js"></script>
     <script src="heap/AnimatedHeap.js"></script>
 
+    <script src="rb/RBNode.js"></script>
+    <script src="rb/RBTree.js"></script>
+    <script src="rb/AnimatedRBT.js"></script>
+
     <script src="main.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -51,6 +55,10 @@
 
                     <li ng-class="{active: vm.treeType === 'heap'}">
                         <a href ng-click="vm.setTreeType('heap')">Heap</a>
+                    </li>
+
+                    <li ng-class="{active: vm.treeType === 'rbt'}">
+                        <a href ng-click="vm.setTreeType('rbt')">Red-black tree</a>
                     </li>
                 </ul>
 
@@ -92,6 +100,18 @@
         </div>
     </div>
 
+    <div class="row" ng-show="vm.treeType === 'rbt'">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="number">Number:</label>
+                    <input type="text" class="form-control" id="number" ng-model="vm.number">
+                </div>
+
+                <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
+            </form>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12" id="svg-container">
