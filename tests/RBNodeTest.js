@@ -116,6 +116,28 @@ describe('RBTree.add', function () {
         expect(root.right.right.parent).toBe(root.right);
 
 
+    });
+
+    // TODO refactor this to rotating tests, add opposite case too!
+    it('should properly rotate independent on the position (left/right) of grandparent', function () {
+        var tree = new RBTree();
+        tree.addAll([5,1,8,9,10]);
+        var root = tree.root;
+
+        expect(root.value).toBe(5);
+        expect(root.color).toBe('black');
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.color).toBe('black');
+
+        expect(root.right.value).toBe(9);
+        expect(root.right.color).toBe('black');
+
+        expect(root.right.left.value).toBe(8);
+        expect(root.right.left.color).toBe('red');
+
+        expect(root.right.right.value).toBe(10);
+        expect(root.right.right.color).toBe('red');
     })
 });
 

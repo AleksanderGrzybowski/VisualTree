@@ -169,7 +169,7 @@ RBNode.prototype.insertCase4 = function () {
 
 RBNode.prototype.insertCase5 = function () {
     this.visual = '';
-    SNC.add('Case 4: parent is red and uncle is black, N is the left child of P');
+    SNC.add('Case 5: parent is red and uncle is black');
 
     var g = this.grandparent();
     var n = this;
@@ -202,7 +202,11 @@ RBNode.prototype.rotateLeft = function () {
     var n = this.right;
     var savedLeftN = n.left;
 
-    g.left = n;
+    if (p === g.left) {
+        g.left = n;
+    } else {
+        g.right = n;
+    }
     n.parent = g;
     n.left = p;
     p.parent = n;
