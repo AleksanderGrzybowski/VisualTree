@@ -215,22 +215,21 @@ var BTreePresenter = (function () {
                 .style('fill', 'none')
                 .style('stroke-width', 5)
                 .style('z-index', 3)
-                .style('stroke', function (d) {
-                    if (d.node.color !== undefined) { // red-black
-                        return d.node.color;
-                    }
+                .style('fill', function (d) {
                     switch (d.node.visual) {
                         case 'current':
-                            return 'red';
+                            return 'orange';
                         case 'intermediate':
-                            return 'blue';
-                        case '':
-                            return '#777777';
-                        case undefined:
-                            console.warn('Color not defined, defaulting to black');
-                            return 'black';
-                        default:
-                            throw new Error('Color not implemented!');
+                            return 'lightblue';
+                        default: // also for undefined
+                            return 'none';
+                    }
+                })
+                .style('stroke', function (d) {
+                    if (d.node.color !== undefined) { // for red-black
+                        return d.node.color;
+                    } else {
+                        return '#777777';
                     }
                 });
 
