@@ -3,7 +3,7 @@
  * @constructor
  */
 function RBNil(parent) {
-    this.value = 666;
+    this.value = -1;
     this.color = 'black';
 
     this.parent = parent;

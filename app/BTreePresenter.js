@@ -216,13 +216,16 @@ var BTreePresenter = (function () {
                 .style('stroke-width', 5)
                 .style('z-index', 3)
                 .style('stroke', function (d) {
+                    if (d.node.color !== undefined) { // red-black
+                        return d.node.color;
+                    }
                     switch (d.node.visual) {
                         case 'current':
                             return 'red';
                         case 'intermediate':
                             return 'blue';
                         case '':
-                            return 'black';
+                            return '#777777';
                         case undefined:
                             console.warn('Color not defined, defaulting to black');
                             return 'black';
@@ -237,7 +240,11 @@ var BTreePresenter = (function () {
                 .style('alignment-baseline', 'middle')
                 .style('dominant-baseline', 'middle')
                 .text(function (d) {
-                    return '' + d.node.value;
+                    if (d.node.value === -1) {
+                        return '~';
+                    } else {
+                        return '' + d.node.value;
+                    }
                 });
 
 
