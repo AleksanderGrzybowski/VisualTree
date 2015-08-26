@@ -222,14 +222,19 @@ RBNode.prototype.rotateRight = function () {
     }
 
     var g = this.parent;
-    var n = this;
-    var p = this.left;
-    var savedRightP = p.right;
+    var p = this;
+    var n = this.left;
+    var savedRightN = n.right;
 
-    g.left = p;
-    p.parent = g;
-    p.right = n;
-    n.parent = p;
-    n.left = savedRightP;
-    savedRightP.parent = n;
+    if (p === g.left) {
+        g.left = n;
+    } else {
+        g.right = n;
+    }
+
+    n.parent = g;
+    n.right = p;
+    p.parent = n;
+    p.left = savedRightN;
+    savedRightN.parent = p;
 };
