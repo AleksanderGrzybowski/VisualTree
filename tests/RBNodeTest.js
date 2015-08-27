@@ -1,4 +1,4 @@
-describe('RBTree creation', function () {
+describe('RBTree()', function () {
     it('should create empty tree', function () {
         var tree = new RBTree();
 

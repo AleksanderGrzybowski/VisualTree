@@ -1,4 +1,4 @@
-describe('BSTree.constructor', function () {
+describe('BSTree()', function () {
 
     it('should create 0-element tree', function () {
         var tree = new BSTree();
