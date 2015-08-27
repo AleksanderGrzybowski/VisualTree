@@ -145,7 +145,7 @@ var BTreePresenter = (function () {
                 $('#explanation').text(text);
 
                 BTreePresenter.update(snapshot);
-            }, CONFIG.delay);
+            }, angular.element('body').scope().vm.delay); // TODO better way?
         },
 
         /**

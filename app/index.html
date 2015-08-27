@@ -62,9 +62,13 @@
                     </li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <!--<li><a href="#">Example link</a></li>-->
-                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <label for="delay">Delay (ms)</label>
+                        <input type="text" id="delay" class="form-control" ng-model="vm.delay" />
+                    </div>
+                </form>
+
             </div>
         </div>
     </nav>

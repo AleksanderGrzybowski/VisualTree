@@ -4,6 +4,7 @@ visualTree.controller('MainCtrl', function () {
     log.info('Angular controller initializes');
     var vm = this;
 
+    vm.delay = 1000;
     vm.treeType = 'bst';
     vm.number = 13;
     vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
