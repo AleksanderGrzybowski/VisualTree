@@ -1,5 +1,12 @@
 describe('Heap.toTree', function () {
 
+    it('should create empty heap', function () {
+        var heap = new Heap();
+        var root = heap.toTree();
+
+        expect(root).toBeNull();
+    });
+
     it('should create heap with one element, no percolation', function () {
         var heap = new Heap();
         heap.addAll([1]);
@@ -60,6 +67,19 @@ describe('Heap.toTree', function () {
 });
 
 describe('Heap.add', function () {
+
+    it('should make empty heap', function () {
+        var heap = new Heap();
+
+        expect(heap.toArray()).toEqual([]);
+    });
+
+    it('should add 1 element', function () {
+        var heap = new Heap();
+        heap.add(1);
+
+        expect(heap.toArray()).toEqual([1]);
+    });
 
     it('should add two elements, with percolation', function () {
         var heap = new Heap();
