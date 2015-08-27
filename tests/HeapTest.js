@@ -1,4 +1,5 @@
 describe('Heap.toTree', function () {
+
     it('should create heap with one element, no percolation', function () {
         var heap = new Heap();
         heap.addAll([1]);
@@ -88,6 +89,7 @@ describe('Heap.add', function () {
         expect(heap.toArray()).toEqual([0, 4, 1, 7, 8, 6]);
     });
 });
+
 
 describe('Heap.deleteMin', function () {
     it('should delete root element in 1-element heap, no percolation', function () {

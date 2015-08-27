@@ -26,6 +26,9 @@ describe('RBTree creation', function () {
     });
 });
 
+/* Here insertion of the first element means assigning to root, that's
+   why counts in test names are off-by-1.
+ */
 describe('RBTree.add', function () {
     it('should add 1 element on the left, simplest case', function () {
         var tree = new RBTree();
@@ -93,12 +96,10 @@ describe('RBTree.add', function () {
         tree.addAll([3, 1, 4]);
         tree.root.left.color = 'red'; // modify to match
         tree.root.right.color = 'black';
-        
-        
-        tree.add(2);
-        var root = tree.root;
 
-        
+        tree.add(2);
+
+        var root = tree.root;
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
         expect(root.parent).toBe(null);
@@ -114,8 +115,6 @@ describe('RBTree.add', function () {
         expect(root.right.right.value).toBe(4);
         expect(root.right.right.color).toBe('black');
         expect(root.right.right.parent).toBe(root.right);
-
-
     });
 
     // TODO refactor this to rotating tests, add opposite case too!
@@ -201,7 +200,6 @@ describe('RBTree.rotateLeft', function () {
         tree.add(2); // this will add tree wrapper
 
         var root = tree.root;
-
         root.left = new RBNode(1);
         root.left.parent = root;
 

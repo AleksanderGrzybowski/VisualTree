@@ -11,6 +11,15 @@ BSTree.prototype.add = function (value) {
     }
 };
 
+/**
+ * @param {number[]} elements
+ */
+BSTree.prototype.addAll = function (elements) {
+    for (var i = 0; i < elements.length; ++i) {
+        this.add(elements[i]);
+    }
+};
+
 BSTree.prototype.inorder = function () {
     if (this.root !== null) {
         this.root.inorder();
