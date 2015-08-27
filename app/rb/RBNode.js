@@ -44,7 +44,9 @@ RBNode.prototype.isNil = false;
 RBNode.prototype.add = function (value) {
     this.visual = 'current';
     SNC.add('Visiting node (' + this.value + ')');
+    SNC.add('Comparing: (' + value + ') ? (' + this.value + ')');
     if (value < this.value) { // on the left
+        SNC.add('Comparing: (' + value + ') < (' + this.value + '), so left');
         if (this.left.isNil) {
             this.left = new RBNode(value);
             this.left.parent = this;
@@ -53,11 +55,12 @@ RBNode.prototype.add = function (value) {
             this.visual = '';
             this.left.insertCase1();
         } else {
-            SNC.add('Going left');
+            SNC.add('Following left');
             this.visual = '';
             this.left.add(value);
         }
     } else if (value > this.value) { // right
+        SNC.add('Comparing: (' + value + ') > (' + this.value + '), so right');
         if (this.right.isNil) {
             this.right = new RBNode(value);
             this.right.parent = this;
@@ -66,12 +69,14 @@ RBNode.prototype.add = function (value) {
             this.visual = '';
             this.right.insertCase1();
         } else {
-            SNC.add('Going right');
+            SNC.add('Following right');
             this.visual = '';
             this.right.add(value);
         }
+    } else {
+        this.visual = '';
+        SNC.add('Found duplicate, finished');
     }
-    // duplicates not allowed
 };
 
 /**
@@ -118,7 +123,7 @@ RBNode.prototype.insertCase2 = function () {
     this.visual = 'current';
     SNC.add('Case 2: is the parent black?');
     if (this.parent.color !== 'black') {
-        SNC.add('The parent is red, going to case 3');
+        SNC.add('It isn\'t black, going to case 3');
         this.visual = '';
         this.insertCase3();
     } else {
@@ -129,7 +134,7 @@ RBNode.prototype.insertCase2 = function () {
 
 RBNode.prototype.insertCase3 = function () {
     this.visual = 'current';
-    SNC.add('Case 3: are the parent and the uncle red?');
+    SNC.add('Case 3: are the parent and the uncle both red?');
     var u = this.uncle();
 
     if (u !== null && u.color === 'red') {
@@ -148,8 +153,8 @@ RBNode.prototype.insertCase3 = function () {
 };
 
 RBNode.prototype.insertCase4 = function () {
-    this.visual = '';
-    SNC.add('Case 4: parent is red and uncle is black, N is the right child of P');
+    this.visual = 'current';
+    SNC.add('Case 4: parent is red and uncle is black');
     var g = this.grandparent();
     var n = this;
 
@@ -168,7 +173,7 @@ RBNode.prototype.insertCase4 = function () {
 };
 
 RBNode.prototype.insertCase5 = function () {
-    this.visual = '';
+    this.visual = 'current';
     SNC.add('Case 5: parent is red and uncle is black');
 
     var g = this.grandparent();
