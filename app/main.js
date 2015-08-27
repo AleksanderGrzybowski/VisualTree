@@ -6,6 +6,10 @@ visualTree.controller('MainCtrl', function () {
 
     vm.delay = 1000;
     vm.treeType = 'bst';
+
+    /**
+     * @type {number}
+     */
     vm.number = '';
     vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
 

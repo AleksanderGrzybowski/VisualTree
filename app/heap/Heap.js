@@ -35,8 +35,8 @@ Heap.prototype.toArray = function () {
 };
 
 /**
- * @param {HeapNode} that
- * @param {number} k
+ * @param {HeapNode} [that]
+ * @param {number} [k]
  * @returns {HeapNode}
  */
 Heap.prototype.toTree = function (that, k) {
