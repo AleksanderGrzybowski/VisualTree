@@ -37,7 +37,7 @@ visualTree.controller('MainCtrl', function ($interval) {
 
     vm.add = function () {
         if (!isNaN(vm.number)) { // stupid trick but hey JS
-            SNC.init(vm.tree, 'bst');
+            SNC.init(vm.tree, vm.treeType);
             vm.tree.add(+vm.number);
             vm.currentSnapshots = SNC.getSnapshotsAndDisable();
             BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
@@ -46,7 +46,7 @@ visualTree.controller('MainCtrl', function ($interval) {
     
     vm.delete = function () {
         if (!isNaN(vm.number)) {
-            SNC.init(vm.tree, 'bst');
+            SNC.init(vm.tree, vm.treeType); 
             vm.tree.delete(+vm.number);
             vm.currentSnapshots = SNC.getSnapshotsAndDisable();
             BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
@@ -54,14 +54,14 @@ visualTree.controller('MainCtrl', function ($interval) {
     };
     
     vm.inorder = function () {
-        SNC.init(vm.tree, 'bst');
+        SNC.init(vm.tree, vm.treeType);
         vm.tree.inorder();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
     vm.deleteMin = function () {
-        SNC.init(vm.tree, 'bst');
+        SNC.init(vm.tree, vm.treeType);
         vm.tree.deleteMin();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
