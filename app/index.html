@@ -120,28 +120,28 @@
             </svg>
         </div>
         <div class="col-md-6">
-            <table class="table table-condensed">
+            <form class="form-inline">
+                <button type="button" class="btn btn-default" ng-click="vm.play()">Play</button>
+                <button type="button" class="btn btn-default" ng-click="vm.previous()">&lt; Previous</button>
+                <button type="button" class="btn btn-default" ng-click="vm.next()">Next &gt;></button>
+            </form>
+            <table class="table table-condensed" id="explanation">
                 <thead>
                 <tr>
-                    <th>Number</th>
+                    <th>#</th>
                     <th>Description</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr ng-repeat="e in vm.currentSnapshotsArray">
+                <tr ng-repeat="e in vm.currentSnapshotsArray" 
+                    ng-class="{'success': vm.selectedSnapshotIndex === $index}" 
+                    ng-click="vm.setSelectedSnapshot($index)">
                     <td>{{ $index }}</td>
                     <td>{{ e.text }}</td>
                 </tr>
                 </tbody>
-                
             </table>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h1 id="explanation" class="text-center"></h1>
         </div>
     </div>
 

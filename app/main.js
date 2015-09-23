@@ -88,14 +88,33 @@ visualTree.controller('MainCtrl', function () {
             throw new Error('Not yet implemented')
         }
 
-        vm.updateView();
+        SNC.init(vm.tree, vm.treeType);
+        SNC.add('Freshly created');
+        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshotsArray[0]);
     };
     
     vm.updateView = function () {
-        SNC.init(vm.tree, vm.treeType);
-        SNC.add('');
-        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-        BTreePresenter.update(vm.currentSnapshotsArray[0]);
+        BTreePresenter.update(vm.currentSnapshotsArray[vm.selectedSnapshotIndex]);
+    };
+    
+    vm.setSelectedSnapshot = function (index) {
+        vm.selectedSnapshotIndex = index;
+        vm.updateView(); // TODO replace with watch?
+    };
+    
+    vm.next = function () {
+        if (vm.currentSnapshotsArray.length - 1 > vm.selectedSnapshotIndex) {
+            vm.selectedSnapshotIndex++;
+        }
+        vm.updateView();
+    };
+    
+    vm.previous = function () {
+        if (vm.selectedSnapshotIndex > 0) {
+            vm.selectedSnapshotIndex--;
+        }
+        vm.updateView();
     };
     
     vm.setTreeType('bst');

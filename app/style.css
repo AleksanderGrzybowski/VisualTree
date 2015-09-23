@@ -9,8 +9,7 @@ svg {
 }
 
 #explanation {
-    font-size: 20pt;
-    font-family: monospace;
+    cursor: default;
 }
 
 html, body {
