@@ -17,14 +17,11 @@
 
     <script src="bst/BSTNode.js"></script>
     <script src="bst/BSTree.js"></script>
-    <script src="bst/AnimatedBST.js"></script>
 
     <script src="heap/Heap.js"></script>
-    <script src="heap/AnimatedHeap.js"></script>
 
     <script src="rb/RBNode.js"></script>
     <script src="rb/RBTree.js"></script>
-    <script src="rb/AnimatedRBT.js"></script>
 
     <script src="main.js"></script>
 
@@ -65,7 +62,7 @@
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
                         <label for="delay">Delay (ms)</label>
-                        <input type="text" id="delay" class="form-control" ng-model="vm.delay" />
+                        <input type="text" id="delay" class="form-control" ng-model="vm.delay"/>
                     </div>
                 </form>
 
@@ -118,9 +115,27 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12" id="svg-container">
+        <div class="col-md-6" id="svg-container">
             <svg width="720" height="720">
             </svg>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="e in vm.currentSnapshotsArray">
+                    <td>{{ $index }}</td>
+                    <td>{{ e.text }}</td>
+                </tr>
+                </tbody>
+                
+            </table>
         </div>
     </div>
 

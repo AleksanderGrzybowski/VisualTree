@@ -11,56 +11,94 @@ visualTree.controller('MainCtrl', function () {
      * @type {number}
      */
     vm.number = '';
-    vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
-
+    
+    vm.tree = new BSTree();
+    
+    vm.currentSnapshotsArray = [];
+    vm.selectedSnapshotIndex = 0;
+    
     // !!
-    (function () {
+    (function () { // TODO better way
         var $svg = $('svg');
         var $body = $('body');
 
         var newHeight = $body.height() * 0.7;
-        var newWidth = $body.width() * 0.8;
+        var newWidth = $body.width() * 0.4;
         log.info('Setting svg size to ' + newHeight + 'x' + newWidth);
 
         $svg.height(newHeight);
         $svg.width(newWidth);
     })();
-    vm.animatedTree.update();
+    //vm.animatedTree.update();
     // !!
 
 
     vm.add = function () {
         if (!isNaN(vm.number)) { // stupid trick but hey JS
-            vm.animatedTree.add(+vm.number);
+            SNC.init(vm.tree, 'bst');
+            vm.tree.add(vm.number);
+            vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+            BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
         }
     };
+    
     vm.delete = function () {
         if (!isNaN(vm.number)) {
-            vm.animatedTree.delete(+vm.number);
+            SNC.init(vm.tree, 'bst');
+            vm.tree.delete(vm.number);
+            vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+            BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
         }
     };
+    
     vm.inorder = function () {
-        vm.animatedTree.inorder();
+        SNC.init(vm.tree, 'bst');
+        vm.tree.inorder();
+        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
     };
 
     vm.deleteMin = function () {
-        vm.animatedTree.deleteMin();
+        SNC.init(vm.tree, 'bst');
+        vm.tree.deleteMin();
+        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
     };
-
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;
-
+        var i;
+        
         if (vm.treeType === 'bst') {
-            vm.animatedTree = new AnimatedBST(CONFIG.defaultBSTElements);
+            vm.tree = new BSTree();
+            for (i = 0; i < CONFIG.defaultBSTElements.length; ++i) {
+                vm.tree.add(CONFIG.defaultBSTElements[i]);
+            }
         } else if (vm.treeType === 'heap') {
-            vm.animatedTree = new AnimatedHeap(CONFIG.defaultHeapElements);
+            vm.tree = new Heap();
+            for (i = 0; i < CONFIG.defaultHeapElements.length; ++i) {
+                vm.tree.add(CONFIG.defaultHeapElements[i]);
+            }
         } else if (vm.treeType === 'rbt') {
-            vm.animatedTree = new AnimatedRBT(CONFIG.defaultRBTElements);
+            vm.tree = new RBTree();
+            for (i = 0; i < CONFIG.defaultRBTElements.length; ++i) {
+                vm.tree.add(CONFIG.defaultRBTElements[i]);
+            }
         } else {
             throw new Error('Not yet implemented')
         }
 
-        vm.animatedTree.update();
+        vm.updateView();
     };
+    
+    vm.updateView = function () {
+        SNC.init(vm.tree, vm.treeType);
+        SNC.add('');
+        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshotsArray[0]);
+    };
+    
+    vm.setTreeType('bst');
+
+    
 });
