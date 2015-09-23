@@ -12,10 +12,10 @@ visualTree.controller('MainCtrl', function ($interval) {
      */
     vm.number = '';
     
-    vm.tree = new BSTree();
+    vm.tree = null; // set later
     
-    vm.currentSnapshotsArray = [];
-    vm.selectedSnapshotIndex = 0;
+    vm.currentSnapshots = [];
+    vm.currentSnapshotIndex = 0;
     
     // !!
     (function () { // TODO better way
@@ -29,7 +29,6 @@ visualTree.controller('MainCtrl', function ($interval) {
         $svg.height(newHeight);
         $svg.width(newWidth);
     })();
-    //vm.animatedTree.update();
     // !!
 
 
@@ -37,8 +36,8 @@ visualTree.controller('MainCtrl', function ($interval) {
         if (!isNaN(vm.number)) { // stupid trick but hey JS
             SNC.init(vm.tree, 'bst');
             vm.tree.add(+vm.number);
-            vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-            BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
+            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
     };
     
@@ -46,87 +45,87 @@ visualTree.controller('MainCtrl', function ($interval) {
         if (!isNaN(vm.number)) {
             SNC.init(vm.tree, 'bst');
             vm.tree.delete(+vm.number);
-            vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-            BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
+            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
     };
     
     vm.inorder = function () {
         SNC.init(vm.tree, 'bst');
         vm.tree.inorder();
-        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-        BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
+        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
     vm.deleteMin = function () {
         SNC.init(vm.tree, 'bst');
         vm.tree.deleteMin();
-        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-        BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
+        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;
-        var i;
         
-        if (vm.treeType === 'bst') {
-            vm.tree = new BSTree();
-            for (i = 0; i < CONFIG.defaultBSTElements.length; ++i) {
-                vm.tree.add(CONFIG.defaultBSTElements[i]);
+        // this creates useless instances, but cleaner
+        var dict = {
+            bst: {
+                instance: new BSTree(),
+                elements: CONFIG.defaultBSTElements
+            },
+            heap: {
+                instance: new Heap(),
+                elements: CONFIG.defaultHeapElements
+            },
+            rbt: {
+                instance: new RBTree(),
+                elements: CONFIG.defaultRBTElements
             }
-        } else if (vm.treeType === 'heap') {
-            vm.tree = new Heap();
-            for (i = 0; i < CONFIG.defaultHeapElements.length; ++i) {
-                vm.tree.add(CONFIG.defaultHeapElements[i]);
-            }
-        } else if (vm.treeType === 'rbt') {
-            vm.tree = new RBTree();
-            for (i = 0; i < CONFIG.defaultRBTElements.length; ++i) {
-                vm.tree.add(CONFIG.defaultRBTElements[i]);
-            }
-        } else {
-            throw new Error('Not yet implemented')
+        };
+
+        var selected = dict[vm.treeType]; // indexing by string
+        vm.tree = selected.instance;
+        for (var i = 0; i < selected.elements.length; ++i) {
+            vm.tree.add(selected.elements[i]);
         }
 
         SNC.init(vm.tree, vm.treeType);
         SNC.add('Freshly created');
-        vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
-        BTreePresenter.update(vm.currentSnapshotsArray[0]);
+        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshots[0]);
     };
     
     vm.updateView = function () {
-        BTreePresenter.update(vm.currentSnapshotsArray[vm.selectedSnapshotIndex]);
+        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshotIndex]);
     };
     
     vm.setSelectedSnapshot = function (index) {
-        vm.selectedSnapshotIndex = index;
+        vm.currentSnapshotIndex = index;
         vm.updateView(); // TODO replace with watch?
     };
     
     vm.next = function () {
-        if (vm.currentSnapshotsArray.length - 1 > vm.selectedSnapshotIndex) {
-            vm.selectedSnapshotIndex++;
+        if (vm.currentSnapshots.length - 1 > vm.currentSnapshotIndex) {
+            vm.currentSnapshotIndex++;
+            vm.updateView();
         }
-        vm.updateView();
     };
     
     vm.previous = function () {
-        if (vm.selectedSnapshotIndex > 0) {
-            vm.selectedSnapshotIndex--;
+        if (vm.currentSnapshotIndex > 0) {
+            vm.currentSnapshotIndex--;
+            vm.updateView();
         }
-        vm.updateView();
     };
 
     vm.play = function () {
-        var i = 0;
+        vm.currentSnapshotIndex = 0;
 
         var promise = $interval(function () {
-            console.log(i);
-            vm.selectedSnapshotIndex = i;
             vm.updateView();
-            i++;
-            
-            if (i >= vm.currentSnapshotsArray.length) {
+            vm.currentSnapshotIndex++;
+        
+            if (vm.currentSnapshotIndex >= vm.currentSnapshots.length) {
                 $interval.cancel(promise);
             }
         }, vm.delay);

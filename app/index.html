@@ -134,8 +134,8 @@
                 </thead>
 
                 <tbody>
-                <tr ng-repeat="e in vm.currentSnapshotsArray" 
-                    ng-class="{'success': vm.selectedSnapshotIndex === $index}" 
+                <tr ng-repeat="e in vm.currentSnapshots" 
+                    ng-class="{'success': vm.currentSnapshotIndex === $index}" 
                     ng-click="vm.setSelectedSnapshot($index)">
                     <td>{{ $index }}</td>
                     <td>{{ e.text }}</td>
