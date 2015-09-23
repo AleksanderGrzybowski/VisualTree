@@ -121,7 +121,9 @@
         </div>
         <div class="col-md-6">
             <form class="form-inline">
-                <button type="button" class="btn btn-default" ng-click="vm.play()">Play</button>
+                <button type="button" class="btn btn-default" ng-click="vm.togglePlay()">
+                    {{ vm.isPlaying ? 'Stop' : 'Play' }}
+                </button>
                 <button type="button" class="btn btn-default" ng-click="vm.previous()">&lt; Previous</button>
                 <button type="button" class="btn btn-default" ng-click="vm.next()">Next &gt;></button>
             </form>

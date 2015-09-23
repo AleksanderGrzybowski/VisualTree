@@ -16,6 +16,9 @@ visualTree.controller('MainCtrl', function ($interval) {
     
     vm.currentSnapshots = [];
     vm.currentSnapshotIndex = 0;
+
+    vm.animationPromise = null;
+    vm.isPlaying = false;
     
     // !!
     (function () { // TODO better way
@@ -118,17 +121,25 @@ visualTree.controller('MainCtrl', function ($interval) {
         }
     };
 
-    vm.play = function () {
-        vm.currentSnapshotIndex = 0;
+    vm.togglePlay = function () {
+        if (vm.isPlaying) {
+            vm.isPlaying = false;
+            $interval.cancel(vm.animationPromise);
+        } else {
+            vm.isPlaying = true;
+            vm.currentSnapshotIndex = 0;
 
-        var promise = $interval(function () {
-            vm.updateView();
-            vm.currentSnapshotIndex++;
-        
-            if (vm.currentSnapshotIndex >= vm.currentSnapshots.length) {
-                $interval.cancel(promise);
-            }
-        }, vm.delay);
+            vm.animationPromise = $interval(function () {
+                vm.updateView();
+                vm.currentSnapshotIndex++;
+
+                if (vm.currentSnapshotIndex >= vm.currentSnapshots.length) {
+                    vm.currentSnapshotIndex--; // this makes more sense than playing with control flow
+                    $interval.cancel(vm.animationPromise);
+                    vm.isPlaying = false;
+                }
+            }, vm.delay);
+        }
     };
     
     vm.setTreeType('bst');
