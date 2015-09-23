@@ -1,6 +1,6 @@
 var visualTree = angular.module('visualTree', []);
 
-visualTree.controller('MainCtrl', function () {
+visualTree.controller('MainCtrl', function ($interval) {
     log.info('Angular controller initializes');
     var vm = this;
 
@@ -116,8 +116,21 @@ visualTree.controller('MainCtrl', function () {
         }
         vm.updateView();
     };
+
+    vm.play = function () {
+        var i = 0;
+
+        var promise = $interval(function () {
+            console.log(i);
+            vm.selectedSnapshotIndex = i;
+            vm.updateView();
+            i++;
+            
+            if (i >= vm.currentSnapshotsArray.length) {
+                $interval.cancel(promise);
+            }
+        }, vm.delay);
+    };
     
     vm.setTreeType('bst');
-
-    
 });
