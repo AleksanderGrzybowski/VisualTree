@@ -58,14 +58,6 @@
                         <a href ng-click="vm.setTreeType('rbt')">Red-black tree</a>
                     </li>
                 </ul>
-
-                <form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <label for="delay">Delay (ms)</label>
-                        <input type="text" id="delay" class="form-control" ng-model="vm.delay"/>
-                    </div>
-                </form>
-
             </div>
         </div>
     </nav>
@@ -126,6 +118,8 @@
                 </button>
                 <button type="button" class="btn btn-default" ng-click="vm.previous()">&lt; Previous</button>
                 <button type="button" class="btn btn-default" ng-click="vm.next()">Next &gt;></button>
+                <label for="delay">Delay (ms)</label>
+                <input type="text" id="delay" class="form-control" ng-model="vm.delay"/>
             </form>
             <table class="table table-condensed" id="explanation">
                 <thead>

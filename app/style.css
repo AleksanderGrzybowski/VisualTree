@@ -19,3 +19,7 @@ html, body {
 body {
     background: linear-gradient(rgb(234,234,234), rgb(252,252,252), rgb(252,252,252));
 }
+
+#delay {
+    width: 90px;
+}
