@@ -36,7 +36,7 @@ visualTree.controller('MainCtrl', function () {
     vm.add = function () {
         if (!isNaN(vm.number)) { // stupid trick but hey JS
             SNC.init(vm.tree, 'bst');
-            vm.tree.add(vm.number);
+            vm.tree.add(+vm.number);
             vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
             BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
         }
@@ -45,7 +45,7 @@ visualTree.controller('MainCtrl', function () {
     vm.delete = function () {
         if (!isNaN(vm.number)) {
             SNC.init(vm.tree, 'bst');
-            vm.tree.delete(vm.number);
+            vm.tree.delete(+vm.number);
             vm.currentSnapshotsArray = SNC.getSnapshotsAndDisable();
             BTreePresenter.update(vm.currentSnapshotsArray[vm.currentSnapshotsArray.length-1]);
         }
