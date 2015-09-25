@@ -14,6 +14,15 @@ svg {
 
 html, body {
     min-height: 100%; /* this is needed for gradient to extend to the bottom */
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+#content {
+    height: 90%;
 }
 
 body {
@@ -22,4 +31,8 @@ body {
 
 #delay {
     width: 90px;
+}
+
+.tree-controls {
+    margin-bottom: 20px;
 }

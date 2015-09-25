@@ -62,62 +62,67 @@
         </div>
     </nav>
 
-    <div class="row" ng-show="vm.treeType === 'bst'">
-        <div class="col-md-6 col-md-offset-3">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="number">Number:</label>
-                    <input type="text" class="form-control" id="number" ng-model="vm.number">
+    <div class="row" id="content">
+        <div class="col-md-8">
+            <div class="row tree-controls" >
+                <div class="col-md-8 col-md-push-2">
+                    <form class="form-inline" ng-show="vm.treeType === 'bst'">
+                        <div class="form-group">
+                            <label for="number">Number:</label>
+                            <input type="text" class="form-control" id="number" ng-model="vm.number">
+                        </div>
+
+                        <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
+                        <button type="button" id="delete" class="btn btn-warning" ng-click="vm.delete()">Delete</button>
+                        <button type="button" id="inorder" class="btn btn-default" ng-click="vm.inorder()">Inorder
+                        </button>
+                    </form>
+                    <form class="form-inline" ng-show="vm.treeType === 'heap'">
+                        <div class="form-group">
+                            <label for="number">Number:</label>
+                            <input type="text" class="form-control" id="number" ng-model="vm.number">
+                        </div>
+
+                        <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
+                        <button type="button" id="deleteMin" class="btn btn-warning" ng-click="vm.deleteMin()">
+                            Delete-min
+                        </button>
+                    </form>
+                    <form class="form-inline" ng-show="vm.treeType === 'rbt'">
+                        <div class="form-group">
+                            <label for="number">Number:</label>
+                            <input type="text" class="form-control" id="number" ng-model="vm.number">
+                        </div>
+
+                        <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
+                    </form>
+                    
                 </div>
-
-                <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
-                <button type="button" id="delete" class="btn btn-warning" ng-click="vm.delete()">Delete</button>
-                <button type="button" id="inorder" class="btn btn-default" ng-click="vm.inorder()">Inorder</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="row" ng-show="vm.treeType === 'heap'">
-        <div class="col-md-6 col-md-offset-3">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="number">Number:</label>
-                    <input type="text" class="form-control" id="number" ng-model="vm.number">
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12" id="svg-container">
+                    <svg width="42" height="13"> <!-- size is being set in JS -->
+                    </svg>
                 </div>
-
-                <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
-                <button type="button" id="deleteMin" class="btn btn-warning" ng-click="vm.deleteMin()">
-                    Delete-min
-                </button>
-            </form>
+            </div>
         </div>
-    </div>
 
-    <div class="row" ng-show="vm.treeType === 'rbt'">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-4">
             <form class="form-inline">
-                <div class="form-group">
-                    <label for="number">Number:</label>
-                    <input type="text" class="form-control" id="number" ng-model="vm.number">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.togglePlay()">
+                        {{ vm.isPlaying ? 'Stop' : 'Play' }}
+                        <span ng-show="vm.isPlaying" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                        <span ng-show="!vm.isPlaying" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="vm.previous()">
+                        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="vm.next()">
+                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </button>
                 </div>
-
-                <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6" id="svg-container">
-            <svg width="720" height="720">
-            </svg>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <button type="button" class="btn btn-default" ng-click="vm.togglePlay()">
-                    {{ vm.isPlaying ? 'Stop' : 'Play' }}
-                </button>
-                <button type="button" class="btn btn-default" ng-click="vm.previous()">&lt; Previous</button>
-                <button type="button" class="btn btn-default" ng-click="vm.next()">Next &gt;></button>
                 <label for="delay">Delay (ms)</label>
                 <input type="text" id="delay" class="form-control" ng-model="vm.delay"/>
             </form>

@@ -26,7 +26,7 @@ visualTree.controller('MainCtrl', function ($interval) {
         var $body = $('body');
 
         var newHeight = $body.height() * 0.7;
-        var newWidth = $body.width() * 0.4;
+        var newWidth = $body.width() * 0.6;
         log.info('Setting svg size to ' + newHeight + 'x' + newWidth);
 
         $svg.height(newHeight);
