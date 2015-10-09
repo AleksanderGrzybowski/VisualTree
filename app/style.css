@@ -9,14 +9,30 @@ svg {
 }
 
 #explanation {
-    font-size: 20pt;
-    font-family: monospace;
+    cursor: default;
 }
 
 html, body {
     min-height: 100%; /* this is needed for gradient to extend to the bottom */
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+#content {
+    height: 90%;
 }
 
 body {
     background: linear-gradient(rgb(234,234,234), rgb(252,252,252), rgb(252,252,252));
+}
+
+#delay {
+    width: 90px;
+}
+
+.tree-controls {
+    margin-bottom: 20px;
 }

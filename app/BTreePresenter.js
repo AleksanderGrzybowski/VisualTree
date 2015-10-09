@@ -117,36 +117,36 @@ var BTreePresenter = (function () {
     }
 
     return {
-        runAnimation: function (snapshots) {
-            log.info('Animation starts len = ' + snapshots.length);
-
-            if (snapshots.length === 0) {
-                BTreePresenter.update(null); // TODO sth better?
-                return;
-            }
-
-            BTreePresenter.update(snapshots[0]);
-            $('#explanation').text(snapshots[0].text || '');
-
-            var idx = 1;
-            var timerId = setInterval(function () {
-                if (idx >= snapshots.length) {
-                    clearInterval(timerId);
-                    return;
-                }
-
-                log.info('Animation idx = ' + idx);
-                var snapshot = snapshots[idx++];
-
-                var text = '';
-                if (snapshot !== null && snapshot.text) {
-                    text = snapshot.text;
-                }
-                $('#explanation').text(text);
-
-                BTreePresenter.update(snapshot);
-            }, angular.element('body').scope().vm.delay); // TODO better way?
-        },
+        //runAnimation: function (snapshots) {
+        //    log.info('Animation starts len = ' + snapshots.length);
+        //
+        //    if (snapshots.length === 0) {
+        //        BTreePresenter.update(null); // TODO sth better?
+        //        return;
+        //    }
+        //
+        //    BTreePresenter.update(snapshots[0]);
+        //    $('#explanation').text(snapshots[0].text || '');
+        //
+        //    var idx = 1;
+        //    var timerId = setInterval(function () {
+        //        if (idx >= snapshots.length) {
+        //            clearInterval(timerId);
+        //            return;
+        //        }
+        //
+        //        log.info('Animation idx = ' + idx);
+        //        var snapshot = snapshots[idx++];
+        //
+        //        var text = '';
+        //        if (snapshot !== null && snapshot.text) {
+        //            text = snapshot.text;
+        //        }
+        //        $('#explanation').text(text);
+        //
+        //        BTreePresenter.update(snapshot);
+        //    }, angular.element('body').scope().vm.delay); // TODO better way?
+        //},
 
         /**
          * @param {BSTNode|HeapNode} [snapshot=that.tree]
