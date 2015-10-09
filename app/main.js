@@ -21,17 +21,22 @@ visualTree.controller('MainCtrl', function ($interval) {
     vm.isPlaying = false;
     
     // !!
-    (function () { // TODO better way
+    // We need to wait till bootstrap calculates
+    // the width of column that contains the tree
+    setTimeout(function () {
         var $svg = $('svg');
         var $body = $('body');
+        var $container = $('#svg-container');
 
-        var newHeight = $body.height() * 0.7;
-        var newWidth = $body.width() * 0.6;
+        var newWidth = $container.width();
+        var newHeight = $body.height() * 0.5; // reasonable compromise
         log.info('Setting svg size to ' + newHeight + 'x' + newWidth);
 
         $svg.height(newHeight);
         $svg.width(newWidth);
-    })();
+
+        vm.setTreeType('bst');
+    }, 100);
     // !!
 
 
