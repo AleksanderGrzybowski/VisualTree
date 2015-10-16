@@ -152,12 +152,12 @@ var BTreePresenter = (function () {
          * @param {BSTNode|HeapNode} [snapshot=that.tree]
          */
         update: function (snapshot) {
-            console.log(snapshot);
-            if (snapshot === undefined) {
-                throw new Error("Must be something");
-            }
-
             $('svg').empty();
+            
+            if (snapshot === undefined || snapshot === null) {
+                log.info('Empty tree'); // Intended or not
+                return;
+            }
 
             var positionalNodes = toPositionalNodesArray(snapshot);
             var links = toLinksArray(snapshot, positionalNodes);

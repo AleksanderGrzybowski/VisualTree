@@ -74,6 +74,7 @@ visualTree.controller('MainCtrl', function ($interval) {
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;
+        vm.isPlaying = false;
         
         // this creates useless instances, but cleaner
         var dict = {
