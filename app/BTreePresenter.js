@@ -200,7 +200,7 @@ var BTreePresenter = (function () {
                 return x * width;
             };
             var yModelToViewMapper = function (y, height) {
-                return ((2 * y + 1) * height) / CONFIG.levelsScalingFactor;
+                return height * (1 + y) / (snapshot.height() + 1);
             };
 
 
