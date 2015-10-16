@@ -152,6 +152,7 @@ var BTreePresenter = (function () {
          * @param {BSTNode|HeapNode} [snapshot=that.tree]
          */
         update: function (snapshot) {
+            console.log(snapshot);
             if (snapshot === undefined) {
                 throw new Error("Must be something");
             }
@@ -186,7 +187,7 @@ var BTreePresenter = (function () {
                     yModelToViewMapper(d.first.y, height),
                     xModelToViewMapper(d.second.x, width),
                     yModelToViewMapper(d.second.y, height),
-                    CONFIG.circleRadius
+                    CONFIG.circleRadius / snapshot.height()
                 );
             };
 
@@ -211,7 +212,7 @@ var BTreePresenter = (function () {
                 });
 
             gs.append('circle')
-                .attr('r', CONFIG.circleRadius)
+                .attr('r', CONFIG.circleRadius / snapshot.height())
                 .style('fill', 'none')
                 .style('stroke-width', 5)
                 .style('z-index', 3)

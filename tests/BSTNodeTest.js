@@ -69,6 +69,50 @@ describe('BSTNode.findRoot', function () {
     });
 });
 
+describe('BSTree.height', function () {
+    
+    it('should work for empty tree', function () {
+        var tree = new BSTree();
+
+        expect(tree.height()).toBe(0);
+    });
+
+    it('should work for tree with 1 element', function () {
+        var tree = new BSTree();
+        tree.addAll([1]);
+
+        expect(tree.height()).toBe(1);
+    });
+
+    it('should work for tree with 2 elements', function () {
+        var tree = new BSTree();
+        tree.addAll([1, 2]);
+
+        expect(tree.height()).toBe(2);
+    });
+
+    it('should work for tree with 3 elements, balanced', function () {
+        var tree = new BSTree();
+        tree.addAll([2, 1, 3]);
+
+        expect(tree.height()).toBe(2);
+    });
+
+    it('should work for tree with 3 elements, unbalanced', function () {
+        var tree = new BSTree();
+        tree.addAll([1, 2, 3]);
+
+        expect(tree.height()).toBe(3);
+    });
+
+    it('integration test', function () {
+        var tree = new BSTree();
+        tree.addAll([8, 4, 2, 1, 6, 12, 10, 11, 14, 13, 15]);
+
+        expect(tree.height()).toBe(4);
+    });
+});
+
 
 describe('BSTree.delete leaves', function () {
 
