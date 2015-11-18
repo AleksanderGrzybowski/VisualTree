@@ -47,7 +47,7 @@ function SplayNode(value) {
         if (value < this.value) {
             if (this.left === null) {
                 this.left = new SplayNode(value);
-                this.tree = tree;
+                this.left.tree = tree;
                 this.left.parent = this;
             } else {
                 this.left.add(value, tree);
@@ -55,7 +55,7 @@ function SplayNode(value) {
         } else if (value > this.value) {
             if (this.right === null) {
                 this.right = new SplayNode(value);
-                this.tree = tree;
+                this.right.tree = tree;
                 this.right.parent = this;
             } else {
                 this.right.add(value, tree);
