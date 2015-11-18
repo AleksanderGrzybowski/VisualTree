@@ -3,10 +3,13 @@ function SplayTree() {
 
     var self = this;
 
+    this.height = COMMON.treeHeight;
+    
     this.add = function (value) {
         if (this.root === null) {
             this.root = new SplayNode(value);
             this.root.tree = self; // !!!
+            SNC.add('Adding root');
         } else {
             this.root.add(value, self);
         }

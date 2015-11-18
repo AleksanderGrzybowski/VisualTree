@@ -89,6 +89,10 @@ visualTree.controller('MainCtrl', function ($interval) {
             rbt: {
                 instance: new RBTree(),
                 elements: CONFIG.defaultRBTElements
+            },
+            splay: {
+                instance: new SplayTree(),
+                elements: CONFIG.defaultSplayTreeElements
             }
         };
 

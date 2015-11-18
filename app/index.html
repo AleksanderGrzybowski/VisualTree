@@ -24,6 +24,9 @@
     <script src="rb/RBNode.js"></script>
     <script src="rb/RBTree.js"></script>
 
+    <script src="splay/SplayNode.js"></script>
+    <script src="splay/SplayTree.js"></script>
+    
     <script src="main.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css"/>
@@ -58,6 +61,10 @@
                     <li ng-class="{active: vm.treeType === 'rbt'}">
                         <a href ng-click="vm.setTreeType('rbt')">Red-black tree</a>
                     </li>
+                    
+                    <li ng-class="{active: vm.treeType === 'splay'}">
+                        <a href ng-click="vm.setTreeType('splay')">Splay tree</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -90,6 +97,14 @@
                         </button>
                     </form>
                     <form class="form-inline" ng-show="vm.treeType === 'rbt'">
+                        <div class="form-group">
+                            <label for="number">Number:</label>
+                            <input type="text" class="form-control" id="number" ng-model="vm.number">
+                        </div>
+
+                        <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
+                    </form>
+                    <form class="form-inline" ng-show="vm.treeType === 'splay'">
                         <div class="form-group">
                             <label for="number">Number:</label>
                             <input type="text" class="form-control" id="number" ng-model="vm.number">

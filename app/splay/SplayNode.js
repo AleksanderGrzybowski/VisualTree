@@ -9,6 +9,8 @@ function SplayNode(value) {
 
     this.tree = undefined; // set in add
 
+    this.height = COMMON.nodeHeight;
+    
     this.isLeaf = function () {
         return this.left === null && this.right === null;
     };
