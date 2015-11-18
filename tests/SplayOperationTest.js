@@ -144,7 +144,7 @@ describe('Splay tests', function () {
         expect(root.left.right.parent).toBe(root.left);
         
         expect(root.right.value).toBe(6);
-        expect(root.right.parent).toBe(root.right);
+        expect(root.right.parent).toBe(root);
         
         expect(root.right.left.value).toBe(5);
         expect(root.right.left.parent).toBe(root.right);

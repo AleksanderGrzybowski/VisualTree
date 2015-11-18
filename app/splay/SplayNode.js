@@ -14,18 +14,29 @@ function SplayNode(value) {
     };
    
     this.splay = function () {
+        var p, g;
         if (this.parent.parent === null) { // 'zig'
             if (this.parent.left === this) { // left child
                 this.parent.rotateRight();
-            } else {
+            } else { // right child
                 this.parent.rotateLeft();
             }
-        } else if (this.parent.left === this && this.parent.parent.left === this.parent) { // all-left to all-right z-z
+        } else if (this.parent.left === this && this.parent.parent.left === this.parent) { // all-left to all-right zig-zig
             this.parent.parent.rotateRight();
             this.parent.rotateRight();
-        } else if (this.parent.right === this && this.parent.parent.right === this.parent) { // all-right to all-left z-z
+        } else if (this.parent.right === this && this.parent.parent.right === this.parent) { // all-right to all-left zig-zig
             this.parent.parent.rotateLeft();
             this.parent.rotateLeft();
+        } else if (this.parent.right === this && this.parent.parent.left === this.parent) { // all-left zig-zag
+            p = this.parent;
+            g = this.parent.parent;
+            p.rotateLeft();
+            g.rotateRight();
+        } else if (this.parent.left === this && this.parent.parent.right === this.parent) { // all-right zig-zag
+            p = this.parent;
+            g = this.parent.parent;
+            p.rotateRight();
+            g.rotateLeft();
         }
     };
 
