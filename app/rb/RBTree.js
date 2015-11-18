@@ -4,6 +4,11 @@ function RBTree() {
     this.height = COMMON.treeHeight;
 
     this.add = function (value) {
+        // TODO
+        // I am not sure why it doesn't fail
+        // we add .tree property only to the root
+        // at the moment of creation
+        // what happens if root is rotated?
         if (this.root === null) {
             SNC.add('Adding root, coloring it black');
             this.root = new RBNode(value);

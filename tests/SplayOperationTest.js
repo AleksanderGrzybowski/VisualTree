@@ -67,13 +67,13 @@ describe('Splay tests', function () {
         expect(root.value).toBe(2);
         
         expect(root.left.value).toBe(1);
-        expect(root.left.parent).toBe(root.left);
+        expect(root.left.parent).toBe(root);
         
         expect(root.right.value).toBe(4);
         expect(root.right.parent).toBe(root);
         
         expect(root.right.left.value).toBe(3);
-        expect(root.right.left.parent).toBe(root.right.left);
+        expect(root.right.left.parent).toBe(root.right);
         
         expect(root.right.right.value).toBe(6);
         expect(root.right.right.parent).toBe(root.right);
