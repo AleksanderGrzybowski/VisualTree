@@ -90,6 +90,11 @@ function SplayNode(value) {
             p.rotateRight();
             g.rotateLeft();
         }
+        
+        // yeah! beauty!
+        if (this.parent !== null) {
+            this.splay();
+        }
     };
 
     // TODO tidy up copypasta
@@ -165,7 +170,9 @@ function SplayNode(value) {
         n.left = p;
         p.parent = n;
         p.right = savedLeftN;
-        savedLeftN.parent = p;
+        if (savedLeftN !== null) {
+            savedLeftN.parent = p; // TODO not sure if we need the same check as in root rotations
+        }
     };
 
     this.rotateRight = function () {
@@ -190,6 +197,8 @@ function SplayNode(value) {
         n.right = p;
         p.parent = n;
         p.left = savedRightN;
-        savedRightN.parent = p;
+        if (savedRightN !== null) {
+            savedRightN.parent = p; // TODO not sure if we need the same check as in root rotations
+        }
     };
 }
