@@ -107,6 +107,8 @@ function SplayNode(value) {
                 this.visual = '';
                 SNC.add('Creating new on the left');
                 this.left.visual = '';
+                this.left.splay();
+                SNC.add('Splaying');
                 SNC.add('Done');
             } else {
                 SNC.add('Item to add is smaller than current, going left');
@@ -124,6 +126,8 @@ function SplayNode(value) {
                 this.visual = '';
                 SNC.add('Creating new on the right');
                 this.right.visual = '';
+                this.right.splay();
+                SNC.add('Splaying');
                 SNC.add('Done');
             } else {
                 SNC.add('Item to add is larger than current, going right');
