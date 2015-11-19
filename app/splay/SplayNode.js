@@ -14,7 +14,57 @@ function SplayNode(value) {
     this.isLeaf = function () {
         return this.left === null && this.right === null;
     };
-   
+
+    // warning: this method is only because
+    // we want to test just the splay operation
+    this.addNoSplay = function (value, tree) {
+        this.visual = 'current';
+        SNC.add('Visiting node ' + this.value);
+
+        if (value < this.value) {
+            if (this.left === null) {
+                this.left = new SplayNode(value);
+                this.left.tree = tree;
+                this.left.parent = this;
+
+                this.left.visual = 'current';
+                this.visual = '';
+                SNC.add('Creating new on the left');
+                this.left.visual = '';
+                SNC.add('Done');
+            } else {
+                SNC.add('Item to add is smaller than current, going left');
+                this.visual = '';
+
+                this.left.addNoSplay(value, tree);
+            }
+        } else if (value > this.value) {
+            if (this.right === null) {
+                this.right = new SplayNode(value);
+                this.right.tree = tree;
+                this.right.parent = this;
+
+                this.right.visual = 'current';
+                this.visual = '';
+                SNC.add('Creating new on the right');
+                this.right.visual = '';
+                SNC.add('Done');
+            } else {
+                SNC.add('Item to add is larger than current, going right');
+                this.visual = '';
+
+                this.right.addNoSplay(value, tree);
+            }
+        } else {
+            this.visual = 'current';
+            SNC.add('Found duplicate, nothing to do.');
+            this.visual = '';
+            SNC.add('Found duplicate, nothing to do.');
+        }
+
+        return this;
+    };
+    
     this.splay = function () {
         var p, g;
         if (this.parent.parent === null) { // 'zig'

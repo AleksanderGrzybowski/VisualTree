@@ -4,11 +4,11 @@ describe('Splay tests', function () {
     
     it('zig step, x on the left, p is its root', function () {
         var tree = new SplayTree();
-        tree.add(3);
-        tree.add(1);
-        tree.add(0);
-        tree.add(2);
-        tree.add(4);
+        tree.addNoSplay(3);
+        tree.addNoSplay(1);
+        tree.addNoSplay(0);
+        tree.addNoSplay(2);
+        tree.addNoSplay(4);
 
         tree.root.left.splay();
         var root = tree.root;
@@ -28,11 +28,11 @@ describe('Splay tests', function () {
     
     it('zig step, x on the right, p is its root', function () {
         var tree = new SplayTree();
-        tree.add(1);
-        tree.add(0);
-        tree.add(3);
-        tree.add(2);
-        tree.add(4);
+        tree.addNoSplay(1);
+        tree.addNoSplay(0);
+        tree.addNoSplay(3);
+        tree.addNoSplay(2);
+        tree.addNoSplay(4);
 
         tree.root.right.splay();
         var root = tree.root;
@@ -53,13 +53,13 @@ describe('Splay tests', function () {
     
     it('zig zig step, all on the left', function () {
         var tree = new SplayTree();
-        tree.add(6);
-        tree.add(7);
-        tree.add(4);
-        tree.add(5);
-        tree.add(2);
-        tree.add(1);
-        tree.add(3);
+        tree.addNoSplay(6);
+        tree.addNoSplay(7);
+        tree.addNoSplay(4);
+        tree.addNoSplay(5);
+        tree.addNoSplay(2);
+        tree.addNoSplay(1);
+        tree.addNoSplay(3);
         
         tree.root.left.left.splay();
         var root = tree.root;
@@ -87,13 +87,13 @@ describe('Splay tests', function () {
 
     it('zig zig step, all on the right', function () {
         var tree = new SplayTree();
-        tree.add(2);
-        tree.add(1);
-        tree.add(4);
-        tree.add(3);
-        tree.add(6);
-        tree.add(5);
-        tree.add(7);
+        tree.addNoSplay(2);
+        tree.addNoSplay(1);
+        tree.addNoSplay(4);
+        tree.addNoSplay(3);
+        tree.addNoSplay(6);
+        tree.addNoSplay(5);
+        tree.addNoSplay(7);
 
         tree.root.right.right.splay();
         var root = tree.root;
@@ -121,13 +121,13 @@ describe('Splay tests', function () {
     
     it('zig-zag x is right child, p is left child', function () {
         var tree = new SplayTree();
-        tree.add(6);
-        tree.add(7);
-        tree.add(2);
-        tree.add(1);
-        tree.add(4);
-        tree.add(3);
-        tree.add(5);
+        tree.addNoSplay(6);
+        tree.addNoSplay(7);
+        tree.addNoSplay(2);
+        tree.addNoSplay(1);
+        tree.addNoSplay(4);
+        tree.addNoSplay(3);
+        tree.addNoSplay(5);
         
         tree.root.left.right.splay();
         var root = tree.root;
@@ -156,13 +156,13 @@ describe('Splay tests', function () {
 
     it('zig-zag x is left child, p is right child', function () {
         var tree = new SplayTree();
-        tree.add(2);
-        tree.add(1);
-        tree.add(6);
-        tree.add(7);
-        tree.add(4);
-        tree.add(3);
-        tree.add(5);
+        tree.addNoSplay(2);
+        tree.addNoSplay(1);
+        tree.addNoSplay(6);
+        tree.addNoSplay(7);
+        tree.addNoSplay(4);
+        tree.addNoSplay(3);
+        tree.addNoSplay(5);
 
         tree.root.right.left.splay();
         var root = tree.root;

@@ -4,6 +4,15 @@ function SplayTree() {
     var self = this;
 
     this.height = COMMON.treeHeight;
+
+    this.addNoSplay = function (value) {
+        if (this.root === null) {
+            this.root = new SplayNode(value);
+            this.root.tree = self; // !!!
+        } else {
+            this.root.addNoSplay(value, self);
+        }
+    };
     
     this.add = function (value) {
         if (this.root === null) {
