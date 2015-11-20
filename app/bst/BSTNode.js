@@ -37,7 +37,7 @@ function BSTNode(value) {
      * @returns {BSTNode}
      */
     this.add = function (value) {
-        this.visual = 'current';
+        this.visual = 'intermediate';
         SNC.add('Visiting node ' + this.value);
 
         if (value < this.value) {
@@ -46,13 +46,11 @@ function BSTNode(value) {
                 this.left.parent = this;
 
                 this.left.visual = 'current';
-                this.visual = '';
                 SNC.add('Creating new on the left');
                 this.left.visual = '';
                 SNC.add('Done');
             } else {
                 SNC.add('Item to add is smaller than current, going left');
-                this.visual = '';
                 this.left.add(value);
             }
         } else if (value > this.value) {
@@ -61,13 +59,11 @@ function BSTNode(value) {
                 this.right.parent = this;
 
                 this.right.visual = 'current';
-                this.visual = '';
                 SNC.add('Creating new on the right');
                 this.right.visual = '';
                 SNC.add('Done');
             } else {
                 SNC.add('Item to add is larger than current, going right');
-                this.visual = '';
                 this.right.add(value);
             }
         } else {
@@ -77,6 +73,9 @@ function BSTNode(value) {
             SNC.add('Found duplicate, nothing to do.');
         }
 
+        this.visual = '';
+        SNC.add('Going back');
+        
         return this;
     };
 
