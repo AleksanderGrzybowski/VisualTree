@@ -176,7 +176,6 @@ function SplayNode(value) {
     };
 
     this.rotateRight = function () {
-        SNC.add('Rotating right');
         if (this.parent === null) { // rotating root
             this.tree.rotateRightRoot();
             return;

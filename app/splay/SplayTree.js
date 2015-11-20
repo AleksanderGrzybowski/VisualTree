@@ -4,7 +4,9 @@ function SplayTree() {
     var self = this;
 
     this.height = COMMON.treeHeight;
-
+    
+    // warning: this method is only because
+    // we want to test just the splay operation    
     this.addNoSplay = function (value) {
         if (this.root === null) {
             this.root = new SplayNode(value);
@@ -55,7 +57,5 @@ function SplayTree() {
         if (this.root.right.left !== null) {
             this.root.right.left.parent = this.root.right;
         }
-
-        SNC.add('Finished rotating root right');
     };
 }
