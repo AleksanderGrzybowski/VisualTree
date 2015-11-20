@@ -396,3 +396,17 @@ describe('RBTree.rotateRight', function () {
         expect(root.right.right.parent).toBe(root.right);
     })
 });
+
+describe('RBNode.sibling', function () {
+    it('should work', function () {
+        var tree = new RBTree();
+
+        tree.add(2);
+        tree.add(1);
+        tree.add(3);
+        var root = tree.root;
+
+        expect(root.left.sibling()).toBe(root.right);
+        expect(root.right.sibling()).toBe(root.left);
+    });
+});

@@ -246,6 +246,18 @@ function RBNode(value) {
         p.left = savedRightN;
         savedRightN.parent = p;
     };
+    
+    this.sibling = function () {
+        // TODO: what if root?
+        
+        if (this.parent.left === this) {
+            return this.parent.right;
+        } else if (this.parent.right === this) {
+            return this.parent.left;
+        } else {
+            throw new Error();
+        }
+    }
 
 }
 
