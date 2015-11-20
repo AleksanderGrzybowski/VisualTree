@@ -410,3 +410,145 @@ describe('RBNode.sibling', function () {
         expect(root.right.sibling()).toBe(root.left);
     });
 });
+
+describe('RBNode.delete', function () {
+    
+    it('should delete simple leaf on the left', function () {
+        var tree = new RBTree();
+
+        tree.add(2);
+        tree.add(1);
+        tree.add(3);
+        
+        tree.delete(3);
+        var root = tree.root;
+        
+        expect(root.value).toBe(2);
+        
+        expect(root.left.value).toBe(1);
+        expect(root.left.parent).toBe(root);
+        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.right.isNil).toBe(true);
+        
+        expect(root.right.isNil).toBe(true);
+        
+    });
+
+    it('should delete simple leaf on the right', function () {
+        var tree = new RBTree();
+
+        tree.add(2);
+        tree.add(1);
+        tree.add(3);
+
+        tree.delete(1);
+        var root = tree.root;
+
+        expect(root.value).toBe(2);
+
+        expect(root.right.value).toBe(3);
+        expect(root.right.parent).toBe(root);
+        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.right.isNil).toBe(true);
+
+        expect(root.left.isNil).toBe(true);
+    });
+    
+    ///
+    
+    it('should delete node with one red child on the left, being left child of its parent', function () {
+        var tree = new RBTree();
+
+        tree.add(3);
+        tree.add(2);
+        tree.add(4);
+        tree.add(1);
+
+        tree.delete(2);
+        var root = tree.root;
+
+        expect(root.value).toBe(3);
+
+        expect(root.right.value).toBe(4);
+        expect(root.right.parent).toBe(root);
+        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.right.isNil).toBe(true);
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.parent).toBe(root);
+        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.right.isNil).toBe(true);
+    });
+    
+    it('should delete node with one red child on the left, being right child of its parent', function () {
+        var tree = new RBTree();
+
+        tree.add(2);
+        tree.add(1);
+        tree.add(4);
+        tree.add(3);
+
+        tree.delete(4);
+        var root = tree.root;
+
+        expect(root.value).toBe(2);
+
+        expect(root.right.value).toBe(3);
+        expect(root.right.parent).toBe(root);
+        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.right.isNil).toBe(true);
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.parent).toBe(root);
+        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.right.isNil).toBe(true);
+    });
+    
+    it('should delete node with one red child on the right, being left child of its parent', function () {
+        var tree = new RBTree();
+
+        tree.add(3);
+        tree.add(1);
+        tree.add(4);
+        tree.add(2);
+
+        tree.delete(1);
+        var root = tree.root;
+
+        expect(root.value).toBe(3);
+
+        expect(root.right.value).toBe(4);
+        expect(root.right.parent).toBe(root);
+        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.right.isNil).toBe(true);
+
+        expect(root.left.value).toBe(2);
+        expect(root.left.parent).toBe(root);
+        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.right.isNil).toBe(true);
+    });
+
+    it('should delete node with one red child on the right, being right child of its parent', function () {
+        var tree = new RBTree();
+
+        tree.add(2);
+        tree.add(1);
+        tree.add(3);
+        tree.add(4);
+
+        tree.delete(3);
+        var root = tree.root;
+
+        expect(root.value).toBe(2);
+
+        expect(root.right.value).toBe(4);
+        expect(root.right.parent).toBe(root);
+        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.right.isNil).toBe(true);
+
+        expect(root.left.value).toBe(1);
+        expect(root.left.parent).toBe(root);
+        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.right.isNil).toBe(true);
+    });
+});

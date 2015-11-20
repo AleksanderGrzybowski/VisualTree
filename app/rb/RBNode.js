@@ -257,7 +257,142 @@ function RBNode(value) {
         } else {
             throw new Error();
         }
-    }
+    };
 
+    /**
+     * @returns {number}
+     */
+    this.minValue = function () {
+        if (this.left.isNil) {
+            return this.value;
+        } else {
+            return this.left.minValue();
+        }
+    };
+
+    /**
+     * @param {number} value
+     */
+    this.delete = function (value) {
+        this.visual = 'intermediate';
+        SNC.add('Is this the one to delete? ' + this.value);
+
+        if (this.value !== value) {
+            SNC.add('This is not the one to delete, going left or right?');
+
+            if (value < this.value) {
+                SNC.add('Going left');
+
+                if (!this.left.isNil) {
+                    this.left.delete(value);
+                    this.visual = '';
+                    SNC.add('Going back');
+                } else {
+                    SNC.add('Node not found on the left');
+                    this.visual = '';
+                    SNC.add('Going back');
+                }
+            } else if (value > this.value) {
+                SNC.add('Going right');
+
+                if (!this.right.isNil) {
+                    this.right.delete(value);
+                    this.visual = '';
+                    SNC.add('Going back');
+                } else {
+                    SNC.add('Node not found on the right');
+                    this.visual = '';
+                    SNC.add('Going back');
+                }
+            }
+        } else {
+            // TODO which equals?
+            // remember where ref and where val
+            
+            //http://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
+            
+            this.visual = 'current';
+            SNC.add('This is the one to delete');
+
+            if (this.left.isNil && this.right.isNil) {
+                SNC.add('No children - removing!');
+
+                // remove itself using parent link, but
+                // must know if is is left or right
+                // every time
+
+                if (this === this.parent.left) {
+                    this.parent.left = new RBNil(this.parent);
+                } else if (this === this.parent.right) {
+                    this.parent.right = new RBNil(this.parent);
+                } else {
+                    throw new Error();
+                }
+
+                SNC.add('Done');
+            } else if (!this.left.isNil && this.right.isNil && this.left.color === 'red') {
+                SNC.add('Red child on the left - removing!');
+
+                if (this === this.parent.left) {
+                    this.parent.left = this.left;
+                    this.left.parent = this.parent;
+                } else if (this === this.parent.right) {// TODO
+                    this.parent.right = this.left;
+                    this.left.parent = this.parent;
+                    
+                } else {
+                    throw new Error();
+                }
+
+                SNC.add('Done');
+            } else if (this.left.isNil && !this.right.isNil && this.right.color === 'red') {
+                SNC.add('Red child on the right - removing!');
+
+                if (this === this.parent.left) {
+                    this.parent.left = this.right;
+                    this.right.parent = this.parent;
+                } else if (this === this.parent.right) {
+                    this.right.parent = this.parent;
+                    this.parent.right = this.right;
+                } else {
+                    throw new Error();
+                }
+
+                SNC.add('Done');
+            } else if (this.left !== null && this.right === null) {
+                SNC.add('Child on the left - removing!');
+
+                if (this === this.parent.left) {
+                    this.left.parent = this.parent;
+                    this.parent.left = this.left;
+                } else if (this === this.parent.right) {
+                    this.left.parent = this.parent;
+                    this.parent.right = this.left;
+                } else {
+                    throw new Error();
+                }
+
+                SNC.add('Done');
+            } else {
+                //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
+
+                SNC.add('Searching for minimum value in the right subtree...');
+                var min = this.right.minValue();
+
+                SNC.add('We have minimum ' + min);
+
+                // replace value of the node to be removed with found min
+                this.value = min;
+                SNC.add('Replace current node value with found minimum');
+                // apply remove to the right subtree to remove a duplicate
+
+                this.visual = 'intermediate';
+                SNC.add('Running remove recursively on the right subtree');
+                this.right.delete(min);
+                this.visual = '';
+                SNC.add('Going back');
+            }
+        }
+    }
 }
 

@@ -56,4 +56,9 @@ function RBTree() {
 
         SNC.add('Finished rotating root right');
     };
+    
+    this.delete = function (value) {
+        // TODO maybe...
+        this.root.delete(value)
+    }
 }
