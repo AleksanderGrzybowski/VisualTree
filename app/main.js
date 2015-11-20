@@ -85,6 +85,15 @@ visualTree.controller('MainCtrl', function ($interval) {
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
+    
+    vm.find = function () {
+        if (!isNaN(vm.number)) {
+            SNC.init(vm.tree, vm.treeType);
+            vm.tree.find(+vm.number);
+            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
+        }
+    };
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;

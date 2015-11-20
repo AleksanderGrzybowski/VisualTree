@@ -135,3 +135,38 @@ describe('SplayTree.add', function () {
         expect(root.right.left.right.isLeaf()).toBe(true);
     })
 });
+
+describe('SplayTree.find', function () {
+
+    it('should not fail when there are no elements', function () {
+        var tree = new SplayTree();
+
+        tree.find(1);
+        var root = tree.root;
+
+        expect(root).toBe(null);
+    });
+    
+    it('should find 1 element in 1 element tree', function () {
+        var tree = new SplayTree();
+        tree.add(1);
+
+        tree.find(1);
+        var root = tree.root;
+
+        expect(root.value).toBe(1);
+    });
+    
+    it('should find element in 2-element tree and splay it', function () {
+        var tree = new SplayTree();
+        tree.add(1);
+        tree.add(2);
+        
+        tree.find(1);
+        var root = tree.root;
+        
+        expect(root.value).toBe(1);
+        expect(root.left).toBeNull();
+        expect(root.right.value).toBe(2);
+    })
+});

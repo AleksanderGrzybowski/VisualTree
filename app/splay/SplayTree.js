@@ -58,4 +58,16 @@ function SplayTree() {
             this.root.right.left.parent = this.root.right;
         }
     };
+
+    this.find = function (value) {
+        if (this.root === null) {
+            return;
+        }
+        
+        if (this.root.value === value) {
+            SNC.add('Found at root');
+        } else {
+            this.root.find(value);
+        }
+    }
 }

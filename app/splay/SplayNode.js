@@ -200,4 +200,41 @@ function SplayNode(value) {
             savedRightN.parent = p; // TODO not sure if we need the same check as in root rotations
         }
     };
+    
+    this.find = function (value) {
+        this.visual = 'intermediate';
+        SNC.add('Visiting node ' + this.value);
+
+        if (this.value !== value) {
+            if (value < this.value) {
+                SNC.add('Going left');
+
+                if (this.left !== null) {
+                    this.left.find(value);
+                    this.visual = '';
+                    SNC.add('Going back');
+                } else {
+                    SNC.add('Node not found on the left');
+                    this.visual = '';
+                    SNC.add('Going back');
+                }
+            } else if (value > this.value) {
+                SNC.add('Going right');
+
+                if (this.right !== null) {
+                    this.right.find(value);
+                    this.visual = '';
+                    SNC.add('Going back');
+                } else {
+                    SNC.add('Node not found on the right');
+                    this.visual = '';
+                    SNC.add('Going back');
+                }
+            }
+        } else {
+            SNC.add('Found node ' + this.value + '!');
+            this.splay();
+        }
+
+    }
 }
