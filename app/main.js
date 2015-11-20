@@ -65,6 +65,20 @@ visualTree.controller('MainCtrl', function ($interval) {
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
+    vm.preorder = function () {
+        SNC.init(vm.tree, vm.treeType);
+        vm.tree.preorder();
+        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
+    };
+    
+    vm.postorder = function () {
+        SNC.init(vm.tree, vm.treeType);
+        vm.tree.postorder();
+        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
+    };
+
     vm.deleteMin = function () {
         SNC.init(vm.tree, vm.treeType);
         vm.tree.deleteMin();

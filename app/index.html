@@ -73,7 +73,7 @@
     <div class="row" id="content">
         <div class="col-md-8">
             <div class="row tree-controls" >
-                <div class="col-md-8 col-md-push-2">
+                <div class="col-md-10 col-md-push-1">
                     <form class="form-inline" ng-show="vm.treeType === 'bst'">
                         <div class="form-group">
                             <label for="number">Number:</label>
@@ -83,6 +83,10 @@
                         <button type="button" id="add" class="btn btn-success" ng-click="vm.add()">Add</button>
                         <button type="button" id="delete" class="btn btn-warning" ng-click="vm.delete()">Delete</button>
                         <button type="button" id="inorder" class="btn btn-default" ng-click="vm.inorder()">Inorder
+                        </button>
+                        <button type="button" id="preorder" class="btn btn-default" ng-click="vm.preorder()">Preorder
+                        </button>
+                        <button type="button" id="postorder" class="btn btn-default" ng-click="vm.postorder()">Postorder
                         </button>
                     </form>
                     <form class="form-inline" ng-show="vm.treeType === 'heap'">

@@ -102,6 +102,49 @@ function BSTNode(value) {
         SNC.add('Going back');
     };
 
+    this.preorder = function () {
+        this.visual = 'current';
+        SNC.add('Visiting ' + this.value);
+
+        if (this.left !== null) {
+            this.visual = 'intermediate';
+            SNC.add('Going left');
+
+            this.left.preorder();
+        }
+
+        if (this.right !== null) {
+            this.visual = 'intermediate';
+            SNC.add('Going right');
+
+            this.right.preorder();
+        }
+
+        this.visual = '';
+        SNC.add('Going back');
+    };
+    
+    this.postorder = function () {
+        if (this.left !== null) {
+            this.visual = 'intermediate';
+            SNC.add('Going left');
+
+            this.left.postorder();
+        }
+
+        if (this.right !== null) {
+            this.visual = 'intermediate';
+            SNC.add('Going right');
+
+            this.right.postorder();
+        }
+        this.visual = 'current';
+        SNC.add('Visiting ' + this.value);
+        
+        this.visual = '';
+        SNC.add('Going back');
+    };
+
     /**
      * @returns {number}
      */

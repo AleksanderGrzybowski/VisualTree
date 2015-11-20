@@ -21,6 +21,18 @@ function BSTree() {
 
     this.height = COMMON.treeHeight;
 
+    this.postorder = function () {
+        if (this.root !== null) {
+            this.root.postorder();
+        }
+    };
+    
+    this.preorder = function () {
+        if (this.root !== null) {
+            this.root.preorder();
+        }
+    };
+    
     this.inorder = function () {
         if (this.root !== null) {
             this.root.inorder();
