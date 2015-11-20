@@ -478,6 +478,7 @@ describe('RBNode.delete', function () {
         expect(root.left.parent).toBe(root);
         expect(root.left.left.isNil).toBe(true);
         expect(root.left.right.isNil).toBe(true);
+        expect(root.left.color).toBe('black');
     });
     
     it('should delete node with one red child on the left, being right child of its parent', function () {
@@ -497,6 +498,7 @@ describe('RBNode.delete', function () {
         expect(root.right.parent).toBe(root);
         expect(root.right.left.isNil).toBe(true);
         expect(root.right.right.isNil).toBe(true);
+        expect(root.right.color).toBe('black');
 
         expect(root.left.value).toBe(1);
         expect(root.left.parent).toBe(root);
@@ -526,6 +528,7 @@ describe('RBNode.delete', function () {
         expect(root.left.parent).toBe(root);
         expect(root.left.left.isNil).toBe(true);
         expect(root.left.right.isNil).toBe(true);
+        expect(root.left.color).toBe('black');
     });
 
     it('should delete node with one red child on the right, being right child of its parent', function () {
@@ -545,6 +548,7 @@ describe('RBNode.delete', function () {
         expect(root.right.parent).toBe(root);
         expect(root.right.left.isNil).toBe(true);
         expect(root.right.right.isNil).toBe(true);
+        expect(root.right.color).toBe('black');
 
         expect(root.left.value).toBe(1);
         expect(root.left.parent).toBe(root);

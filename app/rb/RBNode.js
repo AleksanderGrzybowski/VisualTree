@@ -336,9 +336,11 @@ function RBNode(value) {
                 if (this === this.parent.left) {
                     this.parent.left = this.left;
                     this.left.parent = this.parent;
+                    this.left.color = 'black';
                 } else if (this === this.parent.right) {// TODO
                     this.parent.right = this.left;
                     this.left.parent = this.parent;
+                    this.left.color = 'black';
                     
                 } else {
                     throw new Error();
@@ -351,9 +353,11 @@ function RBNode(value) {
                 if (this === this.parent.left) {
                     this.parent.left = this.right;
                     this.right.parent = this.parent;
+                    this.right.color = 'black';
                 } else if (this === this.parent.right) {
                     this.right.parent = this.parent;
                     this.parent.right = this.right;
+                    this.right.color = 'black';
                 } else {
                     throw new Error();
                 }
