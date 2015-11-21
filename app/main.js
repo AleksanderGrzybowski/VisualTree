@@ -45,6 +45,7 @@ visualTree.controller('MainCtrl', function ($interval) {
             SNC.init(vm.tree, vm.treeType);
             vm.tree.add(+vm.number);
             vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            vm.currentSnapshotIndex = 0;
             BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
     };
@@ -54,6 +55,7 @@ visualTree.controller('MainCtrl', function ($interval) {
             SNC.init(vm.tree, vm.treeType); 
             vm.tree.delete(+vm.number);
             vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            vm.currentSnapshotIndex = 0;
             BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
     };
@@ -62,6 +64,7 @@ visualTree.controller('MainCtrl', function ($interval) {
         SNC.init(vm.tree, vm.treeType);
         vm.tree.inorder();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        vm.currentSnapshotIndex = 0;
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
@@ -69,6 +72,7 @@ visualTree.controller('MainCtrl', function ($interval) {
         SNC.init(vm.tree, vm.treeType);
         vm.tree.preorder();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        vm.currentSnapshotIndex = 0;
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
     
@@ -76,6 +80,7 @@ visualTree.controller('MainCtrl', function ($interval) {
         SNC.init(vm.tree, vm.treeType);
         vm.tree.postorder();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        vm.currentSnapshotIndex = 0;
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
 
@@ -83,6 +88,7 @@ visualTree.controller('MainCtrl', function ($interval) {
         SNC.init(vm.tree, vm.treeType);
         vm.tree.deleteMin();
         vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+        vm.currentSnapshotIndex = 0;
         BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
     };
     
@@ -91,6 +97,7 @@ visualTree.controller('MainCtrl', function ($interval) {
             SNC.init(vm.tree, vm.treeType);
             vm.tree.find(+vm.number);
             vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            vm.currentSnapshotIndex = 0;
             BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
     };
