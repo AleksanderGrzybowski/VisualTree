@@ -208,6 +208,7 @@ function SplayNode(value) {
         if (this.value !== value) {
             if (value < this.value) {
                 SNC.add('Going left');
+                this.visual = '';
 
                 if (this.left !== null) {
                     this.left.find(value);
@@ -220,6 +221,7 @@ function SplayNode(value) {
                 }
             } else if (value > this.value) {
                 SNC.add('Going right');
+                this.visual = '';
 
                 if (this.right !== null) {
                     this.right.find(value);
@@ -233,6 +235,7 @@ function SplayNode(value) {
             }
         } else {
             SNC.add('Found node ' + this.value + '!');
+            this.visual = '';
             this.splay();
         }
 
