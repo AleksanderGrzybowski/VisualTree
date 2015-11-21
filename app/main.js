@@ -4,7 +4,6 @@ visualTree.controller('MainCtrl', function ($interval) {
     log.info('Angular controller initializes');
     var vm = this;
 
-    vm.delay = 1000;
     vm.treeType = 'bst';
 
     /**
@@ -179,7 +178,7 @@ visualTree.controller('MainCtrl', function ($interval) {
                     $interval.cancel(vm.animationPromise);
                     vm.isPlaying = false;
                 }
-            }, vm.delay);
+            }, CONFIG.delay);
         }
     };
     

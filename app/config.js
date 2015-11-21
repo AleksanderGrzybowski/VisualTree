@@ -1,6 +1,7 @@
 //noinspection JSLastCommaInObjectLiteral,JSDuplicatedDeclaration
 var CONFIG = {
     circleRadius: 80,
+    delay: 500, // ms
 
     defaultBSTElements: [],
     defaultHeapElements: [],
