@@ -3,8 +3,8 @@ line {
     stroke-width: 4px;
 }
 svg {
-    border: 1px solid black;
-    margin: 10px auto;
+    border: 1px solid #aaaaaa;
+    margin: 0px auto;
     display: block;
 }
 
