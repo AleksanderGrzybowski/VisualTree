@@ -155,7 +155,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody ng-show="vm.currentSnapshots.length > 0 && vm.currentSnapshots[0] !== null">
                 <tr ng-repeat="e in vm.currentSnapshots" 
                     ng-class="{'success': vm.currentSnapshotIndex === $index}" 
                     ng-click="vm.setSelectedSnapshot($index)">
