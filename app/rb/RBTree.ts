@@ -3,11 +3,13 @@
 declare var SNC:any;
 
 class RBTree {
+    
+    root: RBNode;
+    
     constructor() {
         this.root = null;
     }
     
-    root: RBNode;
 
     treeHeight() {
         if (this.root === null) {

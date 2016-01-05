@@ -18,7 +18,6 @@ module.exports = function (config) {
             //'bower_components/jquery/dist/jquery.js',
             //'app/*.js',
 
-            'app/common/*.js',
             'app/bst/*BST*.js',
             'app/heap/*Heap*.js',
             'app/rb/*RB*.js',

@@ -1,14 +1,13 @@
 /// <reference path="SplayNode.ts" />
 
 class SplayTree {
-    
-    constructor() {
 
+    root:SplayNode;
+
+    constructor() {
         this.root = null;
     }
 
-    root: SplayNode;
-    
 
     treeHeight() {
         if (this.root === null) {
@@ -17,27 +16,25 @@ class SplayTree {
             return this.root.height();
         }
     }
-    
+
     // warning: this method is only because
     // we want to test just the splay operation    
-    addNoSplay (value: number) {
-    var self = this;
+    addNoSplay(value:number) {
         if (this.root === null) {
             this.root = new SplayNode(value);
-            this.root.tree = self; // !!!
+            this.root.tree = this; // !!!
         } else {
-            this.root.addNoSplay(value, self);
+            this.root.addNoSplay(value, this);
         }
     };
-    
-    add (value:number) {
-    var self = this;
+
+    add(value:number) {
         if (this.root === null) {
             this.root = new SplayNode(value);
-            this.root.tree = self; // !!!
+            this.root.tree = this; // !!!
             SNC.add('Adding root');
         } else {
-            this.root.add(value, self);
+            this.root.add(value, this);
         }
     };
 
@@ -45,7 +42,7 @@ class SplayTree {
     // while rotating right, B changes parent,
     // but B can be null!
     // same thing for rotating left 
-    
+
     rotateLeftRoot() {
         var b = this.root.right.left;
         this.root.right.left = this.root;
@@ -60,7 +57,7 @@ class SplayTree {
         }
     };
 
-    rotateRightRoot () {
+    rotateRightRoot() {
         var b = this.root.left.right;
         this.root.left.right = this.root;
         this.root.left.right.parent = this.root.left;
@@ -74,11 +71,11 @@ class SplayTree {
         }
     };
 
-    find (value: number) {
+    find(value:number) {
         if (this.root === null) {
             return;
         }
-        
+
         if (this.root.value === value) {
             SNC.add('Found at root');
         } else {

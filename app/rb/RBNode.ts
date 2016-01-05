@@ -2,8 +2,18 @@
 declare var SNC:any;
 
 class RBNode {
+    
+    value:number;
+    color:string;
+    visual:string;
+
+    left:RBNode;
+    right:RBNode;
+    parent:RBNode;
+    tree:RBTree;
+    
     constructor(value:number) {
-        this.value = value; // TODO is it right?
+        this.value = value;
         if (value == -1337) {
             this.color = 'black';
         } else {
@@ -22,21 +32,11 @@ class RBNode {
         this.visual = '';
     }
 
-    value:number;
-    color:string;
-    visual:string;
-
-    left:RBNode;
-    right:RBNode;
-    parent:RBNode;
-    tree:RBTree;
-
     isNil():boolean {
         return this.value == -1337;
     }
 
-
-    height() {
+    height():number {
         if (this.left === null && this.right === null) {
             return 1;
         } else {
@@ -90,7 +90,7 @@ class RBNode {
         }
     };
 
-    grandparent() {
+    grandparent():RBNode {
         if (this.parent !== null) {
             return this.parent.parent; // asssumes root.parent == null
         } else {
@@ -98,7 +98,7 @@ class RBNode {
         }
     };
 
-    uncle() {
+    uncle():RBNode {
         var g = this.grandparent();
 
         if (g === null) {
@@ -248,6 +248,5 @@ class RBNode {
         p.left = savedRightN;
         savedRightN.parent = p;
     };
-
 }
 

@@ -1,56 +1,6 @@
 /// <reference path="SplayTree.ts" />
 var SplayNode = (function () {
     function SplayNode(value) {
-        // TODO tidy up copypasta
-        this.add = function (value, tree) {
-            this.visual = 'current';
-            SNC.add('Visiting node ' + this.value);
-            if (value < this.value) {
-                if (this.left === null) {
-                    this.left = new SplayNode(value);
-                    this.left.tree = tree;
-                    this.left.parent = this;
-                    this.left.visual = 'current';
-                    this.visual = '';
-                    SNC.add('Creating new on the left');
-                    this.left.visual = '';
-                    this.left.splay();
-                    SNC.add('Splaying');
-                    SNC.add('Done');
-                }
-                else {
-                    SNC.add('Item to add is smaller than current, going left');
-                    this.visual = '';
-                    this.left.add(value, tree);
-                }
-            }
-            else if (value > this.value) {
-                if (this.right === null) {
-                    this.right = new SplayNode(value);
-                    this.right.tree = tree;
-                    this.right.parent = this;
-                    this.right.visual = 'current';
-                    this.visual = '';
-                    SNC.add('Creating new on the right');
-                    this.right.visual = '';
-                    this.right.splay();
-                    SNC.add('Splaying');
-                    SNC.add('Done');
-                }
-                else {
-                    SNC.add('Item to add is larger than current, going right');
-                    this.visual = '';
-                    this.right.add(value, tree);
-                }
-            }
-            else {
-                this.visual = 'current';
-                SNC.add('Found duplicate, nothing to do.');
-                this.visual = '';
-                SNC.add('Found duplicate, nothing to do.');
-            }
-            return this;
-        };
         this.value = value;
         this.left = null;
         this.right = null;
@@ -159,6 +109,57 @@ var SplayNode = (function () {
         if (this.parent !== null) {
             this.splay();
         }
+    };
+    ;
+    // TODO tidy up copypasta
+    SplayNode.prototype.add = function (value, tree) {
+        this.visual = 'current';
+        SNC.add('Visiting node ' + this.value);
+        if (value < this.value) {
+            if (this.left === null) {
+                this.left = new SplayNode(value);
+                this.left.tree = tree;
+                this.left.parent = this;
+                this.left.visual = 'current';
+                this.visual = '';
+                SNC.add('Creating new on the left');
+                this.left.visual = '';
+                this.left.splay();
+                SNC.add('Splaying');
+                SNC.add('Done');
+            }
+            else {
+                SNC.add('Item to add is smaller than current, going left');
+                this.visual = '';
+                this.left.add(value, tree);
+            }
+        }
+        else if (value > this.value) {
+            if (this.right === null) {
+                this.right = new SplayNode(value);
+                this.right.tree = tree;
+                this.right.parent = this;
+                this.right.visual = 'current';
+                this.visual = '';
+                SNC.add('Creating new on the right');
+                this.right.visual = '';
+                this.right.splay();
+                SNC.add('Splaying');
+                SNC.add('Done');
+            }
+            else {
+                SNC.add('Item to add is larger than current, going right');
+                this.visual = '';
+                this.right.add(value, tree);
+            }
+        }
+        else {
+            this.visual = 'current';
+            SNC.add('Found duplicate, nothing to do.');
+            this.visual = '';
+            SNC.add('Found duplicate, nothing to do.');
+        }
+        return this;
     };
     ;
     SplayNode.prototype.rotateLeft = function () {

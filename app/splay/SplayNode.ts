@@ -3,6 +3,14 @@ declare var SNC:any;
 
 class SplayNode {
 
+    left:SplayNode;
+    right:SplayNode;
+    parent:SplayNode;
+    value:number;
+
+    visual:string;
+    tree:SplayTree;
+
     constructor(value:number) {
         this.value = value;
 
@@ -11,15 +19,7 @@ class SplayNode {
         this.parent = null;
 
         this.visual = '';
-
     }
-
-    left:SplayNode;
-    right:SplayNode;
-    parent:SplayNode;
-    value:number;
-    visual:string;
-    tree:SplayTree;
 
 
     height() {
@@ -94,7 +94,7 @@ class SplayNode {
     };
 
     splay() {
-        var p, g;
+        var p:SplayNode, g:SplayNode;
         if (this.parent.parent === null) { // 'zig'
             if (this.parent.left === this) { // left child
                 this.parent.rotateRight();
@@ -126,7 +126,7 @@ class SplayNode {
     };
 
     // TODO tidy up copypasta
-    add = function (value:number, tree:SplayTree) {
+    add(value:number, tree:SplayTree):SplayNode {
         this.visual = 'current';
         SNC.add('Visiting node ' + this.value);
 
@@ -266,6 +266,5 @@ class SplayNode {
             this.visual = '';
             this.splay();
         }
-
     }
 }

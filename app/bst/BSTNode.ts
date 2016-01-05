@@ -2,21 +2,20 @@ declare var SNC:any;
 
 class BSTNode {
 
+    left:BSTNode;
+    right:BSTNode;
+    parent:BSTNode;
+    value:number;
+
+    visual:string;
+
     constructor(value:number) {
-        this.left = null;
-        this.right = null;
-        this.parent = null;
+        this.left = this.right = this.parent = null;
         this.value = value;
         this.visual = '';
     }
 
-    left:BSTNode;
-    right:BSTNode;
-    parent:BSTNode;
-
-    value:number;
-    visual:string;
-
+    
     isLeaf():boolean {
         return this.left === null && this.right === null;
     };
@@ -30,7 +29,6 @@ class BSTNode {
 
         return node;
     };
-
 
     height():number {
         if (this.left === null && this.right === null) {
@@ -156,12 +154,8 @@ class BSTNode {
         SNC.add('Going back');
     };
 
-    minValue() {
-        if (this.left === null) {
-            return this.value;
-        } else {
-            return this.left.minValue();
-        }
+    minValue():number {
+        return (this.left === null) ? this.value : this.left.minValue();
     };
 
 

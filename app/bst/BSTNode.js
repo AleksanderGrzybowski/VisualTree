@@ -1,8 +1,6 @@
 var BSTNode = (function () {
     function BSTNode(value) {
-        this.left = null;
-        this.right = null;
-        this.parent = null;
+        this.left = this.right = this.parent = null;
         this.value = value;
         this.visual = '';
     }
@@ -129,12 +127,7 @@ var BSTNode = (function () {
     };
     ;
     BSTNode.prototype.minValue = function () {
-        if (this.left === null) {
-            return this.value;
-        }
-        else {
-            return this.left.minValue();
-        }
+        return (this.left === null) ? this.value : this.left.minValue();
     };
     ;
     BSTNode.prototype.delete = function (value) {

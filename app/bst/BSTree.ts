@@ -3,12 +3,13 @@ declare var SNC:any;
 
 class BSTree {
 
+    root:BSTNode;
+    
     constructor() {
         this.root = null;
     }
 
-    root:BSTNode;
-
+    
     add(value:number) {
         if (this.root === null) {
             this.root = new BSTNode(value);
@@ -25,11 +26,7 @@ class BSTree {
     };
 
     height() {
-        if (this.root === null) {
-            return 0;
-        } else {
-            return this.root.height();
-        }
+        return (this.root === null) ? 0 : this.root.height();
     };
 
     postorder() {
@@ -44,16 +41,21 @@ class BSTree {
         }
     };
 
-    inorder () {
+    inorder() {
         if (this.root !== null) {
             this.root.inorder();
         }
     };
 
-    delete(value: number) {
+    delete(value:number) { // TODO rename this
+        if (this.root === null) {
+            return;
+        }
+        
         if (this.root.value === value) { // removing root
             this.root.visual = 'current'; // no need to revert it - will be deleted
             SNC.add('Deleting root');
+            
             if (this.root.left === null && this.root.right === null) {
                 // TODO here root is not preserved, so SNC can't track it...
                 this.root = null;

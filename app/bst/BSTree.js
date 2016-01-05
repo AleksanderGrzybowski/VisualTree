@@ -20,12 +20,7 @@ var BSTree = (function () {
     };
     ;
     BSTree.prototype.height = function () {
-        if (this.root === null) {
-            return 0;
-        }
-        else {
-            return this.root.height();
-        }
+        return (this.root === null) ? 0 : this.root.height();
     };
     ;
     BSTree.prototype.postorder = function () {
@@ -47,6 +42,9 @@ var BSTree = (function () {
     };
     ;
     BSTree.prototype.delete = function (value) {
+        if (this.root === null) {
+            return;
+        }
         if (this.root.value === value) {
             this.root.visual = 'current'; // no need to revert it - will be deleted
             SNC.add('Deleting root');

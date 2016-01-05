@@ -2,17 +2,18 @@ declare var SNC:any;
 
 class HeapNode {
 
+    value:number;
+    left:HeapNode;
+    right:HeapNode;
+    parent:HeapNode;
+    visual:string;
+
     constructor(value:number, visual:string) {
         this.value = value;
         this.visual = visual;
         this.left = this.right = this.parent = null;
     }
 
-    value:number;
-    left:HeapNode;
-    right:HeapNode;
-    parent:HeapNode;
-    visual:string;
 
     height() {
         if (this.left === null && this.right === null) {
@@ -32,36 +33,32 @@ class HeapNode {
 }
 
 class HeapArrayElement {
-    constructor(value:number, visual?:string) {
+    constructor(public value:number, public visual?:string) {
         this.value = value;
-        this.visual = visual; // TODO shorthand?
+        this.visual = visual;
     }
-
-    value:number;
-    visual:string;
 }
 
 class Heap {
-    // Dummy element to simplify algs
-    // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
 
+    data:HeapArrayElement[];
+    
     constructor() {
+        // Dummy element to simplify algs
+        // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
         this.data = [new HeapArrayElement(-1)];
     }
 
-    data:HeapArrayElement[];
 
     toArray() {
-        return this.data.slice(1).map(function (e) {
-            return e.value;
-        });
+        return this.data.slice(1).map(e => e.value);
     };
 
     height() {
-        return this.toTree(null, null).height(); // TODO better way
+        return this.toTree().height();
     };
 
-    toTree(that:HeapNode, k:number) {
+    toTree(that?:HeapNode, k?:number) {
         if (this.data.length === 1) { // empty
             return null;
         }
@@ -90,7 +87,7 @@ class Heap {
     };
 
     add(what:number) {
-        this.data.push({value: what, visual: 'current'});
+        this.data.push(new HeapArrayElement(what, 'current'));
         SNC.add('Added element (' + what + ') at the end');
 
         var pos = this.data.length - 1;
@@ -143,10 +140,11 @@ class Heap {
         } else if (this.data.length == 2) { // delete root
             this.data[1].visual = 'current';
             SNC.add('Removing root');
-            this.data.splice(1,1);
+            this.data.splice(1, 1);
             SNC.add('Removed');
             return;
         }
+        
         this.data[1].visual = 'current';
         this.data[this.data.length - 1].visual = 'current';
         SNC.add('Removing root (' + this.data[1].value + '), replacing it with the last element ('
@@ -155,7 +153,8 @@ class Heap {
         this.data[1] = this.data[this.data.length - 1];
         this.data.splice(this.data.length - 1, 1);
 
-        var k = 1, tmp; // root
+        var k = 1;
+        var tmp:HeapArrayElement; // root
 
         while (true) {
             if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {

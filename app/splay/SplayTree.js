@@ -14,25 +14,23 @@ var SplayTree = (function () {
     // warning: this method is only because
     // we want to test just the splay operation    
     SplayTree.prototype.addNoSplay = function (value) {
-        var self = this;
         if (this.root === null) {
             this.root = new SplayNode(value);
-            this.root.tree = self; // !!!
+            this.root.tree = this; // !!!
         }
         else {
-            this.root.addNoSplay(value, self);
+            this.root.addNoSplay(value, this);
         }
     };
     ;
     SplayTree.prototype.add = function (value) {
-        var self = this;
         if (this.root === null) {
             this.root = new SplayNode(value);
-            this.root.tree = self; // !!!
+            this.root.tree = this; // !!!
             SNC.add('Adding root');
         }
         else {
-            this.root.add(value, self);
+            this.root.add(value, this);
         }
     };
     ;

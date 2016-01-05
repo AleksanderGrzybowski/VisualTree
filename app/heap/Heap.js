@@ -25,24 +25,24 @@ var HeapNode = (function () {
 var HeapArrayElement = (function () {
     function HeapArrayElement(value, visual) {
         this.value = value;
-        this.visual = visual; // TODO shorthand?
+        this.visual = visual;
+        this.value = value;
+        this.visual = visual;
     }
     return HeapArrayElement;
 })();
 var Heap = (function () {
-    // Dummy element to simplify algs
-    // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
     function Heap() {
+        // Dummy element to simplify algs
+        // http://www.cs.cmu.edu/~adamchik/15-121/lectures/Binary%20Heaps/heaps.html
         this.data = [new HeapArrayElement(-1)];
     }
     Heap.prototype.toArray = function () {
-        return this.data.slice(1).map(function (e) {
-            return e.value;
-        });
+        return this.data.slice(1).map(function (e) { return e.value; });
     };
     ;
     Heap.prototype.height = function () {
-        return this.toTree(null, null).height(); // TODO better way
+        return this.toTree().height();
     };
     ;
     Heap.prototype.toTree = function (that, k) {
@@ -73,7 +73,7 @@ var Heap = (function () {
     };
     ;
     Heap.prototype.add = function (what) {
-        this.data.push({ value: what, visual: 'current' });
+        this.data.push(new HeapArrayElement(what, 'current'));
         SNC.add('Added element (' + what + ') at the end');
         var pos = this.data.length - 1;
         while (true) {
@@ -132,7 +132,8 @@ var Heap = (function () {
             + this.data[this.data.length - 1].value + ')');
         this.data[1] = this.data[this.data.length - 1];
         this.data.splice(this.data.length - 1, 1);
-        var k = 1, tmp; // root
+        var k = 1;
+        var tmp; // root
         while (true) {
             if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
                 if (this.data[k] !== undefined) {

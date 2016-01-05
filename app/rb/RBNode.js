@@ -1,7 +1,7 @@
 /// <reference path="RBTree.ts" />
 var RBNode = (function () {
     function RBNode(value) {
-        this.value = value; // TODO is it right?
+        this.value = value;
         if (value == -1337) {
             this.color = 'black';
         }
