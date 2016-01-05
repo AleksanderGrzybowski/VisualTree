@@ -1,18 +1,25 @@
 /// <reference path="RBNode.ts" />
 /// <reference path="RBInterface.ts" />
-var RBTree = (function () {
-    function RBTree() {
+
+declare var SNC:any;
+
+class RBTree {
+    constructor() {
+
         this.root = null;
     }
-    RBTree.prototype.treeHeight = function () {
+    
+    root: RBNode;
+
+    treeHeight() {
         if (this.root === null) {
             return 0;
-        }
-        else {
+        } else {
             return this.root.height();
         }
-    };
-    RBTree.prototype.add = function (value) {
+    }
+
+    add (value:number) {
         // TODO
         // I am not sure why it doesn't fail
         // we add .tree property only to the root
@@ -24,43 +31,45 @@ var RBTree = (function () {
             this.root.color = 'black';
             this.root.tree = this; // !!!
             SNC.add('Added');
-        }
-        else {
+        } else {
             this.root.add(value);
         }
     };
-    ;
-    RBTree.prototype.addAll = function (arr) {
+
+    addAll (arr: number[]) {
         for (var i = 0; i < arr.length; ++i) {
             this.add(arr[i]);
         }
     };
-    ;
-    RBTree.prototype.rotateLeftRoot = function () {
+
+   rotateLeftRoot () {
         // https://upload.wikimedia.org/wikipedia/commons/2/23/Tree_rotation.png
+
         SNC.add('Rotating root left');
         var b = this.root.right.left;
         this.root.right.left = this.root;
         this.root.right.left.parent = this.root.right;
+
         this.root = this.root.right;
         this.root.parent = null;
         this.root.left.right = b;
         this.root.left.right.parent = this.root.left;
+
         SNC.add('Finished rotating root left');
     };
-    ;
-    RBTree.prototype.rotateRightRoot = function () {
+
+    rotateRightRoot () {
         SNC.add('Rotating root right');
+
         var b = this.root.left.right;
         this.root.left.right = this.root;
         this.root.left.right.parent = this.root.left;
+
         this.root = this.root.left;
         this.root.parent = null;
         this.root.right.left = b;
         this.root.right.left.parent = this.root.right;
+
         SNC.add('Finished rotating root right');
     };
-    ;
-    return RBTree;
-})();
-//# sourceMappingURL=RBTree.js.map
+}
