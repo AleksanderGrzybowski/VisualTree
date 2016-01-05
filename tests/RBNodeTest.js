@@ -13,14 +13,14 @@ describe('RBTree()', function () {
         expect(root).not.toBeNull();
         expect(root.value).toBe(5);
         expect(root.color).toBe('black');
-        expect(root.isNil).toBe(false);
+        expect(root.isNil()).toBe(false);
         expect(root.parent).toBe(null);
 
-        expect(root.left.isNil).toBe(true);
+        expect(root.left.isNil()).toBe(true);
         expect(root.left.color).toBe('black');
         expect(root.left.parent).toBe(root);
 
-        expect(root.right.isNil).toBe(true);
+        expect(root.right.isNil()).toBe(true);
         expect(root.right.color).toBe('black');
         expect(root.right.parent).toBe(root);
     });
@@ -38,16 +38,16 @@ describe('RBTree.add', function () {
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
 
-        expect(root.right.isNil).toBe(true);
+        expect(root.right.isNil()).toBe(true);
 
-        expect(root.left.isNil).toBe(false);
+        expect(root.left.isNil()).toBe(false);
         expect(root.left.value).toBe(1);
         expect(root.left.color).toBe('red');
         expect(root.left.parent).toBe(root);
 
-        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.left.isNil()).toBe(true);
         expect(root.left.left.parent).toBe(root.left);
-        expect(root.left.right.isNil).toBe(true);
+        expect(root.left.right.isNil()).toBe(true);
         expect(root.left.right.parent).toBe(root.left);
     });
 
@@ -59,24 +59,24 @@ describe('RBTree.add', function () {
         expect(root.value).toBe(2);
         expect(root.color).toBe('black');
 
-        expect(root.left.isNil).toBe(false);
+        expect(root.left.isNil()).toBe(false);
         expect(root.left.value).toBe(1);
         expect(root.left.color).toBe('red');
         expect(root.left.parent).toBe(root);
 
-        expect(root.right.isNil).toBe(false);
+        expect(root.right.isNil()).toBe(false);
         expect(root.right.value).toBe(3);
         expect(root.right.color).toBe('red');
         expect(root.right.parent).toBe(root);
 
-        expect(root.left.left.isNil).toBe(true);
+        expect(root.left.left.isNil()).toBe(true);
         expect(root.left.left.parent).toBe(root.left);
-        expect(root.left.right.isNil).toBe(true);
+        expect(root.left.right.isNil()).toBe(true);
         expect(root.left.right.parent).toBe(root.left);
 
-        expect(root.right.left.isNil).toBe(true);
+        expect(root.right.left.isNil()).toBe(true);
         expect(root.right.left.parent).toBe(root.right);
-        expect(root.right.right.isNil).toBe(true);
+        expect(root.right.right.isNil()).toBe(true);
         expect(root.right.right.parent).toBe(root.right);
     });
 

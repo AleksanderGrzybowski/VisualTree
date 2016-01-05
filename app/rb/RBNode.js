@@ -1,53 +1,24 @@
 /// <reference path="RBTree.ts" />
-/// <reference path="RBInterface.ts" />
-var RBNil = (function () {
-    function RBNil(parent) {
-        this.parent = parent;
-        this.color = 'black';
-        this.value = -1;
-        this.left = null;
-        this.right = null;
-    }
-    RBNil.prototype.isNil = function () {
-        return true;
-    };
-    RBNil.prototype.height = function () {
-        if (this.left === null && this.right === null) {
-            return 1;
-        }
-        else {
-            var heightLeft = 0;
-            var heightRight = 0;
-            if (this.left !== null) {
-                heightLeft = 1 + this.left.height();
-            }
-            if (this.right !== null) {
-                heightRight = 1 + this.right.height();
-            }
-            return Math.max(heightLeft, heightRight);
-        }
-    };
-    RBNil.prototype.insertCase1 = function () { };
-    RBNil.prototype.insertCase2 = function () { };
-    RBNil.prototype.insertCase3 = function () { };
-    RBNil.prototype.insertCase4 = function () { };
-    RBNil.prototype.insertCase5 = function () { };
-    return RBNil;
-})();
-//------------------------------------------------------------
 var RBNode = (function () {
     function RBNode(value) {
-        this.value = value;
+        this.value = value; // TODO is it right?
+        if (value == -1337) {
+            this.color = 'black';
+        }
+        else {
+            this.left = new RBNode(-1337);
+            this.left.parent = this;
+            this.right = new RBNode(-1337);
+            this.right.parent = this;
+            this.color = undefined;
+        }
         // this will be set on creation
-        this.color = undefined;
         this.tree = undefined;
-        this.left = new RBNil(this);
-        this.right = new RBNil(this);
         this.parent = null;
         this.visual = '';
     }
     RBNode.prototype.isNil = function () {
-        return false;
+        return this.value == -1337;
     };
     RBNode.prototype.height = function () {
         if (this.left === null && this.right === null) {
@@ -71,7 +42,7 @@ var RBNode = (function () {
         SNC.add('Comparing: (' + value + ') ? (' + this.value + ')');
         if (value < this.value) {
             SNC.add('Comparing: (' + value + ') < (' + this.value + '), so left');
-            if (this.left.isNil) {
+            if (this.left.isNil()) {
                 this.left = new RBNode(value);
                 this.left.parent = this;
                 this.left.color = 'red';
@@ -87,7 +58,7 @@ var RBNode = (function () {
         }
         else if (value > this.value) {
             SNC.add('Comparing: (' + value + ') > (' + this.value + '), so right');
-            if (this.right.isNil) {
+            if (this.right.isNil()) {
                 this.right = new RBNode(value);
                 this.right.parent = this;
                 this.right.color = 'red';

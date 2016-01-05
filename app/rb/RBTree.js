@@ -1,5 +1,4 @@
 /// <reference path="RBNode.ts" />
-/// <reference path="RBInterface.ts" />
 var RBTree = (function () {
     function RBTree() {
         this.root = null;

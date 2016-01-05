@@ -1,82 +1,39 @@
 /// <reference path="RBTree.ts" />
-/// <reference path="RBInterface.ts" />
 declare var SNC:any;
 
-
-class RBNil implements RBInterface {
-
-    constructor(parent:RBNode) {
-        this.parent = parent;
-        this.color = 'black';
-        this.value = -1;
-        this.left = null;
-        this.right = null;
-    }
-
-    value:number;
-    parent:RBNode;
-    color:string; // TODO enum
-
-    // this is needed by visualization functions
-    left:RBNode;
-    right:RBNode;
-
-    isNil():boolean {
-        return true;
-    }
-
-
-    height() {
-        if (this.left === null && this.right === null) {
-            return 1;
+class RBNode {
+    constructor(value:number) {
+        this.value = value; // TODO is it right?
+        if (value == -1337) {
+            this.color = 'black';
         } else {
-            var heightLeft = 0;
-            var heightRight = 0;
-            if (this.left !== null) {
-                heightLeft = 1 + this.left.height();
-            }
-            if (this.right !== null) {
-                heightRight = 1 + this.right.height();
-            }
-            return Math.max(heightLeft, heightRight);
+            this.left = new RBNode(-1337);
+            this.left.parent = this;
+            this.right = new RBNode(-1337);
+            this.right.parent = this;
+            
+            this.color = undefined;
         }
-    }
-    
-    insertCase1() {}
-    insertCase2() {}
-    insertCase3() {}
-    insertCase4(){}
-    insertCase5(){}
-}
-
-//------------------------------------------------------------
-
-class RBNode implements RBInterface {
-    constructor(value: number) {
-        this.value = value;
+        
         // this will be set on creation
-       this.color = undefined; 
         this.tree = undefined;
-
-        this.left = new RBNil(this);
-        this.right = new RBNil(this);
+        
         this.parent = null;
         this.visual = '';
     }
-    value: number;
-    color: string;
-    visual: string;
-    
-    left: RBInterface;
-    right: RBInterface;
-    parent: RBInterface;
-    tree: RBTree;
+
+    value:number;
+    color:string;
+    visual:string;
+
+    left:RBNode;
+    right:RBNode;
+    parent:RBNode;
+    tree:RBTree;
 
     isNil():boolean {
-        return false;
+        return this.value == -1337;
     }
-
-
 
 
     height() {
@@ -94,14 +51,14 @@ class RBNode implements RBInterface {
             return Math.max(heightLeft, heightRight);
         }
     }
-    
-    add(value: number) {
+
+    add(value:number) {
         this.visual = 'current';
         SNC.add('Visiting node (' + this.value + ')');
         SNC.add('Comparing: (' + value + ') ? (' + this.value + ')');
         if (value < this.value) { // on the left
             SNC.add('Comparing: (' + value + ') < (' + this.value + '), so left');
-            if (this.left.isNil) {
+            if (this.left.isNil()) {
                 this.left = new RBNode(value);
                 this.left.parent = this;
                 this.left.color = 'red';
@@ -115,7 +72,7 @@ class RBNode implements RBInterface {
             }
         } else if (value > this.value) { // right
             SNC.add('Comparing: (' + value + ') > (' + this.value + '), so right');
-            if (this.right.isNil) {
+            if (this.right.isNil()) {
                 this.right = new RBNode(value);
                 this.right.parent = this;
                 this.right.color = 'red';
@@ -141,7 +98,7 @@ class RBNode implements RBInterface {
         }
     };
 
-    uncle () {
+    uncle() {
         var g = this.grandparent();
 
         if (g === null) {
@@ -153,7 +110,7 @@ class RBNode implements RBInterface {
         }
     };
 
-    insertCase1 () {
+    insertCase1() {
         this.visual = 'current';
         SNC.add('Case 1: is that the root node?');
         if (this.parent === null) {
@@ -167,7 +124,7 @@ class RBNode implements RBInterface {
         }
     };
 
-    insertCase2 () {
+    insertCase2() {
         this.visual = 'current';
         SNC.add('Case 2: is the parent black?');
         if (this.parent.color !== 'black') {
@@ -180,7 +137,7 @@ class RBNode implements RBInterface {
         }
     };
 
-    insertCase3 () {
+    insertCase3() {
         this.visual = 'current';
         SNC.add('Case 3: are the parent and the uncle both red?');
         var u = this.uncle();
@@ -200,11 +157,11 @@ class RBNode implements RBInterface {
         }
     };
 
-    insertCase4 () {
+    insertCase4() {
         this.visual = 'current';
         SNC.add('Case 4: parent is red and uncle is black');
         var g = this.grandparent();
-        var n = this;
+        var n:RBNode = this;
 
         if (n === n.parent.right && n.parent === g.left) {
             SNC.add('Rotating left');
@@ -220,7 +177,7 @@ class RBNode implements RBInterface {
         n.insertCase5();
     };
 
-    insertCase5 () {
+    insertCase5() {
         this.visual = 'current';
         SNC.add('Case 5: parent is red and uncle is black');
 
@@ -243,7 +200,7 @@ class RBNode implements RBInterface {
         SNC.add('Finished');
     };
 
-    rotateLeft () {
+    rotateLeft() {
         SNC.add('Rotating left');
         if (this.parent === null) { // rotating root
             this.tree.rotateLeftRoot();
@@ -251,7 +208,7 @@ class RBNode implements RBInterface {
         }
 
         var g = this.parent;
-        var p = this;
+        var p:RBNode = this;
         var n = this.right;
         var savedLeftN = n.left;
 
@@ -267,7 +224,7 @@ class RBNode implements RBInterface {
         savedLeftN.parent = p;
     };
 
-    rotateRight () {
+    rotateRight() {
         SNC.add('Rotating right');
         if (this.parent === null) { // rotating root
             this.tree.rotateRightRoot();
@@ -275,7 +232,7 @@ class RBNode implements RBInterface {
         }
 
         var g = this.parent;
-        var p = this;
+        var p:RBNode = this;
         var n = this.left;
         var savedRightN = n.right;
 

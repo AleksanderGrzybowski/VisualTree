@@ -1,11 +1,9 @@
 /// <reference path="RBNode.ts" />
-/// <reference path="RBInterface.ts" />
 
 declare var SNC:any;
 
 class RBTree {
     constructor() {
-
         this.root = null;
     }
     
