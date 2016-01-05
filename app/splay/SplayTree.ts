@@ -1,80 +1,88 @@
 /// <reference path="SplayNode.ts" />
-var SplayTree = (function () {
-    function SplayTree() {
+
+class SplayTree {
+    
+    constructor() {
+
         this.root = null;
     }
-    SplayTree.prototype.treeHeight = function () {
+
+    root: SplayNode;
+    
+
+    treeHeight() {
         if (this.root === null) {
             return 0;
-        }
-        else {
+        } else {
             return this.root.height();
         }
-    };
+    }
+    
     // warning: this method is only because
     // we want to test just the splay operation    
-    SplayTree.prototype.addNoSplay = function (value) {
-        var self = this;
+    addNoSplay (value: number) {
+    var self = this;
         if (this.root === null) {
             this.root = new SplayNode(value);
             this.root.tree = self; // !!!
-        }
-        else {
+        } else {
             this.root.addNoSplay(value, self);
         }
     };
-    ;
-    SplayTree.prototype.add = function (value) {
-        var self = this;
+    
+    add (value:number) {
+    var self = this;
         if (this.root === null) {
             this.root = new SplayNode(value);
             this.root.tree = self; // !!!
             SNC.add('Adding root');
-        }
-        else {
+        } else {
             this.root.add(value, self);
         }
     };
-    ;
+
     // this image https://en.wikipedia.org/wiki/Tree_rotation is misleading!
     // while rotating right, B changes parent,
     // but B can be null!
     // same thing for rotating left 
-    SplayTree.prototype.rotateLeftRoot = function () {
+    
+    rotateLeftRoot() {
         var b = this.root.right.left;
         this.root.right.left = this.root;
         this.root.right.left.parent = this.root.right;
+
         this.root = this.root.right;
         this.root.parent = null;
         this.root.left.right = b;
+
         if (this.root.left.right !== null) {
             this.root.left.right.parent = this.root.left;
         }
     };
-    ;
-    SplayTree.prototype.rotateRightRoot = function () {
+
+    rotateRightRoot () {
         var b = this.root.left.right;
         this.root.left.right = this.root;
         this.root.left.right.parent = this.root.left;
+
         this.root = this.root.left;
         this.root.parent = null;
         this.root.right.left = b;
+
         if (this.root.right.left !== null) {
             this.root.right.left.parent = this.root.right;
         }
     };
-    ;
-    SplayTree.prototype.find = function (value) {
+
+    find (value: number) {
         if (this.root === null) {
             return;
         }
+        
         if (this.root.value === value) {
             SNC.add('Found at root');
-        }
-        else {
+        } else {
             this.root.find(value);
         }
-    };
-    return SplayTree;
-})();
-//# sourceMappingURL=SplayTree.js.map
+    }
+}
