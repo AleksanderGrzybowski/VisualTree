@@ -22,9 +22,24 @@ var SNC = (function () {
             var cloned;
 
             if (type === 'bst' || type === 'rbt' || type === 'splay') {
-                cloned = _.clone(structure.root, true);
+                // READ ME! clone does not copy prototype of nested objects at all
+                // 'cloned' has right proto but cloned.left/right does not!
+                cloned = _.clone(structure.root, true, function (val) {
+                    console.log(val);
+                    
+                });
+            } else if (type === 'rbt') {
+                cloned = _.clone(structure.root, true); // that preserves prototype?? TODO wtf
+                if (cloned != null)
+                    cloned.prototype = new RBNode();
+            } else if (type === 'splay') {
+                cloned = _.clone(structure.root, true); // that preserves prototype?? TODO wtf
+                if (cloned != null)
+                    cloned.prototype = new SplayNode();
             } else if (type === 'heap') {
                 cloned = _.clone(structure.toTree(), true);
+                if (cloned != null)
+                    cloned.prototype = new HeapNode();
             } else {
                 throw new Error();
             }
