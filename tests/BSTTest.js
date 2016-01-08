@@ -48,6 +48,23 @@ describe('BSTree()', function () {
         expect(root.left.left.parent).toBe(root.left);
         expect(root.left.left.isLeaf()).toBe(true);
     });
+
+    it('should create valid only-right tree', function () {
+        var tree = new BSTree();
+        tree.addAll([2, 3, 4]);
+
+        var root = tree.root;
+        expect(root.value).toBe(2);
+        expect(root.isLeaf()).toBe(false);
+
+        expect(root.right.value).toBe(3);
+        expect(root.right.isLeaf()).toBe(false);
+        expect(root.right.parent).toBe(root);
+
+        expect(root.right.right.value).toBe(4);
+        expect(root.right.right.parent).toBe(root.right);
+        expect(root.right.right.isLeaf()).toBe(true);
+    });
 });
 
 describe('BSTNode.findRoot', function () {
@@ -70,7 +87,7 @@ describe('BSTNode.findRoot', function () {
 });
 
 describe('BSTree.height', function () {
-    
+
     it('should work for empty tree', function () {
         var tree = new BSTree();
 
@@ -276,7 +293,7 @@ describe('BSTree.delete root', function () {
 
     it('should delete root from 4-element tree, force finding minimum in the right subtree', function () {
         var tree = new BSTree();
-        tree.addAll([2,1,4,3]);
+        tree.addAll([2, 1, 4, 3]);
 
         tree.delete(2);
 

@@ -35,9 +35,13 @@ function Heap() {
         });
     };
 
+    /**
+     * @returns {number}
+     */
     this.height = function () {
         return this.toTree().height();
     };
+    
 
     /**
      * @param {HeapNode} [that]
@@ -49,7 +53,7 @@ function Heap() {
             return null;
         }
 
-        if (arguments.length == 0) {
+        if (arguments.length === 0) {
             var root = new HeapNode(this.data[1].value, this.data[1].visual);
             this.toTree(root, 1);
             return root;
@@ -71,6 +75,8 @@ function Heap() {
             that.right = null;
         }
     };
+
+    this.addAll = COMMON.addAll;
 
     /**
      * @param {number} what
@@ -116,15 +122,6 @@ function Heap() {
         }
     };
 
-    /**
-     * @param {number[]} elements
-     */
-    this.addAll = function (elements) {
-        for (var i = 0; i < elements.length; ++i) {
-            this.add(elements[i]);
-        }
-    };
-
     // http://www.algolist.net/Data_structures/Binary_heap/Remove_minimum
     this.deleteMin = function () {
         if (this.data.length === 1) { // TODO refactor this in 2 places
@@ -138,8 +135,8 @@ function Heap() {
         }
         this.data[1].visual = 'current';
         this.data[this.data.length - 1].visual = 'current';
-        SNC.add('Removing root (' + this.data[1].value + '), replacing it with the last element ('
-            + this.data[this.data.length - 1].value + ')');
+        SNC.add('Removing root (' + this.data[1].value + '), replacing it with the last element (' +
+             this.data[this.data.length - 1].value + ')');
 
         this.data[1] = this.data[this.data.length - 1];
         this.data.removeAt(this.data.length - 1);
@@ -147,13 +144,13 @@ function Heap() {
         var k = 1, tmp; // root
 
         while (true) {
-            if (this.data[2 * k] === undefined && this.data[2 * k + 1] == undefined) {
+            if (this.data[2 * k] === undefined && this.data[2 * k + 1] === undefined) {
                 if (this.data[k] !== undefined) { // if there was 1 element before
                     this.data[k].visual = '';
                 }
                 SNC.add('Finished percolating down');
                 break;
-            } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] == undefined) { // left child
+            } else if (this.data[2 * k] !== undefined && this.data[2 * k + 1] === undefined) { // left child
                 this.data[k].visual = 'intermediate';
                 this.data[2 * k].visual = 'intermediate';
                 SNC.add('Left child is present, should we swap? (' + this.data[k].value + ') ? (' +

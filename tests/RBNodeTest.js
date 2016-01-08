@@ -137,7 +137,7 @@ describe('RBTree.add', function () {
 
         expect(root.right.right.value).toBe(10);
         expect(root.right.right.color).toBe('red');
-    })
+    });
 });
 
 
@@ -261,7 +261,7 @@ describe('RBTree.rotateLeft', function () {
 
         expect(root.right.value).toBe(5);
         expect(root.right.parent).toBe(root);
-    })
+    });
 });
 
 describe('RBTree.rotateRight', function () {
@@ -394,5 +394,5 @@ describe('RBTree.rotateRight', function () {
 
         expect(root.right.right.value).toBe(5);
         expect(root.right.right.parent).toBe(root.right);
-    })
+    });
 });

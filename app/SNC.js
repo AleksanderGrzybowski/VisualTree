@@ -42,5 +42,5 @@ var SNC = (function () {
             enabled = false;
             return snapshots;
         }
-    }
+    };
 })();

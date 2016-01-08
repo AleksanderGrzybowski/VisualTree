@@ -10,10 +10,8 @@ function SplayNode(value) {
     this.tree = undefined; // set in add
 
     this.height = COMMON.nodeHeight;
-    
-    this.isLeaf = function () {
-        return this.left === null && this.right === null;
-    };
+
+    this.isLeaf = COMMON.isLeaf;
 
     // warning: this method is only because
     // we want to test just the splay operation
@@ -64,7 +62,7 @@ function SplayNode(value) {
 
         return this;
     };
-    
+
     this.splay = function () {
         var p, g;
         if (this.parent.parent === null) { // 'zig'
@@ -90,7 +88,7 @@ function SplayNode(value) {
             p.rotateRight();
             g.rotateLeft();
         }
-        
+
         // yeah! beauty!
         if (this.parent !== null) {
             this.splay();
@@ -101,7 +99,7 @@ function SplayNode(value) {
     this.add = function (value, tree) {
         this.visual = 'current';
         SNC.add('Visiting node ' + this.value);
-        
+
         if (value < this.value) {
             if (this.left === null) {
                 this.left = new SplayNode(value);
@@ -118,7 +116,7 @@ function SplayNode(value) {
             } else {
                 SNC.add('Item to add is smaller than current, going left');
                 this.visual = '';
-                
+
                 this.left.add(value, tree);
             }
         } else if (value > this.value) {
@@ -137,7 +135,7 @@ function SplayNode(value) {
             } else {
                 SNC.add('Item to add is larger than current, going right');
                 this.visual = '';
-                
+
                 this.right.add(value, tree);
             }
         } else {
@@ -150,57 +148,9 @@ function SplayNode(value) {
         return this;
     };
 
-    this.rotateLeft = function () {
-        if (this.parent === null) { // rotating root
-            this.tree.rotateLeftRoot();
-            return;
-        }
+    this.rotateLeft = COMMON.rotateLeft;
+    this.rotateRight = COMMON.rotateRight;
 
-        var g = this.parent;
-        var p = this;
-        var n = this.right;
-        var savedLeftN = n.left;
-
-        if (p === g.left) {
-            g.left = n;
-        } else {
-            g.right = n;
-        }
-        n.parent = g;
-        n.left = p;
-        p.parent = n;
-        p.right = savedLeftN;
-        if (savedLeftN !== null) {
-            savedLeftN.parent = p; // TODO not sure if we need the same check as in root rotations
-        }
-    };
-
-    this.rotateRight = function () {
-        if (this.parent === null) { // rotating root
-            this.tree.rotateRightRoot();
-            return;
-        }
-
-        var g = this.parent;
-        var p = this;
-        var n = this.left;
-        var savedRightN = n.right;
-
-        if (p === g.left) {
-            g.left = n;
-        } else {
-            g.right = n;
-        }
-
-        n.parent = g;
-        n.right = p;
-        p.parent = n;
-        p.left = savedRightN;
-        if (savedRightN !== null) {
-            savedRightN.parent = p; // TODO not sure if we need the same check as in root rotations
-        }
-    };
-    
     this.find = function (value) {
         this.visual = 'intermediate';
         SNC.add('Visiting node ' + this.value);
@@ -239,5 +189,5 @@ function SplayNode(value) {
             this.splay();
         }
 
-    }
+    };
 }

@@ -3,19 +3,15 @@
  * @constructor
  */
 function BSTNode(value) {
+    
     this.left = null;
     this.right = null;
     this.parent = null;
     this.value = value;
-
     this.visual = '';
 
-    /**
-     * @returns {boolean}
-     */
-    this.isLeaf = function () {
-        return this.left === null && this.right === null;
-    };
+    this.isLeaf = COMMON.isLeaf;
+    this.height = COMMON.nodeHeight;
 
     /**
      * @returns {BSTNode}
@@ -30,11 +26,8 @@ function BSTNode(value) {
         return node;
     };
 
-    this.height = COMMON.nodeHeight;
-
     /**
      * @param {number} value
-     * @returns {BSTNode}
      */
     this.add = function (value) {
         this.visual = 'intermediate';
@@ -75,8 +68,6 @@ function BSTNode(value) {
 
         this.visual = '';
         SNC.add('Going back');
-        
-        return this;
     };
 
     this.inorder = function () {
@@ -122,7 +113,7 @@ function BSTNode(value) {
         this.visual = '';
         SNC.add('Going back');
     };
-    
+
     this.postorder = function () {
         if (this.left !== null) {
             this.visual = 'intermediate';
@@ -139,7 +130,7 @@ function BSTNode(value) {
         }
         this.visual = 'current';
         SNC.add('Visiting ' + this.value);
-        
+
         this.visual = '';
         SNC.add('Going back');
     };
@@ -191,8 +182,7 @@ function BSTNode(value) {
                 }
             }
         } else {
-            // TODO which equals?
-            // remember where ref and where val
+            // remember where comparing by ref and where by val
 
             this.visual = 'current';
             SNC.add('This is the one to delete');
@@ -252,8 +242,8 @@ function BSTNode(value) {
                 // replace value of the node to be removed with found min
                 this.value = min;
                 SNC.add('Replace current node value with found minimum');
-                // apply remove to the right subtree to remove a duplicate
 
+                // apply remove to the right subtree to remove a duplicate
                 this.visual = 'intermediate';
                 SNC.add('Running remove recursively on the right subtree');
                 this.right.delete(min);

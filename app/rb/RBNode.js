@@ -198,54 +198,7 @@ function RBNode(value) {
         SNC.add('Finished');
     };
 
-    this.rotateLeft = function () {
-        SNC.add('Rotating left');
-        if (this.parent === null) { // rotating root
-            this.tree.rotateLeftRoot();
-            return;
-        }
-
-        var g = this.parent;
-        var p = this;
-        var n = this.right;
-        var savedLeftN = n.left;
-
-        if (p === g.left) {
-            g.left = n;
-        } else {
-            g.right = n;
-        }
-        n.parent = g;
-        n.left = p;
-        p.parent = n;
-        p.right = savedLeftN;
-        savedLeftN.parent = p;
-    };
-
-    this.rotateRight = function () {
-        SNC.add('Rotating right');
-        if (this.parent === null) { // rotating root
-            this.tree.rotateRightRoot();
-            return;
-        }
-
-        var g = this.parent;
-        var p = this;
-        var n = this.left;
-        var savedRightN = n.right;
-
-        if (p === g.left) {
-            g.left = n;
-        } else {
-            g.right = n;
-        }
-
-        n.parent = g;
-        n.right = p;
-        p.parent = n;
-        p.left = savedRightN;
-        savedRightN.parent = p;
-    };
-
+    this.rotateLeft = COMMON.rotateLeft;
+    this.rotateRight = COMMON.rotateRight;
 }
 

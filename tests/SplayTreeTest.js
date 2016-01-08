@@ -22,6 +22,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 2 elements, splaying the second added element, from all-left tree, zig left-to-right', function () {
         var tree = new SplayTree();
 
+        tree.addAll([2, 1]);
         tree.add(2);
         tree.add(1);
         var root = tree.root;
@@ -35,8 +36,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 2 elements, splaying the second added element, from all-right tree, zig right-to-left', function () {
         var tree = new SplayTree();
 
-        tree.add(1);
-        tree.add(2);
+        tree.addAll([1, 2]);
         var root = tree.root;
 
         expect(root.value).toBe(2);
@@ -48,9 +48,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 3 elements, result is 3-element all-left degenerated-to-linked-list tree', function () {
         var tree = new SplayTree();
 
-        tree.add(1);
-        tree.add(2);
-        tree.add(3);
+        tree.addAll([1, 2, 3]);
         var root = tree.root;
         
         expect(root.value).toBe(3);
@@ -67,9 +65,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 3 elements, result is 3-element all-right degenerated-to-linked-list tree', function () {
         var tree = new SplayTree();
 
-        tree.add(1);
-        tree.add(2);
-        tree.add(0);
+        tree.addAll([1, 2, 0]);
         var root = tree.root;
 
         expect(root.value).toBe(0);
@@ -86,10 +82,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 4 elements, perform 2 splays, intermediate all-right degenerated tre', function () {
         var tree = new SplayTree();
 
-        tree.add(1);
-        tree.add(2);
-        tree.add(0);
-        tree.add(3);
+        tree.addAll([1, 2, 0, 3]);
         var root = tree.root;
 
         expect(root.value).toBe(3);
@@ -112,10 +105,7 @@ describe('SplayTree.add', function () {
     it('should create tree with 4 elements, perform 2 splays, intermediate all-left degenerated tre', function () {
         var tree = new SplayTree();
 
-        tree.add(1);
-        tree.add(2);
-        tree.add(3);
-        tree.add(0);
+        tree.addAll([1, 2, 3, 0]);
         var root = tree.root;
 
         expect(root.value).toBe(0);
@@ -133,7 +123,7 @@ describe('SplayTree.add', function () {
         expect(root.right.left.right.value).toBe(2);
         expect(root.right.left.right.parent).toBe(root.right.left);
         expect(root.right.left.right.isLeaf()).toBe(true);
-    })
+    });
 });
 
 describe('SplayTree.find', function () {
@@ -159,8 +149,7 @@ describe('SplayTree.find', function () {
     
     it('should find element in 2-element tree and splay it', function () {
         var tree = new SplayTree();
-        tree.add(1);
-        tree.add(2);
+        tree.addAll([1, 2]);
         
         tree.find(1);
         var root = tree.root;
@@ -168,5 +157,5 @@ describe('SplayTree.find', function () {
         expect(root.value).toBe(1);
         expect(root.left).toBeNull();
         expect(root.right.value).toBe(2);
-    })
+    });
 });

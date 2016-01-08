@@ -1,6 +1,13 @@
+/**
+ * @constructor
+ */
 function BSTree() {
+    
     this.root = null;
 
+    /**
+     * @param {number} value
+     */
     this.add = function (value) {
         if (this.root === null) {
             this.root = new BSTNode(value);
@@ -10,15 +17,7 @@ function BSTree() {
         }
     };
 
-    /**
-     * @param {number[]} elements
-     */
-    this.addAll = function (elements) {
-        for (var i = 0; i < elements.length; ++i) {
-            this.add(elements[i]);
-        }
-    };
-
+    this.addAll = COMMON.addAll;
     this.height = COMMON.treeHeight;
 
     this.postorder = function () {

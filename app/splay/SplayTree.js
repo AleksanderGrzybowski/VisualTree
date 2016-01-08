@@ -25,39 +25,12 @@ function SplayTree() {
             this.root.add(value, self);
         }
     };
-
-    // this image https://en.wikipedia.org/wiki/Tree_rotation is misleading!
-    // while rotating right, B changes parent,
-    // but B can be null!
-    // same thing for rotating left 
     
-    this.rotateLeftRoot = function () {
-        var b = this.root.right.left;
-        this.root.right.left = this.root;
-        this.root.right.left.parent = this.root.right;
+    this.addAll = COMMON.addAll;
 
-        this.root = this.root.right;
-        this.root.parent = null;
-        this.root.left.right = b;
 
-        if (this.root.left.right !== null) {
-            this.root.left.right.parent = this.root.left;
-        }
-    };
-
-    this.rotateRightRoot = function () {
-        var b = this.root.left.right;
-        this.root.left.right = this.root;
-        this.root.left.right.parent = this.root.left;
-
-        this.root = this.root.left;
-        this.root.parent = null;
-        this.root.right.left = b;
-
-        if (this.root.right.left !== null) {
-            this.root.right.left.parent = this.root.right;
-        }
-    };
+    this.rotateLeftRoot = COMMON.rotateLeftRoot;
+    this.rotateRightRoot = COMMON.rotateRightRoot;
 
     this.find = function (value) {
         if (this.root === null) {
@@ -69,5 +42,5 @@ function SplayTree() {
         } else {
             this.root.find(value);
         }
-    }
+    };
 }

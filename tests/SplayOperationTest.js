@@ -186,9 +186,5 @@ describe('Splay tests', function () {
         
         expect(root.right.right.value).toBe(7);
         expect(root.right.right.parent).toBe(root.right);
-        
-        
-        
-        
-    })
+    });
 });

@@ -1,5 +1,4 @@
 var BTreePresenter = (function () {
-
     /**
      * @param {number} x1
      * @param {number} y1
@@ -30,7 +29,7 @@ var BTreePresenter = (function () {
      */
     function toPositionalNodesArray(node, pos, depth) {
         if (arguments.length === 1) {
-            return toPositionalNodesArray(node, 0.5, 0)
+            return toPositionalNodesArray(node, 0.5, 0);
         }
 
         if (node === null) {
@@ -46,10 +45,10 @@ var BTreePresenter = (function () {
         });
 
         if (node.left !== null) {
-            arr = arr.concat(toPositionalNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.left, pos - Math.pow(0.5, depth + 2), depth + 1));
         }
         if (node.right !== null) {
-            arr = arr.concat(toPositionalNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1))
+            arr = arr.concat(toPositionalNodesArray(node.right, pos + Math.pow(0.5, depth + 2), depth + 1));
         }
 
         return arr;
@@ -117,37 +116,6 @@ var BTreePresenter = (function () {
     }
 
     return {
-        //runAnimation: function (snapshots) {
-        //    log.info('Animation starts len = ' + snapshots.length);
-        //
-        //    if (snapshots.length === 0) {
-        //        BTreePresenter.update(null); // TODO sth better?
-        //        return;
-        //    }
-        //
-        //    BTreePresenter.update(snapshots[0]);
-        //    $('#explanation').text(snapshots[0].text || '');
-        //
-        //    var idx = 1;
-        //    var timerId = setInterval(function () {
-        //        if (idx >= snapshots.length) {
-        //            clearInterval(timerId);
-        //            return;
-        //        }
-        //
-        //        log.info('Animation idx = ' + idx);
-        //        var snapshot = snapshots[idx++];
-        //
-        //        var text = '';
-        //        if (snapshot !== null && snapshot.text) {
-        //            text = snapshot.text;
-        //        }
-        //        $('#explanation').text(text);
-        //
-        //        BTreePresenter.update(snapshot);
-        //    }, angular.element('body').scope().vm.delay); // TODO better way?
-        //},
-
         /**
          * @param {BSTNode|HeapNode} [snapshot=that.tree]
          */
@@ -247,7 +215,6 @@ var BTreePresenter = (function () {
                     }
                 });
 
-
             d3.select('svg')
                 .selectAll('line')
                 .data(links)
@@ -266,8 +233,5 @@ var BTreePresenter = (function () {
                     return linesHelper(d).y2;
                 });
         }
-    }
+    };
 })();
-
-
-

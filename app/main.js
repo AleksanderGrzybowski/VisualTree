@@ -38,68 +38,49 @@ visualTree.controller('MainCtrl', function ($interval) {
     }, 100);
     // !!
 
-
-    vm.add = function () {
-        if (!isNaN(vm.number)) { // stupid trick but hey JS
+    function wrapAroundDisplaying(f) {
+        return function () {
             SNC.init(vm.tree, vm.treeType);
+            f();
+            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
+            vm.currentSnapshotIndex = 0;
+            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length - 1]);
+        };
+    }
+
+    vm.add = wrapAroundDisplaying(function () {
+        if (!isNaN(vm.number)) {
             vm.tree.add(+vm.number);
-            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-            vm.currentSnapshotIndex = 0;
-            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
-    };
-    
-    vm.delete = function () {
+    });
+
+    vm.delete = wrapAroundDisplaying(function () {
         if (!isNaN(vm.number)) {
-            SNC.init(vm.tree, vm.treeType); 
             vm.tree.delete(+vm.number);
-            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-            vm.currentSnapshotIndex = 0;
-            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
-    };
-    
-    vm.inorder = function () {
-        SNC.init(vm.tree, vm.treeType);
+    });
+
+    vm.inorder = wrapAroundDisplaying(function () {
         vm.tree.inorder();
-        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-        vm.currentSnapshotIndex = 0;
-        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
-    };
+    });
 
-    vm.preorder = function () {
-        SNC.init(vm.tree, vm.treeType);
+    vm.preorder = wrapAroundDisplaying(function () {
         vm.tree.preorder();
-        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-        vm.currentSnapshotIndex = 0;
-        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
-    };
-    
-    vm.postorder = function () {
-        SNC.init(vm.tree, vm.treeType);
-        vm.tree.postorder();
-        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-        vm.currentSnapshotIndex = 0;
-        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
-    };
+    });
 
-    vm.deleteMin = function () {
-        SNC.init(vm.tree, vm.treeType);
+    vm.postorder = wrapAroundDisplaying(function () {
+        vm.tree.postorder();
+    });
+
+    vm.deleteMin = wrapAroundDisplaying(function () {
         vm.tree.deleteMin();
-        vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-        vm.currentSnapshotIndex = 0;
-        BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
-    };
-    
-    vm.find = function () {
+    });
+
+    vm.find = wrapAroundDisplaying(function () {
         if (!isNaN(vm.number)) {
-            SNC.init(vm.tree, vm.treeType);
             vm.tree.find(+vm.number);
-            vm.currentSnapshots = SNC.getSnapshotsAndDisable();
-            vm.currentSnapshotIndex = 0;
-            BTreePresenter.update(vm.currentSnapshots[vm.currentSnapshots.length-1]);
         }
-    };
+    });
 
     vm.setTreeType = function (newTreeType) {
         vm.treeType = newTreeType;
